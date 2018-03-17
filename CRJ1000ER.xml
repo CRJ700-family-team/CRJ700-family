@@ -91,6 +91,9 @@
 		<control-input axis="/fcs/elevator-cmd-norm" control="FLAP0" />
 		<control-input axis="/controls/flight/elevator-trim" control="FLAP0" />
 		<control-output control="FLAP0"  prop="/surface-positions/elevator-pos-norm" />
+        <control-input axis="/controls/flight/hstab-trim" control="INCIDENCE" />
+        <control-speed control="INCIDENCE" transition-time="20" />
+        <control-output control="INCIDENCE"  prop="/surface-positions/hstab-yasim-rad" />
 	</hstab>
 
 	<!-- Vertical stabilizers -->
@@ -156,11 +159,11 @@
 
 	<!-- Fuel and payload -->
 	<!-- Left wing tank -->
-	<tank x="-1" y="4.8" z="-1.9" jet="true" capacity="8621" />
+	<tank x="-1.69" y="5.62" z="-1.99" jet="true" capacity="8621" />
 	<!-- Right wing tank -->
-	<tank x="-1" y="-4.8" z="-1.9" jet="true" capacity="8621" />
+	<tank x="-1.69" y="-5.62" z="-1.99" jet="true" capacity="8621" />
 	<!-- Center tank -->
-	<tank x="3.5" y="0.0" z="-2.2" jet="true" capacity="5298" />
+	<tank x="0.0" y="0.0" z="-2.2" jet="true" capacity="5298" />
 
 	<!-- Ballast to adjust center of gravity -->
 	<!-- Redistribute the mass toward the nose -->

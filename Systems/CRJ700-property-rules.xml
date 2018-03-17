@@ -28,7 +28,74 @@
 		</input>
 		<output>controls/flight/speedbrake</output>
 	</filter>
+    <logic>
+        <name>hstab powered</name>
+        <input>
+            <or>
+                <greater-than-equals>
+                    <property>/systems/AC/outputs/pitch-trim1</property>
+                    <value>105</value>
+                </greater-than-equals>
+                <greater-than-equals>
+                    <property>/systems/AC/outputs/pitch-trim2-1</property>
+                    <value>105</value>
+                </greater-than-equals>
+                <greater-than-equals>
+                    <property>/systems/AC/outputs/pitch-trim2-2</property>
+                    <value>105</value>
+                </greater-than-equals>
+            </or>
+        </input>
+        <output>/systems/hstab/powered</output>
+    </logic>
 	<filter>
+        <name>legacy trim</name>
+        <type>gain</type>
+        <debug type="bool">false</debug>
+        <gain>1</gain>
+        <input>
+            <!-- FG < v2018.1 do not support hstab trim, so we fake it -->
+            <condition>
+                <greater-than-equals>
+                    <property>controls/flight/hstab-trim</property>
+                    <value>0.99</value>
+                </greater-than-equals>
+            </condition>        
+            <expression>
+                <prod>
+                    <sum>
+                        <property>controls/flight/elevator-trim</property>
+                        <value>0.8</value>
+                    </sum>
+                    <value>-0.1309</value>
+                </prod>
+            </expression>
+        </input>
+        <input>
+            <property>surface-positions/hstab-yasim-rad</property>
+        </input>
+        <output>surface-positions/hstab-rad</output>
+    </filter>
+    <filter>
+        <name>eicas-hstab-trim-units</name>
+        <type>gain</type>
+        <debug type="bool">false</debug>
+        <gain>1</gain>
+        <!-- map [+2,-13]deg to [0,15]trim units -->
+        <input>
+            <expression>
+                <sum>
+                    <product>
+                        <property>surface-positions/hstab-rad</property>
+                        <value>-57.29578</value>
+                    </product>                            
+                    <value>2</value>
+                </sum>
+            </expression>
+        </input>    
+        <output>eicas/hstab-trim</output>
+    </filter>
+    <filter>
 		<name>dhptr</name>
 		<type>gain</type>
 		<debug type="bool">false</debug>
