@@ -119,7 +119,7 @@ var slow_loop = Loop(2, func {
 	update_tat;
 	update_copilot_ints();
 	update_lightmaps();
-	update_pass_signs();
+	CRJ700.update_pass_signs();
 });
 
 # When the sim is ready, start the update loops and create the crossfeed valve.
