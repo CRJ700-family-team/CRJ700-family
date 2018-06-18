@@ -238,26 +238,41 @@ var fdm_course_update = func ()
     var num_waypoints = getprop("autopilot/route-manager/route/num");
     var airspeed = getprop("velocities/airspeed-kt");
     var heading = getprop("orientation/heading-deg");
+
     # Estimated turn radius: at 250kt, we need approx. 5 nm; turn radius should
-    # scale linearly with airspeed.
+    # scale linearly with airspeed. This is in no way accurate, but good enough
+    # for our needs here.
     var turn_radius_nm = airspeed / 50;
     var wpid = getprop("autopilot/route-manager/current-wp");
     if ((num_waypoints <= 0) or (wpid < 0)) {
+        # No waypoints in route, or route not activated - bail and maintain
+        # current heading.
         setprop("autopilot/internal/target-crs", heading);
         return;
     }
+
+    # Current leg parameters
     var wppath = "autopilot/route-manager/route/wp[" ~ wpid ~ "]";
     var wp_dist = getprop(wppath, "distance-nm");
     var leg_bearing = getprop(wppath, "leg-bearing-true-deg");
+
+    # Next leg parameters
     var wpid_next = math.min(wpid + 1, num_waypoints - 1);
     var wppath_next = "autopilot/route-manager/route/wp[" ~ wpid_next ~ "]";
     var leg_bearing_next = getprop(wppath_next, "leg-bearing-true-deg");
+
+    # Turn anticipation distance gets longer the sharper we need to turn.
     var turn_anticipation_dist = turn_radius_nm * math.min(1, math.abs(leg_bearing_next - leg_bearing) / 90);
     if (wp_dist <= turn_anticipation_dist) {
         # Turn anticipation: once within turn radius, look ahead for next leg.
         wpid = wpid_next;
         wppath = wppath_next;
         wp_dist = getprop(wppath, "distance-nm");
+        # Since we're close enough, we'll flip the waypoint forward - the
+        # route manager should do this on its own, but because we're cutting
+        # corners, we might never get close enough to trigger the route manager
+        # logic. So we do it ourselves.
+        setprop("autopilot/route-manager/current-wp", wpid_next);
     }
 
     var to_coords = geo.Coord.new();
