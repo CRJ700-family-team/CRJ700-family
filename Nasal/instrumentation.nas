@@ -233,6 +233,69 @@ var nav_annunciator = func ()
 setlistener("autopilot/internal/vor1-captured", nav_annunciator, 0, 0);
 setlistener("autopilot/internal/vor2-captured", nav_annunciator, 0, 0);
 
+var fdm_course_update = func ()
+{
+    var num_waypoints = getprop("autopilot/route-manager/route/num");
+    var airspeed = getprop("velocities/airspeed-kt");
+    var heading = getprop("orientation/heading-deg");
+    # Estimated turn radius: at 250kt, we need approx. 5 nm; turn radius should
+    # scale linearly with airspeed.
+    var turn_radius_nm = airspeed / 50;
+    var wpid = getprop("autopilot/route-manager/current-wp");
+    if ((num_waypoints <= 0) or (wpid < 0)) {
+        setprop("autopilot/internal/target-crs", heading);
+        return;
+    }
+    var wppath = "autopilot/route-manager/route/wp[" ~ wpid ~ "]";
+    var wp_dist = getprop(wppath, "distance-nm");
+    var leg_bearing = getprop(wppath, "leg-bearing-true-deg");
+    var wpid_next = math.min(wpid + 1, num_waypoints - 1);
+    var wppath_next = "autopilot/route-manager/route/wp[" ~ wpid_next ~ "]";
+    var leg_bearing_next = getprop(wppath_next, "leg-bearing-true-deg");
+    var turn_anticipation_dist = turn_radius_nm * math.min(1, math.abs(leg_bearing_next - leg_bearing) / 90);
+    if (wp_dist <= turn_anticipation_dist) {
+        # Turn anticipation: once within turn radius, look ahead for next leg.
+        wpid = wpid_next;
+        wppath = wppath_next;
+        wp_dist = getprop(wppath, "distance-nm");
+    }
+
+    var to_coords = geo.Coord.new();
+    to_coords.set_latlon(
+        getprop(wppath, "latitude-deg"),
+        getprop(wppath, "longitude-deg"));
+    var my_coords = geo.Coord.new();
+    my_coords.set_latlon(
+        getprop("position/latitude-deg"),
+        getprop("position/longitude-deg"));
+    var wp_bearing = my_coords.course_to(to_coords);
+    var bearing_error = leg_bearing - wp_bearing;
+    var track_error = wp_dist * math.sin(D2R * bearing_error);
+    var target_crs = leg_bearing;
+    var target_crs_err = 0;
+    if (math.abs(track_error) >= turn_radius_nm) {
+        if (track_error > 0) {
+            target_crs_err = -90;
+        }
+        else {
+            target_crs_err = 90;
+        }
+    }
+    else {
+        var tr_minus_te = turn_radius_nm - math.abs(track_error);
+        if (track_error > 0) {
+            target_crs_err = -R2D * math.acos(tr_minus_te / turn_radius_nm);
+        }
+        else {
+            target_crs_err = R2D * math.acos(tr_minus_te / turn_radius_nm);
+        }
+    }
+    # limit interception angle
+    var max_intercept_angle = 60;
+    target_crs = leg_bearing + math.min(max_intercept_angle, math.max(-max_intercept_angle, target_crs_err));
+    setprop("autopilot/internal/target-crs", geo.normdeg(target_crs));
+}
+
 var vs_annunciator = func () 
 {
 	var ref = sprintf("%1.1f", getprop("controls/autoflight/vertical-speed-select")/1000);
