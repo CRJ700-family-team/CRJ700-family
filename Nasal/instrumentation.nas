@@ -286,28 +286,35 @@ var fdm_course_update = func ()
     var wp_bearing = my_coords.course_to(to_coords);
     var bearing_error = leg_bearing - wp_bearing;
     var track_error = wp_dist * math.sin(D2R * bearing_error);
+    setprop("autopilot/internal/fdm-track-error", track_error);
     var target_crs = leg_bearing;
     var target_crs_err = 0;
-    if (math.abs(track_error) >= turn_radius_nm) {
-        if (track_error > 0) {
-            target_crs_err = -90;
-        }
-        else {
-            target_crs_err = 90;
-        }
+    if (math.abs(track_error) < 0.1) {
+        # We're within 0.1 nm of the route, just head for the next WP directly
+        target_crs = wp_bearing;
     }
     else {
-        var tr_minus_te = turn_radius_nm - math.abs(track_error);
-        if (track_error > 0) {
-            target_crs_err = -R2D * math.acos(tr_minus_te / turn_radius_nm);
+        if (math.abs(track_error) >= turn_radius_nm) {
+            if (track_error > 0) {
+                target_crs_err = -90;
+            }
+            else {
+                target_crs_err = 90;
+            }
         }
         else {
-            target_crs_err = R2D * math.acos(tr_minus_te / turn_radius_nm);
+            var tr_minus_te = turn_radius_nm - math.abs(track_error);
+            if (track_error > 0) {
+                target_crs_err = -R2D * math.acos(tr_minus_te / turn_radius_nm);
+            }
+            else {
+                target_crs_err = R2D * math.acos(tr_minus_te / turn_radius_nm);
+            }
         }
+        # limit interception angle
+        var max_intercept_angle = 60;
+        target_crs = leg_bearing + math.min(max_intercept_angle, math.max(-max_intercept_angle, target_crs_err));
     }
-    # limit interception angle
-    var max_intercept_angle = 60;
-    target_crs = leg_bearing + math.min(max_intercept_angle, math.max(-max_intercept_angle, target_crs_err));
     setprop("autopilot/internal/target-crs", geo.normdeg(target_crs));
 }
 
