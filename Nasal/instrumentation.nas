@@ -235,85 +235,117 @@ setlistener("autopilot/internal/vor2-captured", nav_annunciator, 0, 0);
 
 var fdm_course_update = func ()
 {
-    var num_waypoints = getprop("autopilot/route-manager/route/num");
+    var fp = flightplan();
+
     var airspeed = getprop("velocities/airspeed-kt");
     var heading = getprop("orientation/heading-deg");
+    var my_coords = geo.Coord.new();
+    my_coords.set_latlon(
+        getprop("position/latitude-deg"),
+        getprop("position/longitude-deg"));
 
     # Estimated turn radius: at 250kt, we need approx. 5 nm; turn radius should
     # scale linearly with airspeed. This is in no way accurate, but good enough
     # for our needs here.
     var turn_radius_nm = airspeed / 50;
-    var wpid = getprop("autopilot/route-manager/current-wp");
+
+    if (fp == nil) {
+        # no flight plan
+        setprop("autopilot/internal/target-crs", heading);
+        setprop("autopilot/internal/wp-mode", "no-flightplan");
+        return;
+    }
+
+    var num_waypoints = fp.getPlanSize();
+    var wpid = fp.current;
     if ((num_waypoints <= 0) or (wpid < 0)) {
         # No waypoints in route, or route not activated - bail and maintain
         # current heading.
         setprop("autopilot/internal/target-crs", heading);
+        setprop("autopilot/internal/wp-mode", "no-waypoints");
         return;
     }
 
     # Current leg parameters
-    var wppath = "autopilot/route-manager/route/wp[" ~ wpid ~ "]";
-    var wp_dist = getprop(wppath, "distance-nm");
-    var leg_bearing = getprop(wppath, "leg-bearing-true-deg");
+    var wp = fp.currentWP();
+    var next_wp = fp.getWP(wpid + 1);
+    
+    var target_crs = heading;
 
-    # Next leg parameters
-    var wpid_next = math.min(wpid + 1, num_waypoints - 1);
-    var wppath_next = "autopilot/route-manager/route/wp[" ~ wpid_next ~ "]";
-    var leg_bearing_next = getprop(wppath_next, "leg-bearing-true-deg");
+    setprop("autopilot/route-manager/wp/fly-type", wp.fly_type);
 
-    # Turn anticipation distance gets longer the sharper we need to turn.
-    var turn_anticipation_dist = turn_radius_nm * math.min(1, math.abs(leg_bearing_next - leg_bearing) / 90);
-    if (wp_dist <= turn_anticipation_dist) {
-        # Turn anticipation: once within turn radius, look ahead for next leg.
-        wpid = wpid_next;
-        wppath = wppath_next;
-        wp_dist = getprop(wppath, "distance-nm");
-        # Since we're close enough, we'll flip the waypoint forward - the
-        # route manager should do this on its own, but because we're cutting
-        # corners, we might never get close enough to trigger the route manager
-        # logic. So we do it ourselves.
-        setprop("autopilot/route-manager/current-wp", wpid_next);
+    if (wp.fly_type == "Hold") {
+        # TODO: Holding.
     }
+    else { # "flyBy" or "flyOver"
+        var wp_course_dist = wp.courseAndDistanceFrom(my_coords);
+        var wp_bearing = wp_course_dist[0];
+        var wp_dist = wp_course_dist[1];
+        var leg_bearing = wp.leg_bearing;
+        var leg_bearing_next = next_wp.leg_bearing;
 
-    var to_coords = geo.Coord.new();
-    to_coords.set_latlon(
-        getprop(wppath, "latitude-deg"),
-        getprop(wppath, "longitude-deg"));
-    var my_coords = geo.Coord.new();
-    my_coords.set_latlon(
-        getprop("position/latitude-deg"),
-        getprop("position/longitude-deg"));
-    var wp_bearing = my_coords.course_to(to_coords);
-    var bearing_error = leg_bearing - wp_bearing;
-    var track_error = wp_dist * math.sin(D2R * bearing_error);
-    setprop("autopilot/internal/fdm-track-error", track_error);
-    var target_crs = leg_bearing;
-    var target_crs_err = 0;
-    if (math.abs(track_error) < 0.1) {
-        # We're within 0.1 nm of the route, just head for the next WP directly
-        target_crs = wp_bearing;
-    }
-    else {
-        if (math.abs(track_error) >= turn_radius_nm) {
-            if (track_error > 0) {
-                target_crs_err = -90;
+        setprop("autopilot/internal/wp-bearing", wp_bearing);
+        setprop("autopilot/internal/wp-leg-bearing", leg_bearing);
+        setprop("autopilot/internal/wp-dist", wp_dist);
+
+        # Turn anticipation distance gets longer the sharper we need to turn.
+        var turn_anticipation_dist = 0;
+        if (wp.fly_type == "flyOver") {
+            turn_anticipation_dist = turn_radius_nm * 2;
+        }
+        else {
+            turn_anticipation_dist = turn_radius_nm * math.min(1, math.abs(leg_bearing_next - leg_bearing) / 90);
+        }
+        if (wp_dist <= turn_anticipation_dist) {
+            if (wp.fly_type == "flyOver") {
+                # We're too close to try and intercept the proper trajectory;
+                # instead, we'll just home in on the waypoint.
+                target_crs = wp_bearing;
+                setprop("autopilot/internal/wp-mode", "homing/near-wp");
             }
             else {
-                target_crs_err = 90;
+                # We're close enough to the target to initiate our turn; for
+                # simplicity's sake, we'll just forward the route manager and bail,
+                # next cycle will pick up from here.
+                setprop("autopilot/internal/wp-mode", "skip");
+                fp.current = wpid + 1;
+                return;
             }
         }
         else {
-            var tr_minus_te = turn_radius_nm - math.abs(track_error);
-            if (track_error > 0) {
-                target_crs_err = -R2D * math.acos(tr_minus_te / turn_radius_nm);
+            var bearing_error = leg_bearing - wp_bearing;
+            var track_error = wp_dist * math.sin(D2R * bearing_error);
+            setprop("autopilot/internal/fdm-track-error", track_error);
+            var target_crs_err = 0;
+            if (math.abs(track_error) < 0.1) {
+                # We're within 0.1 nm of the route, just head for the next WP directly
+                target_crs = wp_bearing;
+                setprop("autopilot/internal/wp-mode", "homing/on-route");
             }
             else {
-                target_crs_err = R2D * math.acos(tr_minus_te / turn_radius_nm);
+                if (math.abs(track_error) >= turn_radius_nm) {
+                    if (track_error > 0) {
+                        target_crs_err = -90;
+                    }
+                    else {
+                        target_crs_err = 90;
+                    }
+                }
+                else {
+                    var tr_minus_te = turn_radius_nm - math.abs(track_error);
+                    if (track_error > 0) {
+                        target_crs_err = -R2D * math.acos(tr_minus_te / turn_radius_nm);
+                    }
+                    else {
+                        target_crs_err = R2D * math.acos(tr_minus_te / turn_radius_nm);
+                    }
+                }
+                # limit interception angle
+                var max_intercept_angle = 60;
+                target_crs = leg_bearing + math.min(max_intercept_angle, math.max(-max_intercept_angle, target_crs_err));
+                setprop("autopilot/internal/wp-mode", "intercept");
             }
         }
-        # limit interception angle
-        var max_intercept_angle = 60;
-        target_crs = leg_bearing + math.min(max_intercept_angle, math.max(-max_intercept_angle, target_crs_err));
     }
     setprop("autopilot/internal/target-crs", geo.normdeg(target_crs));
 }
