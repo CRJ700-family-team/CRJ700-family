@@ -465,7 +465,7 @@ var fdm_course_update = func ()
         setprop("autopilot/internal/target/track_err", track_err);
 
         if (math.abs(track_err) < 0.1 or
-            math.sgn(track_err) == math.sgn(geo.normdeg180(my_heading - target_radial))) {
+            math.sgn(track_err) == math.sgn(geo.normdeg180(my_course - target_radial))) {
             # moving away from the target, or already on track; just align to
             # target radial
             course = target_radial;
