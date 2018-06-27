@@ -271,17 +271,17 @@ var fdm_configure_hold = func (fp, mode, phase)
     var pattern_speed = 230; # TODO: get real speed
     var turn_radius = get_std_turn_radius(pattern_speed);
     var leg_len_nm = 4; # arbitrary default
-    if (!wp.hld_is_distance) {
-        leg_len_nm = wp.hld_time_or_distance * pattern_speed / 3600;
+    if (!wp.hold_is_distance) {
+        leg_len_nm = wp.hold_time_or_distance * pattern_speed / 3600;
     }
     else {
-        leg_len_nm = wp.hld_time_or_distance;
+        leg_len_nm = wp.hold_time_or_distance;
     }
-    var radial_fwd = wp.hld_inbound_radial;
+    var radial_fwd = wp.hold_inbound_radial;
     var radial_rev = geo.normdeg(radial_fwd + 180);
     var diagonal_angle = R2D * math.atan2(2 * turn_radius, leg_len_nm);
     var diagonal_fwd = radial_fwd;
-    if (wp.hld_is_left_handed) {
+    if (wp.hold_is_left_handed) {
         diagonal_fwd = geo.normdeg(radial_fwd - diagonal_angle);
     }
     else {
@@ -318,7 +318,7 @@ var fdm_configure_hold = func (fp, mode, phase)
         target_coords.apply_course_distance(radial_rev, leg_len_nm * NM2M);
     }
     if (target == "O") {
-        if (wp.hld_is_left_handed) {
+        if (wp.hold_is_left_handed) {
             target_coords.apply_course_distance(radial_fwd - 90, 2 * turn_radius * NM2M);
         }
         else {
@@ -355,8 +355,8 @@ var fdm_configure_target = func (fp, wpid)
             # So we will decide our hold entry procedure based on current
             # heading relative to the holding radial, and we will jump directly
             # to the second phase of the hold entry pattern.
-            var heading_diff = wp.hld_inbound_radial - my_course;
-            if (wp.hld_is_left_handed) {
+            var heading_diff = wp.hold_inbound_radial - my_course;
+            if (wp.hold_is_left_handed) {
                 heading_diff = -heading_diff;
             }
             if (math.abs(heading_diff) <= 90) {
@@ -376,8 +376,8 @@ var fdm_configure_target = func (fp, wpid)
             # We're moving towards the fix; this means we have yet to enter the
             # holding area, so we will start with the approach phase of the
             # holding entry pattern.
-            var heading_diff = wp.hld_inbound_radial - target_bearing;
-            if (wp.hld_is_left_handed) {
+            var heading_diff = wp.hold_inbound_radial - target_bearing;
+            if (wp.hold_is_left_handed) {
                 heading_diff = -heading_diff;
             }
             if (math.abs(heading_diff) <= 90) {
