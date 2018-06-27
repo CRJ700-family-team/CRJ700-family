@@ -415,7 +415,7 @@ var fdm_configure_target = func (fp, wpid)
                 }
                 else {
                     # next leg is a normal one, enable turn anticipation
-                    setprop("autopilot/internal/target/anticipate", next_wp.leg_bearing - wp.leg_bearing);
+                    setprop("autopilot/internal/target/anticipate", math.abs(next_wp.leg_bearing - wp.leg_bearing));
                 }
             }
         }
@@ -561,7 +561,7 @@ var fdm_update_target = func (fp)
         else {
             turn_anticipation_dist =
                 turn_radius *
-                    math.tan(0.5 * D2R * anticipation_angle);
+                    math.tan(0.5 * D2R * math.abs(anticipation_angle));
         }
     }
     var target_dist =
