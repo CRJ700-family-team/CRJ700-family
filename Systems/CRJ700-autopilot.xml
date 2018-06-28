@@ -681,6 +681,7 @@
 		<max>10</max>
 	</pi-simple-controller>	
 	
+<!-- 
 	<pi-simple-controller>
 		<name>Pitch controller simple test</name>
 		<debug type="bool">false</debug>
@@ -706,7 +707,7 @@
 		<min>-1</min>
 		<max>1</max>
 	</pi-simple-controller>
-<!-- 
+ -->	
 	<pid-controller>
 		<name>Pitch controller</name>
 		<debug type="bool">false</debug>
@@ -736,7 +737,6 @@
 			<u_max>1</u_max>
 		</config>
 	</pid-controller>
- -->	
     <pid-controller>
 		<name>Roll controller</name>
 		<debug type="bool">false</debug>
