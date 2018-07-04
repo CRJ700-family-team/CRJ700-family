@@ -645,6 +645,7 @@
 		</config>
 	</pi-simple-controller>	
     <!-- Pitch and roll controllers -->
+    <!--
     <pi-simple-controller>
 		<name>Vertical speed to pitch controller</name>
 		<debug type="bool">false</debug>
@@ -680,8 +681,45 @@
 		<min>-10</min>
 		<max>10</max>
 	</pi-simple-controller>	
+    -->
+    <pid-controller>
+		<name>Vertical speed to pitch controller</name>
+		<debug type="bool">false</debug>
+		<enable>
+			<condition>
+				<or>
+					<equals>
+						<property>controls/autoflight/vert-mode</property>
+						<value>1</value> 
+					</equals>
+					<equals>
+						<property>controls/autoflight/vert-mode</property>
+						<value>2</value> 
+					</equals>
+					<equals>
+						<property>controls/autoflight/vert-mode</property>
+						<value>3</value> 
+					</equals>
+				</or>
+			</condition>
+		</enable>
+		<input>
+			<property>instrumentation/vertical-speed-indicator[0]/indicated-speed-fpm</property>
+		</input>
+		<reference>
+			<property>autopilot/internal/target-climb-rate-fpm</property>
+		</reference>
+		<output>autopilot/internal/target-pitch-deg</output>
+		<config>
+			<Kp>0.005</Kp>
+			<Ti>6</Ti>
+            <Td>0.7</Td>
+		</config>
+		<min>-10</min>
+		<max>10</max>
+	</pid-controller>
 	
-<!-- 
+    <!--
 	<pi-simple-controller>
 		<name>Pitch controller simple test</name>
 		<debug type="bool">false</debug>
@@ -690,6 +728,10 @@
 				<and>
 					<property>autopilot/internal/autoflight-engaged</property>
 					<property>systems/hydraulic/outputs/elevator</property>
+                    <greater>
+                        <property>velocities/airspeed-kt</property>
+                        <value>200</value>
+                    </greater>
 				</and>
 			</condition>
 		</enable>
@@ -707,7 +749,7 @@
 		<min>-1</min>
 		<max>1</max>
 	</pi-simple-controller>
- -->	
+    -->
 	<pid-controller>
 		<name>Pitch controller</name>
 		<debug type="bool">false</debug>
