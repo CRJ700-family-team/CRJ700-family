@@ -529,8 +529,10 @@
 			<target-climb-rate-fpm>0</target-climb-rate-fpm>
 
             <!-- need to initialize these to avoid NaN in PID controller: -->
-            <fms-track-error-norm>0</fms-track-error-norm>
-            <fms-track-error-norm-lookahead>0</fms-track-error-norm-lookahead>
+            <fms>
+                <track-error-norm>0</track-error-norm>
+                <track-error-norm-lookahead>0</track-error-norm-lookahead>
+            </fms>
 		</internal>
 	</autopilot>
 	

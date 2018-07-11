@@ -248,13 +248,34 @@ var update_fms_info = func()
     var course_to_wp = courseAndDist[0];
     var dist_to_wp = courseAndDist[1];
     var track_error_deg = geo.normdeg180(wp0.leg_bearing - course_to_wp);
+    var cdi_deflection = math.clamp(-track_error_deg, -10, 10);
     var track_error = math.sin(track_error_deg * D2R) * dist_to_wp;
-    setprop("autopilot/internal/fms-course", wp0.leg_bearing);
-    setprop("autopilot/internal/fms-course-error", course_error);
-    setprop("autopilot/internal/fms-wp-dist", dist_to_wp);
-    setprop("autopilot/internal/fms-wp-course", course_to_wp);
-    setprop("autopilot/internal/fms-track-error-deg", track_error_deg);
-    setprop("autopilot/internal/fms-track-error", track_error);
+    var suggested_intercept_heading = geo.normdeg(course_to_wp + 3.0 * cdi_deflection);
+    var turn_radius = getprop("velocities/groundspeed-kt") / (30 * math.pi);
+    setprop("autopilot/internal/fms/course", wp0.leg_bearing);
+    setprop("autopilot/internal/fms/course-error", course_error);
+    setprop("autopilot/internal/fms/turn-radius", turn_radius);
+    setprop("autopilot/internal/fms/wp-dist", dist_to_wp);
+    setprop("autopilot/internal/fms/wp-course", course_to_wp);
+    setprop("autopilot/internal/fms/wp-fly-type", wp0.fly_type);
+    setprop("autopilot/internal/fms/track-error-deg", track_error_deg);
+    setprop("autopilot/internal/fms/track-error", track_error);
+    setprop("instrumentation/fms/radials/selected-deg", wp0.leg_bearing);
+    setprop("instrumentation/fms/radials/actual-deg", wp0.leg_bearing);
+    setprop("instrumentation/fms/radials/target-radial-deg", wp0.leg_bearing);
+    setprop("instrumentation/fms/radials/target-auto-heading-deg", suggested_intercept_heading);
+    if (wp0.fly_type == "flyBy") {
+        if (dist_to_wp != nil and turn_radius != nil and dist_to_wp < turn_radius) {
+            printf("%f < %f: Next waypoint.", dist_to_wp, turn_radius);
+            fp.current = fp.current + 1;
+        }
+        else if (dist_to_wp == nil) {
+            print("dist_to_wp is nil");
+        }
+        else if (turn_radius == nil) {
+            print("turn_radius is nil");
+        }
+    }
 }
 
 var vs_annunciator = func () 

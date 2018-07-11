@@ -97,22 +97,6 @@
     </filter>
     -->
     <filter>
-        <name>FMS1 normalized track error</name>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <expression>
-                <div>
-                    <property>autopilot/internal/fms-track-error</property>
-                    <property>autopilot/internal/turn-radius</property>
-                </div>
-            </expression>
-        </input>
-        <output>autopilot/internal/fms-track-error-norm</output>
-        <min>-1</min>
-        <max>1</max>
-    </filter>
-    <filter>
         <name>Standard turn radius</name>
         <type>gain</type>
         <gain>0.01061032953945969</gain>
@@ -174,6 +158,24 @@
             </offset>
         </input>
         <output>autopilot/internal/nav2-heading-error-deg</output>
+        <period>
+            <min>-180</min>
+            <max>180</max>
+        </period>
+    </filter>
+    <filter>
+        <name>FMS heading error computer/normalizer</name>
+        <type>gain</type>
+        <debug type="bool">false</debug>
+        <gain>1</gain>
+        <input>
+            <property>instrumentation/fms/radials/target-auto-heading-deg</property>
+            <offset>
+                <property>orientation/heading-deg</property>
+                <scale>-1</scale>
+            </offset>
+        </input>
+        <output>autopilot/internal/fms1-heading-error-deg</output>
         <period>
             <min>-180</min>
             <max>180</max>
@@ -490,7 +492,7 @@
                     </equals>
                 </and>
             </condition>
-            <property>autopilot/internal/fms-heading-error</property>
+            <property>autopilot/internal/fms1-heading-error-deg</property>
         </input>
         <reference>
             <value>0</value>
@@ -508,140 +510,6 @@
             <property>autopilot/internal/bank-limit-deg</property>
         </max>
     </pi-simple-controller>
-
-
-    <pid-controller>
-        <name>FMS Track Error Deriv</name>
-        <debug type="bool">false</debug>
-        <enable>
-            <condition>
-                <and>
-                    <equals>
-                        <property>controls/autoflight/lat-mode</property>
-                        <value>2</value>
-                    </equals>
-                    <equals>
-                        <property>controls/autoflight/nav-source</property>
-                        <value>2</value>
-                    </equals>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <property>autopilot/internal/fms-track-error-norm</property>
-        </input>
-        <reference>
-            <value>0</value>
-        </reference>
-        <output>autopilot/internal/fms-track-error-norm-lookahead</output>
-        <config>
-            <Kp>-0.1</Kp>
-            <Td>10</Td>
-            <Ti>60</Ti>
-            <alpha>0.1</alpha>
-            <beta>0.33</beta>
-            <gamma>0.1</gamma>
-            <u_min>-1</u_min>
-            <u_max>1</u_max>
-        </config>
-    </pid-controller>
-
-    <filter>
-        <type>gain</type>
-        <enable>
-            <condition>
-                <not>
-                    <and>
-                        <equals>
-                            <property>controls/autoflight/lat-mode</property>
-                            <value>2</value>
-                        </equals>
-                        <equals>
-                            <property>controls/autoflight/nav-source</property>
-                            <value>2</value>
-                        </equals>
-                    </and>
-                </not>
-            </condition>
-        </enable>
-        <input>
-            <property>autopilot/internal/fms-track-error-norm</property>
-        </input>
-        <output>autopilot/internal/fms-track-error-norm-lookahead</output>
-        <gain>1</gain>
-    </filter>
-
-    <filter>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <condition>
-                <greater-than>
-                    <property>autopilot/internal/fms-track-error-norm-lookahead</property>
-                    <value>0</value>
-                </greater-than>
-            </condition>
-            <expression>
-                <difference>
-                    <property>autopilot/internal/fms-course</property>
-                    <rad2deg>
-                        <acos>
-                            <difference>
-                                <value>1</value>
-                                <property>autopilot/internal/fms-track-error-norm-lookahead</property>
-                            </difference>
-                        </acos>
-                    </rad2deg>
-                </difference>
-            </expression>
-        </input>
-        <input>
-            <condition>
-                <less-than>
-                    <property>autopilot/internal/fms-track-error-norm-lookahead</property>
-                    <value>0</value>
-                </less-than>
-            </condition>
-            <expression>
-                <sum>
-                    <property>autopilot/internal/fms-course</property>
-                    <rad2deg>
-                        <acos>
-                            <sum>
-                                <value>1</value>
-                                <property>autopilot/internal/fms-track-error-norm-lookahead</property>
-                            </sum>
-                        </acos>
-                    </rad2deg>
-                </sum>
-            </expression>
-        </input>
-        <input>
-            <property>autopilot/internal/fms-course</property>
-        </input>
-        <output>autopilot/internal/fms-heading</output>
-        <period>
-            <min>0</min>
-            <max>360</max>
-        </period>
-    </filter>
-
-    <filter>
-        <type>gain</type>
-        <gain>1</gain>
-        <input>
-            <property>autopilot/internal/fms-heading</property>
-            <offset>
-                <property>orientation/track-deg</property>
-                <scale>-1</scale>
-            </offset>
-        </input>
-        <output>autopilot/internal/fms-heading-error</output>
-        <period>
-            <min>-180</min>
-            <max>180</max>
-        </period>
-    </filter>
 
     <pid-controller>
         <name>Approach vertical controller</name>
