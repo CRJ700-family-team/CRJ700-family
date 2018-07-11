@@ -509,9 +509,24 @@
         </max>
     </pi-simple-controller>
 
+
     <pid-controller>
         <name>FMS Track Error Deriv</name>
         <debug type="bool">false</debug>
+        <enable>
+            <condition>
+                <and>
+                    <equals>
+                        <property>controls/autoflight/lat-mode</property>
+                        <value>2</value>
+                    </equals>
+                    <equals>
+                        <property>controls/autoflight/nav-source</property>
+                        <value>2</value>
+                    </equals>
+                </and>
+            </condition>
+        </enable>
         <input>
             <property>autopilot/internal/fms-track-error-norm</property>
         </input>
@@ -520,13 +535,41 @@
         </reference>
         <output>autopilot/internal/fms-track-error-norm-lookahead</output>
         <config>
-            <Kp>-0.5</Kp>
-            <Td>0.01</Td>
+            <Kp>-0.1</Kp>
+            <Td>10</Td>
             <Ti>60</Ti>
+            <alpha>0.1</alpha>
+            <beta>0.33</beta>
+            <gamma>0.1</gamma>
             <u_min>-1</u_min>
             <u_max>1</u_max>
         </config>
     </pid-controller>
+
+    <filter>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <not>
+                    <and>
+                        <equals>
+                            <property>controls/autoflight/lat-mode</property>
+                            <value>2</value>
+                        </equals>
+                        <equals>
+                            <property>controls/autoflight/nav-source</property>
+                            <value>2</value>
+                        </equals>
+                    </and>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>autopilot/internal/fms-track-error-norm</property>
+        </input>
+        <output>autopilot/internal/fms-track-error-norm-lookahead</output>
+        <gain>1</gain>
+    </filter>
 
     <filter>
         <type>gain</type>
@@ -572,6 +615,9 @@
                     </rad2deg>
                 </sum>
             </expression>
+        </input>
+        <input>
+            <property>autopilot/internal/fms-course</property>
         </input>
         <output>autopilot/internal/fms-heading</output>
         <period>
