@@ -81,16 +81,20 @@
         <type>gain</type>
         <debug type="bool">false</debug>
         <gain>1</gain>
-        <!-- map [+2,-13]deg to [0,15]trim units -->
+        <!-- map [-7.5,+7.5] deg actual hstab incline to [+2,-13] deg eicas units -->
         <input>
             <expression>
-                <sum>
-                    <product>
-                        <property>surface-positions/hstab-rad</property>
-                        <value>-57.29578</value>
-                    </product>                            
-                    <value>2</value>
-                </sum>
+                <clip>
+                    <sum>
+                        <product>
+                            <property>surface-positions/hstab-rad</property>
+                            <value>-57.29578</value>
+                        </product>
+                        <value>-5.5</value>
+                    </sum>
+                    <clipMin>-13</clipMin>
+                    <clipMax>2</clipMax>
+                </clip>
             </expression>
         </input>    
         <output>eicas/hstab-trim</output>
@@ -104,14 +108,18 @@
         <debug type="bool">false</debug>
         <input>
             <expression>
-                <clip>
-                    <div>
-                        <property>controls/flight/elevator-trim</property>
-                        <value>0.6</value>
-                    </div>
-                    <clipMin>-1</clipMin>
-                    <clipMax>1</clipMax>
-                </clip>
+                <product>
+                    <clip>
+                        <div>
+                            <property>controls/flight/elevator-trim</property>
+                            <value>0.6</value>
+                        </div>
+                        <clipMin>-1</clipMin>
+                        <clipMax>1</clipMax>
+                    </clip>
+                    <!-- +/- 7 deg -->
+                    <value>0.1309</value>
+                </product>
             </expression>
         </input>
         <output>controls/flight/hstab-trim</output>
@@ -186,8 +194,6 @@
                         <property>fcs/elevator-trim</property>
                         <property>controls/flight/elevator-trim</property>
                     </difference>
-                    <!-- also add AP elevator input here. -->
-                    <property>fcs/elevator-trim-ap</property>
                 </sum>
             </expression>
         </input>

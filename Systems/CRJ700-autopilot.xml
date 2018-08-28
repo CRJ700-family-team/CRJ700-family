@@ -804,7 +804,7 @@
         <reference>
             <property>autopilot/internal/target-pitch-deg</property>
         </reference>
-        <output>fcs/elevator-trim-ap</output>
+        <output>controls/flight/elevator-trim</output>
         <config>
             <Kp>-0.05</Kp>
             <beta>1</beta>
