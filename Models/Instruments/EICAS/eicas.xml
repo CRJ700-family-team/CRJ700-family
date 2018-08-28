@@ -7897,11 +7897,11 @@ DIR BUS</text>
 		<object-name>Stabilizer trim value</object-name>
 		<property>eicas/hstab-trim</property>
 		<factor>0.00156</factor>
-        <offset-m>-0.0117</offset-m>
+        <offset-m>-0.0087</offset-m>
 		<axis>
 			<x>0</x>
 			<y>0</y>
-			<z>-1</z>
+			<z>1</z>
 		</axis>
 	</animation>
 	<animation>
