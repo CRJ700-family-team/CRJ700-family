@@ -1444,6 +1444,7 @@ page 10 Doors
 		<character-aspect-ratio>1.2</character-aspect-ratio>
 		<font>Helvetica.txf</font>
 		<format>%02.1f</format>
+        <scale>-1</scale>
 		<offsets>
 			<x-m>0.0001</x-m>
 			<y-m>0.05324</y-m>
@@ -7896,7 +7897,7 @@ DIR BUS</text>
 		<object-name>ElevatorTrim</object-name>
 		<object-name>Stabilizer trim value</object-name>
 		<property>eicas/hstab-trim</property>
-		<factor>0.00156</factor>
+		<factor>-0.00156</factor>
         <offset-m>-0.0087</offset-m>
 		<axis>
 			<x>0</x>
