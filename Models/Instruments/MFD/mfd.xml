@@ -29,7 +29,7 @@
 		</blue>
 		<green>
 			<red>0.133</red>
-			<green>0.663</green>
+			<green>0.750</green>
 			<blue>0.145</blue>
 		</green>
 		<pink>
@@ -106,6 +106,7 @@
 		</condition>
 	</animation>
 	
+    <!--
     <panel>
 		<name>Radar</name>
 		<path>Models/Instruments/MFD/radar0.xml</path>
@@ -125,6 +126,8 @@
 			<z-m>-0.09105</z-m>
 		</bottom-right>
 	</panel>
+    -->
+
     <animation>
 		<type>select</type>
 		<object-name>Radar</object-name>
@@ -579,10 +582,10 @@
 		<character-size>0.006</character-size>
 		<character-aspect-ratio>1.5</character-aspect-ratio>
 		<font>helvetica_bold.txf</font>
-		<text>TAT</text>
+		<text>TAS</text>
 		<offsets>
 			<x-m>0.0002</x-m>
-			<y-m>0.04105</y-m>
+			<y-m>0.04102</y-m>
 			<z-m>0.07447</z-m>
 		</offsets>
 		<font-resolution>

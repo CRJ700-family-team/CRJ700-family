@@ -242,15 +242,10 @@ setlistener("surface-positions/flap-pos-norm", func (n) {
 }, 0, 0);
 
 
-## elevator trim handler
+## elevator trim
 var _elevatorTrim = controls.elevatorTrim;
-var TRIM_RATE = 0.01745;
 
 controls.elevatorTrim = func(x) {
-    if (getprop("/systems/hstab/powered")) {
-        if (getprop("/controls/flight/hstab-trim") >= 1)
-            _elevatorTrim(x);
-        else 
-            slewProp("/controls/flight/hstab-trim", x * TRIM_RATE);
-    }
+    if (getprop("/systems/hstab/powered"))
+        _elevatorTrim(x);
 };

@@ -3,7 +3,7 @@ MATERIAL "DefaultWhite" rgb 1.0000 1.0000 1.0000  amb 0.2000 0.2000 0.2000  emis
 MATERIAL "DefaultWhite.003" rgb 1.0000 1.0000 1.0000  amb 1.0000 1.0000 1.0000  emis 0.0000 0.0000 0.0000  spec 0.3200 0.3200 0.3200  shi 50 trans 0.0000
 OBJECT world
 name "Blender_export__mfd.ac"
-kids 30
+kids 32
 OBJECT poly
 name "Border"
 texture "flightdeck1.png"
@@ -368,6 +368,42 @@ refs 4
 2 0.493761 0.531089
 3 0.493761 0.657286
 1 0.280057 0.657286
+kids 0
+OBJECT poly
+name "LCD BG"
+texture "black-bg.png"
+texrep 1 1
+numvert 4
+-0.0003610 -0.0904640 0.0715870
+-0.0003610 -0.0904640 -0.0724130
+-0.0003610 0.0904640 -0.0724130
+-0.0003610 0.0904640 0.0715870
+numsurf 1
+SURF 0X0
+mat 1
+refs 4
+0 0.728906 0.475000
+1 0.728906 0.525000
+2 0.778906 0.525000
+3 0.778906 0.475000
+kids 0
+OBJECT poly
+name "Radar"
+texture "od_wxradar.png"
+texrep 1 1
+numvert 4
+-0.0003600 -0.0904640 0.0715870
+-0.0003600 -0.0904640 -0.0724130
+-0.0003600 0.0456700 -0.0724130
+-0.0003600 0.0456700 0.0715870
+numsurf 1
+SURF 0X0
+mat 1
+refs 4
+0 0.0 1.0
+1 1.0 1.0
+2 1.0 0.0
+3 0.0 0.0
 kids 0
 OBJECT poly
 name "NoRadar"

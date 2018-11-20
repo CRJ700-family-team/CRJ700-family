@@ -81,20 +81,125 @@
         <type>gain</type>
         <debug type="bool">false</debug>
         <gain>1</gain>
-        <!-- map [+2,-13]deg to [0,15]trim units -->
+        <!-- map [-7.5,+7.5] deg actual hstab incline to [+2,-13] deg eicas units -->
         <input>
             <expression>
+                <clip>
                 <sum>
                     <product>
                         <property>surface-positions/hstab-rad</property>
-                        <value>-57.29578</value>
+                            <value>57.29578</value>
                     </product>                            
-                    <value>2</value>
+                        <value>-5.5</value>
                 </sum>
+                    <clipMin>-13</clipMin>
+                    <clipMax>2</clipMax>
+                </clip>
             </expression>
         </input>    
         <output>eicas/hstab-trim</output>
     </filter>
+    <!-- Map pitch trim input (controls/flight/elevator-trim) to hstab trim;
+         use actual elevator trim when exceeding limits. -->
+    <filter>
+        <name>Pitch trim to hstab trim</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <debug type="bool">false</debug>
+        <input>
+            <expression>
+                <product>
+                    <clip>
+                        <div>
+                            <property>controls/flight/elevator-trim</property>
+                            <value>0.6</value>
+                        </div>
+                        <clipMin>-1</clipMin>
+                        <clipMax>1</clipMax>
+                    </clip>
+                    <!-- +/- 7 deg -->
+                    <value>0.1309</value>
+                </product>
+            </expression>
+        </input>
+        <output>controls/flight/hstab-trim</output>
+    </filter>
+    <filter>
+        <name>Pitch trim to elevator trim</name>
+        <type>gain</type>
+        <debug type="bool">false</debug>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <greater-than-equals>
+                    <property>controls/flight/elevator-trim</property>
+                    <value>0</value>
+                </greater-than-equals>
+            </condition>
+            <expression>
+                <clip>
+                    <div>
+                        <sum>
+                            <property>controls/flight/elevator-trim</property>
+                            <value>-0.6</value>
+                        </sum>
+                        <value>0.4</value>
+                    </div>
+                    <clipMin>0</clipMin>
+                    <clipMax>1</clipMax>
+                </clip>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>controls/flight/elevator-trim</property>
+                    <value>0</value>
+                </less-than-equals>
+            </condition>
+            <expression>
+                <clip>
+                    <div>
+                        <sum>
+                            <property>controls/flight/elevator-trim</property>
+                            <value>0.6</value>
+                        </sum>
+                        <value>0.4</value>
+                    </div>
+                    <clipMin>-1</clipMin>
+                    <clipMax>0</clipMax>
+                </clip>
+            </expression>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>fcs/elevator-trim</output>
+    </filter>
+    <!-- In order to keep yasim's solver happy, we keep sending
+         controls/flight/elevator-trim to the FLAP0 of the hstab, because that
+         is what yasim manipulates while solving; then for the real thing,
+         we calculate a correction based on the elevator-trim input and what
+         we calculated above, which will effectively produce the correct
+         final elevator position. -->
+    <filter>
+        <name>Pitch trim to elevator trim</name>
+        <type>gain</type>
+        <debug type="bool">false</debug>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <difference>
+                        <property>fcs/elevator-trim</property>
+                        <property>controls/flight/elevator-trim</property>
+                    </difference>
+                </sum>
+            </expression>
+        </input>
+        <output>fcs/elevator-trim-correction</output>
+    </filter>
+
     <filter>
 		<name>dhptr</name>
 		<type>gain</type>
