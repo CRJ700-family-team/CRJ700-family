@@ -226,6 +226,68 @@
 				</binding>
 			</button>
 		</group>
+
+		<group>
+			<layout>hbox</layout>
+			<align>center</align>
+			<button>
+				<pref-height>25</pref-height>
+				<pref-width>25</pref-width>
+				<legend>&lt;</legend>
+				<binding>
+					<condition>
+						<greater-than>
+							<property>instrumentation/adc/reference/vref</property>
+							<value>103</value>
+						</greater-than>
+					</condition>
+					<command>property-adjust</command>
+					<property>instrumentation/adc/reference/vref</property>
+					<step>-1</step>
+				</binding>
+			</button>
+			<input>
+				<pref-width>44</pref-width>
+				<halign>left</halign>
+				<property>instrumentation/adc/reference/vref</property>
+				<label>VRef </label>
+				<binding>
+					<command>dialog-apply</command>
+				</binding>
+				<live type="bool">true</live>
+			</input>
+			<button>
+				<pref-height>25</pref-height>
+				<pref-width>25</pref-width>				
+				<legend>&gt;</legend>
+				<binding>
+					<condition>
+						<less-than>
+							<property>instrumentation/adc/reference/vref</property>
+							<value>200</value>
+						</less-than>
+					</condition>
+					<command>property-adjust</command>
+					<property>instrumentation/adc/reference/vref</property>
+					<step>1</step>
+				</binding>
+			</button>
+		</group>
+
+        <group>
+            <layout>hbox</layout>
+            <align>center</align>
+            <button>
+                <pref-height>25</pref-height>
+                <pref-width>100</pref-width>
+                <legend>calculate</legend>
+                <binding>
+                    <command>property-assign</command>
+                    <property>instrumentation/adc/reference/vref</property>
+                    <property>instrumentation/adc/reference/vref-suggested</property>
+                </binding>
+            </button>
+        </group>
 			
 		<hrule />
 			

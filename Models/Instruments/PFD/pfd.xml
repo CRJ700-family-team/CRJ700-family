@@ -1127,6 +1127,50 @@ G</text>
 			<z>0.999</z>
 		</axis>		
 	</animation>		
+	<text>
+		<name>VRefind</name>
+		<type>literal</type>
+		<text>-- ref</text>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.008</character-size>
+		<character-aspect-ratio>1.1</character-aspect-ratio>
+		<font>helvetica.txf</font>
+		<offsets>
+			<x-m>0.001</x-m>
+			<y-m>-0.055</y-m>
+			<z-m>0.02369</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+ 	<animation>
+		<type>select</type>
+		<object-name>VRefind</object-name>
+		<condition>
+			<greater-than>
+				<property>instrumentation/adc/vref-diff</property>
+				<value>-40</value>
+			</greater-than> 
+ 			<less-than>
+				<property>instrumentation/adc/vref-diff</property>
+				<value>40</value>
+			</less-than>
+		</condition>
+	</animation>
+	<animation>
+		<type>translate</type>
+		<object-name>VRefind</object-name>
+		<property>instrumentation/adc/vref-diff</property>
+		<factor>-0.000880</factor>
+		<axis>
+			<x>-0.036</x>
+			<y>0</y>
+			<z>0.999</z>
+		</axis>		
+	</animation>		
 	<!-- heading bug-->
 	<text>
 		<name>Heading bug setting</name>
@@ -1857,6 +1901,7 @@ G</text>
 		<object-name>V2ind</object-name>
 		<object-name>VRind</object-name>
 		<object-name>VTind</object-name>
+		<object-name>VRefind</object-name>
 		<ambient>
 			<red alias="../../../colors/blue/red" />
 			<green alias="../../../colors/blue/green" />
