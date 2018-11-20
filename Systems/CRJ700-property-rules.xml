@@ -332,6 +332,72 @@
 		</input>
 		<output>instrumentation/adc/vt-diff</output>
 	</filter>
+	<filter>
+		<name>VRefmarker</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<input>
+			<expression>
+				<dif>
+					<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+					<property>instrumentation/adc/reference/vref</property>
+				</dif>
+			</expression>
+		</input>
+		<output>instrumentation/adc/vref-diff</output>
+	</filter>
+    <filter>
+        <name>Auto-calculated VRef</name>
+        <type>gain</type>
+        <debug type="bool">false</debug>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <max>
+                    <!-- absolute minimum - below this, the wing will stall -->
+                    <value>121</value>
+                    <min>
+                        <!-- calculation for gross weight <= 65000 lbs: -->
+                        <floor>
+                            <sum>
+                                <product>
+                                    <log>
+                                        <product>
+                                            <max>
+                                                <sum>
+                                                    <property>yasim/gross-weight-lbs</property>
+                                                    <value>-48000</value>
+                                                </sum>
+                                                <value>1000</value>
+                                            </max>
+                                            <value>0.0001</value>
+                                        </product>
+                                    </log>
+                                    <value>40</value>
+                                </product>
+                                <value>124</value>
+                            </sum>
+                        </floor>
+                        <!-- calculation for gross weight <= 65000 lbs -->
+                        <floor>
+                            <sum>
+                                <product>
+                                    <sum>
+                                        <property>yasim/gross-weight-lbs</property>
+                                        <value>-65000</value>
+                                    </sum>
+                                    <value>0.0001</value>
+                                </product>
+                                <value>133</value>
+                            </sum>
+                        </floor>
+                    </min>
+                </max>
+            </expression>
+        </input>
+        <output>instrumentation/adc/reference/vref-suggested</output>
+    </filter>
 	<logic>
 		<name>On ground</name>
 		<input>
