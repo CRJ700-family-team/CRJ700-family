@@ -674,7 +674,6 @@
         </config>
     </pi-simple-controller>
     <!-- Pitch and roll controllers -->
-    <!--
     <pid-controller>
         <name>Vertical speed to pitch controller</name>
         <debug type="bool">false</debug>
@@ -713,8 +712,8 @@
         <min>-10</min>
         <max>10</max>
     </pid-controller>
-    -->
 
+    <!--
     <pi-simple-controller>
         <name>Vertical speed to pitch controller</name>
         <debug type="bool">false</debug>
@@ -745,7 +744,7 @@
         <output>autopilot/internal/target-pitch-deg</output>
         <config>
             <Kp>0.002</Kp>
-            <Ti>0.0001</Ti>
+            <Ki>0.00075</Ki>
         </config>
         <min>-10</min>
         <max>10</max>
@@ -821,11 +820,6 @@
         <max>1</max>
     </pi-simple-controller>
     -->
-
-    <!-- Autopilot sends elevator input to a separate channel, controlling only
-         elevator pitch but not hstab incidence. This is because hstab
-         incidence reacts too slowly and causes the autopilot to oscillate.
-    -->
     <pid-controller>
         <name>Pitch controller</name>
         <debug type="bool">false</debug>
@@ -855,26 +849,6 @@
             <u_max>1</u_max>
         </config>
     </pid-controller>
-    <!-- when autopilot is disabled, set elevator input from AP to 0 -->
-    <filter>
-        <type>gain</type>
-        <gain>0</gain>
-        <enable>
-            <condition>
-                <and>
-                    <not>
-                        <property>autopilot/internal/autoflight-engaged</property>
-                    </not>
-                    <property>systems/hydraulic/outputs/elevator</property>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>0</value>
-        </input>
-        <output>fcs/elevator-trim-ap</output>
-    </filter>
-
     <pid-controller>
         <name>Roll controller</name>
         <debug type="bool">false</debug>
