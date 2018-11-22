@@ -11,6 +11,7 @@
 			<name>instrument</name>
 			<x>128</x>
 			<y>128</y>
+            <z>0.1</z>
 			<w>256</w>
 			<h>256</h>
 			<w-base>256</w-base>
@@ -32,10 +33,6 @@
 						<transformation>
 							<type>y-shift</type>
 							<offset>-12</offset>
-						</transformation>
-						<transformation>
-							<type>x-shift</type>
-							<offset>1</offset>
 						</transformation>
 					</transformations>
 				</layer>
