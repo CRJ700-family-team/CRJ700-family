@@ -2608,7 +2608,7 @@ G</text>
 		<type>rotate</type>
 		<object-name>NAVPtr</object-name>
 		<object-name>NAVTrack</object-name>
-		<property>instrumentation/nav[0]/radials/selected-deg</property>
+		<property>instrumentation/nav[0]/heading-deg</property>
 		<axis>
 			<x>-1</x>
 			<y>0</y>
