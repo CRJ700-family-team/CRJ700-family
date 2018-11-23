@@ -844,7 +844,7 @@
 		<object-name>LeftYoke</object-name>
 		<object-name>LeftYokeAP</object-name>
 		<object-name>LeftYokeChecklist</object-name>
-		<property>controls/flight/aileron</property>
+		<property>fcs/aileron-yoke-norm</property>
 		<factor>90</factor>
 		<axis>
 			<x>-1</x>
@@ -862,7 +862,7 @@
 		<object-name>RightYoke</object-name>
 		<object-name>RightYokeAP</object-name>
 		<object-name>RightYokeChecklist</object-name>
-		<property>fcs/copilot/aileron-cmd-norm</property>
+		<property>fcs/aileron-yoke-norm</property>
 		<factor>90</factor>
 		<axis>
 			<x>-1</x>
@@ -881,7 +881,7 @@
 		<object-name>LeftYokeAP</object-name>
 		<object-name>LeftYokeChecklist</object-name>
 		<object-name>LeftYokeBase</object-name>
-		<property>controls/flight/elevator</property>
+		<property>fcs/elevator-yoke-norm</property>
 		<factor>10</factor>
 		<axis>
 			<x>0</x>
@@ -900,7 +900,7 @@
 		<object-name>RightYokeAP</object-name>
 		<object-name>RightYokeChecklist</object-name>
 		<object-name>RightYokeBase</object-name>
-		<property>fcs/copilot/elevator-cmd-norm</property>
+		<property>fcs/elevator-yoke-norm</property>
 		<factor>10</factor>
 		<axis>
 			<x>0</x>
@@ -1494,7 +1494,7 @@
     <animation>
 		<type>translate</type>
 		<object-name>LeftLeftPedal</object-name>
-		<property>controls/flight/rudder</property>
+		<property>fcs/rudder-pedal-norm</property>
 		<factor>0.15</factor>
 		<axis>
 			<x>1</x>
@@ -1505,7 +1505,7 @@
     <animation>
 		<type>translate</type>
 		<object-name>LeftRightPedal</object-name>
-		<property>controls/flight/rudder</property>
+		<property>fcs/rudder-pedal-norm</property>
 		<factor>0.15</factor>
 		<axis>
 			<x>-1</x>
@@ -1516,7 +1516,7 @@
     <animation>
 		<type>translate</type>
 		<object-name>RightLeftPedal</object-name>
-		<property>fcs/copilot/rudder-cmd-norm</property>
+		<property>fcs/rudder-pedal-norm</property>
 		<factor>0.15</factor>
 		<axis>
 			<x>1</x>
@@ -1527,7 +1527,7 @@
     <animation>
 		<type>translate</type>
 		<object-name>RightRightPedal</object-name>
-		<property>fcs/copilot/rudder-cmd-norm</property>
+		<property>fcs/rudder-pedal-norm</property>
 		<factor>0.15</factor>
 		<axis>
 			<x>-1</x>
