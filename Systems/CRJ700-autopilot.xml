@@ -132,8 +132,6 @@
 			<property>instrumentation/nav[0]/radials/target-auto-hdg-deg</property>
 			<offset>
 				<property>orientation/heading-deg</property>
-				<!-- Using indicated heading isn't accurate enough for precision VOR tracking (e.g. ILS) -->
-				<!--property>instrumentation/heading-indicator[0]/indicated-heading-deg</property-->
 				<scale>-1</scale>
 			</offset>
 		</input>
@@ -152,8 +150,6 @@
 			<property>instrumentation/nav[1]/radials/target-auto-hdg-deg</property>
 			<offset>
 				<property>orientation/heading-deg</property>
-				<!-- Using indicated heading isn't accurate enough for precision VOR tracking (e.g. ILS) -->
-				<!--property>instrumentation/heading-indicator[0]/indicated-heading-deg</property-->
 				<scale>-1</scale>
 			</offset>
 		</input>
@@ -534,7 +530,7 @@
 		</reference>
 		<output>autopilot/internal/target-roll-deg</output>
 		<config>
-			<Kp>-3.4</Kp>
+			<Kp>-2.8</Kp>
 			<Ki>-0.0001</Ki>
 			<min>
 				<property>autopilot/internal/bank-limit-deg</property>
@@ -860,10 +856,13 @@
 			<expression> <!-- Computes pitch rate, from attitude error, clamped to +/- 1.5 -->
 				<min>
 					<max>
-						<difference>
-							<property>autopilot/internal/target-pitch-deg</property>
-							<property>instrumentation/attitude-indicator[0]/indicated-pitch-deg</property>
-						</difference>
+						<product>
+							<difference>
+								<property>autopilot/internal/target-pitch-deg</property>
+								<property>instrumentation/attitude-indicator[0]/indicated-pitch-deg</property>
+							</difference>
+							<value>0.6</value>
+						</product>
 						<value>-1.5</value>
 					</max>
 					<value>1.5</value>
@@ -967,10 +966,13 @@
 			<expression> <!-- Computes roll rate, from attitude error, clamped to +/- 4.8 -->
 				<min>
 					<max>
-						<difference>
-							<property>autopilot/internal/target-roll-deg</property>
-							<property>instrumentation/attitude-indicator[0]/indicated-roll-deg</property>
-						</difference>
+						<product>
+							<difference>
+								<property>autopilot/internal/target-roll-deg</property>
+								<property>instrumentation/attitude-indicator[0]/indicated-roll-deg</property>
+							</difference>
+							<value>0.84</value>
+						</product>
 						<value>-4.8</value>
 					</max>
 					<value>4.8</value>
