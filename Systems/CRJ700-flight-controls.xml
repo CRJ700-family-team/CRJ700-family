@@ -9,20 +9,16 @@
 	<filter>
 		<name>Autopilot aileron controller</name>
 		<type>gain</type>
-		<debug type="bool">false</debug>
-		<gain>1</gain>
+		<gain>1.0</gain>
+		<feedback-if-disabled>true</feedback-if-disabled>
+		<initialize-to>output</initialize-to>
 		<enable>
 			<condition>
-				<and>
-					<property>autopilot/internal/autoflight-engaged</property>
-					<property>systems/hydraulic/outputs/aileron</property>
-				</and>				
+				<property>autopilot/internal/autoflight-engaged</property>
 			</condition>
 		</enable>
-		<input>
-			<property>fcs/autopilot/aileron-cmd-norm</property>
-		</input>
-		<output>fcs/aileron-cmd-norm</output>
+		<input>fcs/autopilot/aileron-cmd-norm</input>
+		<output>fcs/aileron-yoke-norm</output>
 	</filter>
 	<filter>
 		<name>Manual pilot aileron controller</name>
@@ -52,14 +48,13 @@
 							</expression>
 						</greater-than-equals>
 					</or>
-					<property>systems/hydraulic/outputs/aileron</property>
 				</and>
 			</condition>
 		</enable>
 		<input>
 			<property>controls/flight/aileron</property>
 		</input>
-		<output>fcs/aileron-cmd-norm</output>
+		<output>fcs/aileron-yoke-norm</output>
 	</filter>
 	<filter>
 		<name>Manual copilot aileron controller</name>
@@ -73,9 +68,6 @@
 						<property>autopilot/internal/autoflight-engaged</property>
 					</not>
 					<property>fcs/copilot/active</property>
-					<not>
-						<property>autopilot/internal/autoflight-engaged</property>
-					</not>
 					<greater-than>
 						<expression>
 							<abs>
@@ -88,13 +80,25 @@
 							</abs>
 						</expression>
 					</greater-than>
-					<property>systems/hydraulic/outputs/aileron</property>
 				</and>
 			</condition>
 		</enable>
 		<input>
 			<property>fcs/copilot/aileron-cmd-norm</property>
 		</input>
+		<output>fcs/aileron-yoke-norm</output>
+	</filter>
+	
+	<filter>
+		<name>Aileron final</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<property>systems/hydraulic/outputs/aileron</property>
+			</condition>
+		</enable>
+		<input>fcs/aileron-yoke-norm</input>
 		<output>fcs/aileron-cmd-norm</output>
 	</filter>
 
@@ -129,7 +133,6 @@
 							</expression>
 						</greater-than-equals>
 					</or>
-					<property>systems/hydraulic/outputs/rudder</property>
 				</and>
 			</condition>
 		</enable>
@@ -147,7 +150,7 @@
 				</max>
 			</expression>
 		</input>
-		<output>fcs/rudder-cmd-norm</output>
+		<output>fcs/rudder-pedal-norm</output>
 	</filter>
 	<filter>
 		<name>Yaw damper rudder controller (copilot input)</name>
@@ -175,7 +178,6 @@
 							</abs>
 						</expression>
 					</greater-than>
-					<property>systems/hydraulic/outputs/rudder</property>
 				</and>
 			</condition>
 		</enable>
@@ -193,7 +195,7 @@
 				</max>
 			</expression>
 		</input>
-		<output>fcs/rudder-cmd-norm</output>
+		<output>fcs/rudder-pedal-norm</output>
 	</filter>
 	<filter>
 		<name>Manual pilot rudder controller</name>
@@ -233,14 +235,13 @@
 							</expression>
 						</greater-than-equals>
 					</or>
-					<property>systems/hydraulic/outputs/rudder</property>
 				</and>
 			</condition>
 		</enable>
 		<input>
 			<property>controls/flight/rudder</property>
 		</input>
-		<output>fcs/rudder-cmd-norm</output>
+		<output>fcs/rudder-pedal-norm</output>
 	</filter>
 	<filter>
 		<name>Manual copilot rudder controller</name>
@@ -276,17 +277,43 @@
 							</abs>
 						</expression>
 					</greater-than>
-					<property>systems/hydraulic/outputs/rudder</property>
 				</and>
 			</condition>
 		</enable>
 		<input>
 			<property>controls/flight/rudder</property>
 		</input>
+		<output>fcs/rudder-pedal-norm</output>
+	</filter>
+	
+	<filter>
+		<name>Rudder final</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<property>systems/hydraulic/outputs/rudder</property>
+			</condition>
+		</enable>
+		<input>fcs/rudder-pedal-norm</input>
 		<output>fcs/rudder-cmd-norm</output>
 	</filter>
-
+	
 	<!-- Elevators -->
+	<filter>
+		<name>Autopilot elevator controller</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<feedback-if-disabled>true</feedback-if-disabled>
+		<initialize-to>output</initialize-to>
+		<enable>
+			<condition>
+				<property>autopilot/internal/autoflight-engaged</property>
+			</condition>
+		</enable>
+		<input>fcs/autopilot/elevator-cmd-norm</input>
+		<output>fcs/elevator-yoke-norm</output>
+	</filter>
 	<filter>
 		<name>Pilot elevator controller</name>
 		<type>gain</type>
@@ -295,7 +322,9 @@
 		<enable>
 			<condition>
 				<and>
-					<property>systems/hydraulic/outputs/elevator</property>
+					<not>
+						<property>autopilot/internal/autoflight-engaged</property>
+					</not>
 					<or>
 						<not>
 							<property>fcs/copilot/active</property>
@@ -319,7 +348,7 @@
 		<input>
 			<property>controls/flight/elevator</property>
 		</input>
-		<output>fcs/elevator-cmd-norm</output>
+		<output>fcs/elevator-yoke-norm</output>
 	</filter>
 	<filter>
 		<name>Copilot elevator controller</name>
@@ -329,6 +358,9 @@
 		<enable>
 			<condition>
 				<and>
+					<not>
+						<property>autopilot/internal/autoflight-engaged</property>
+					</not>
 					<property>systems/hydraulic/outputs/elevator</property>
 					<property>fcs/copilot/active</property>
 					<greater-than>
@@ -349,9 +381,22 @@
 		<input>
 			<property>fcs/copilot/elevator-cmd-norm</property>
 		</input>
+		<output>fcs/elevator-yoke-norm</output>
+	</filter>
+	
+	<filter>
+		<name>Elevator final</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<property>systems/hydraulic/outputs/elevator</property>
+			</condition>
+		</enable>
+		<input>fcs/elevator-yoke-norm</input>
 		<output>fcs/elevator-cmd-norm</output>
 	</filter>
-
+	
 	<!-- Spoilers -->
 	<!-- In real life, automatic ground spoiler deployment is based on throttle position, radio altitude, wheel speed, and weight-on-wheels; since the flight manual is extremely vague about this, the following logic is used -->
 	<logic>
