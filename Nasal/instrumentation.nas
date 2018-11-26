@@ -265,9 +265,12 @@ var update_fms_info = func()
     setprop("instrumentation/fms/radials/target-radial-deg", wp0.leg_bearing);
     setprop("instrumentation/fms/radials/target-auto-heading-deg", suggested_intercept_heading);
     if (wp0.fly_type == "flyBy") {
-        if (dist_to_wp != nil and turn_radius != nil and dist_to_wp < turn_radius) {
+        if (dist_to_wp != nil and turn_radius != nil and dist_to_wp < turn_radius and fp.current != nil) {
             printf("%f < %f: Next waypoint.", dist_to_wp, turn_radius);
             fp.current = fp.current + 1;
+        }
+        else if (fp.current == nil) {
+            print("fp.current is nil");
         }
         else if (dist_to_wp == nil) {
             print("dist_to_wp is nil");
