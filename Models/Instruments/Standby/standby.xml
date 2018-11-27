@@ -227,7 +227,7 @@
 		<object-name>AI</object-name>
 		<transform>
 			<subtype>textranslate</subtype>
-			<property alias="../../../params/indicated-pitch-deg" />
+            <property alias="../../../params/indicated-pitch-deg" />
 			<factor>0.00314</factor>
 			<axis>
 				<x>0</x>
@@ -236,7 +236,7 @@
 		</transform>
 		<transform>
 			<subtype>texrotate</subtype>
-			<property alias="../../../params/indicated-roll-deg" />
+            <property alias="../../../params/indicated-roll-deg" />
 			<axis>
 				<x>0</x>
 				<y>0</y>
@@ -251,7 +251,7 @@
 	<animation>
 		<type>rotate</type>
 		<object-name>RollPtr</object-name>
-		<property alias="../../params/indicated-roll-deg" />
+        <property alias="../../params/indicated-roll-deg" />
 		<axis>
 			<x>1</x>
 			<y>0</y>
@@ -337,9 +337,10 @@
 			<button>0</button>
 			<repeatable type="bool">false</repeatable>
 			<binding>
-				<command>property-assign</command>
-				<property alias="../../../../params/attitude-indicator-spin" />
-				<value>1</value>
+				<command>nasal</command>
+                <script>
+                    CRJ700.cage_standby();
+                </script>
 			</binding>
 		</action>
 	</animation>

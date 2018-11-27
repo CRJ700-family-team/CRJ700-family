@@ -249,8 +249,8 @@
 		<path>Models/Instruments/Standby/standby.xml</path>
 		<overlay>
 			<params>
-				<indicated-pitch-deg>instrumentation/attitude-indicator[1]/indicated-pitch-deg</indicated-pitch-deg>
-				<indicated-roll-deg>instrumentation/attitude-indicator[1]/indicated-roll-deg</indicated-roll-deg>
+				<indicated-pitch-deg>instrumentation/attitude-indicator[1]/indicated-pitch-corrected-deg</indicated-pitch-deg>
+				<indicated-roll-deg>instrumentation/attitude-indicator[1]/indicated-roll-corrected-deg</indicated-roll-deg>
 				<indicated-altitude-ft>instrumentation/altimeter[1]/indicated-altitude-ft</indicated-altitude-ft>
 				<indicated-speed-kt>instrumentation/airspeed-indicator[1]/indicated-speed-kt</indicated-speed-kt>
 				<indicated-mach>instrumentation/airspeed-indicator[1]/indicated-mach</indicated-mach>

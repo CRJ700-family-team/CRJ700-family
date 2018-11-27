@@ -450,4 +450,34 @@
 		</input>
 		<output>sim/alarms/master-warning</output>
 	</logic>
+
+    <!-- Apply standby instrument attitude indicator error -->
+    <filter>
+        <name>Standby instrument pitch</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>instrumentation/attitude-indicator[1]/indicated-pitch-deg</property>
+                    <property>instrumentation/attitude-indicator[1]/indicated-pitch-error-deg</property>
+                </sum>
+            </expression>
+        </input>
+        <output>instrumentation/attitude-indicator[1]/indicated-pitch-corrected-deg</output>
+    </filter>
+    <filter>
+        <name>Standby instrument roll</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>instrumentation/attitude-indicator[1]/indicated-roll-deg</property>
+                    <property>instrumentation/attitude-indicator[1]/indicated-roll-error-deg</property>
+                </sum>
+            </expression>
+        </input>
+        <output>instrumentation/attitude-indicator[1]/indicated-roll-corrected-deg</output>
+    </filter>
 </PropertyList>

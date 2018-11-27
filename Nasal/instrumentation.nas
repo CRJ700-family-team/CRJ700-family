@@ -594,12 +594,29 @@ var update_copilot_ints = func
 var update_spin = func
 {
     setprop("instrumentation/attitude-indicator[0]/spin", 1);
+    setprop("instrumentation/attitude-indicator[1]/spin", 1);
     setprop("instrumentation/attitude-indicator[2]/spin", 1);
     setprop("instrumentation/heading-indicator[0]/spin", 1);
     setprop("instrumentation/heading-indicator[1]/spin", 1);
     settimer(update_spin, 5);
 };
 settimer(update_spin, 2);
+
+var update_standby_error = func
+{
+    # TODO: introduce some small errors
+    settimer(update_standby_error, 5);
+};
+settimer(update_standby_error, 3);
+
+## Reset the standby attitude indicator by "caging" it.
+var cage_standby = func
+{
+    setprop("instrumentation/attitude-indicator[1]/indicated-pitch-error-deg",
+        -getprop("instrumentation/attitude-indicator[1]/indicated-pitch-deg"));
+    setprop("instrumentation/attitude-indicator[1]/indicated-roll-error-deg",
+        -getprop("instrumentation/attitude-indicator[1]/indicated-roll-deg"));
+};
 
 ## DME-H
 setlistener("/instrumentation/dme[0]/hold", func(n) {
