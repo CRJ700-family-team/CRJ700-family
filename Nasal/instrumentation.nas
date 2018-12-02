@@ -604,18 +604,23 @@ settimer(update_spin, 2);
 
 var update_standby_error = func
 {
-    # TODO: introduce some small errors
-    settimer(update_standby_error, 5);
+    # both pitch and roll drift at 1°/hr
+    var drift = func(p, d) {
+        if (getprop(p) != nil) {
+            setprop(p, getprop(p) + d);
+        }
+    };
+    drift("instrumentation/attitude-indicator[1]/indicated-pitch-error-deg", 1.0/60.0);
+    drift("instrumentation/attitude-indicator[1]/indicated-roll-error-deg", 1.0/60.0);
+    settimer(update_standby_error, 60);
 };
 settimer(update_standby_error, 3);
 
 ## Reset the standby attitude indicator by "caging" it.
 var cage_standby = func
 {
-    setprop("instrumentation/attitude-indicator[1]/indicated-pitch-error-deg",
-        -getprop("instrumentation/attitude-indicator[1]/indicated-pitch-deg"));
-    setprop("instrumentation/attitude-indicator[1]/indicated-roll-error-deg",
-        -getprop("instrumentation/attitude-indicator[1]/indicated-roll-deg"));
+    setprop("instrumentation/attitude-indicator[1]/indicated-pitch-error-deg", 0);
+    setprop("instrumentation/attitude-indicator[1]/indicated-roll-error-deg", 0);
 };
 
 ## DME-H
