@@ -32,7 +32,7 @@
 					<transformations>
 						<transformation>
 							<type>y-shift</type>
-							<offset>-12</offset>
+							<offset>-64</offset>
 						</transformation>
 					</transformations>
 				</layer>

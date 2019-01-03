@@ -88,6 +88,8 @@
 		<object-name>Page6</object-name>
 		<object-name>Screen</object-name>
 		<object-name>Wind</object-name>		
+		<object-name>AircraftSymbol1</object-name>		
+		<object-name>AircraftSymbol2</object-name>		
 	</animation>
 		
     <!-- Visible only within 1/2 km -->
@@ -110,17 +112,17 @@
 		<name>Radar</name>
 		<path>Models/Instruments/MFD/radar0.xml</path>
 		<top-left>
-			<x-m>0</x-m>
+			<x-m>0.0001</x-m>
 			<y-m>-0.07338</y-m>
 			<z-m>0.04567</z-m>
 		</top-left>
 		<bottom-left>
-			<x-m>0</x-m>
+			<x-m>0.0001</x-m>
 			<y-m>-0.07338</y-m>
 			<z-m>-0.09105</z-m>
 		</bottom-left>
 		<bottom-right>
-			<x-m>0</x-m>
+			<x-m>0.0001</x-m>
 			<y-m>0.07338</y-m>
 			<z-m>-0.09105</z-m>
 		</bottom-right>
@@ -581,7 +583,7 @@
 		<character-size>0.006</character-size>
 		<character-aspect-ratio>1.5</character-aspect-ratio>
 		<font>helvetica_bold.txf</font>
-		<text>TAS</text>
+		<text>TAT</text>
 		<offsets>
 			<x-m>0.0002</x-m>
 			<y-m>0.04102</y-m>
@@ -1503,6 +1505,7 @@
 		<type>select</type>
 		<object-name>Page1</object-name>
 		<object-name>Page 1 title</object-name>
+        <object-name>AircraftSymbol2</object-name>
 		<condition>
 			<equals>
 				<property alias="../../../../params/page" />
@@ -1571,6 +1574,16 @@
 				<property alias="../../../../params/page" />
 				<value>6</value>
 			</equals>
+		</condition>
+	</animation>
+    <animation>
+		<type>select</type>
+        <object-name>AircraftSymbol1</object-name>
+		<condition>
+            <not-equals>
+                <property alias="../../../../params/page" />
+                <value>1</value>
+            </not-equals>
 		</condition>
 	</animation>
     <animation>
