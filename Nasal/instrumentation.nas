@@ -267,7 +267,7 @@ var update_fms_info = func()
     if (wp0.fly_type == "flyBy") {
         if (dist_to_wp != nil and turn_radius != nil and dist_to_wp < turn_radius and fp.current != nil) {
             printf("%f < %f: Next waypoint.", dist_to_wp, turn_radius);
-            fp.current = fp.current + 1;
+            fp.current = math.clamp(fp.current + 1, 0, fp.getPlanSize() - 1);
         }
         else if (fp.current == nil) {
             print("fp.current is nil");
