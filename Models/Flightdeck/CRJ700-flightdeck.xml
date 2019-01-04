@@ -134,7 +134,7 @@
 		<path>Models/Instruments/SidePanel1/sidepanel.xml</path>
 		<overlay>
 			<params>
-				<mfd-tcas>instrumentation/mfd[0]/tcas</mfd-tcas>
+				<mfd-tcas>instrumentation/efis/inputs/tfc</mfd-tcas>
 				<mfd-wx>instrumentation/mfd[0]/wx</mfd-wx>
 				<mfd-page>instrumentation/efis/mfd/mode-num</mfd-page>
 				<radar-range>instrumentation/efis/inputs/range</radar-range>

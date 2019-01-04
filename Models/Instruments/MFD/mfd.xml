@@ -17,8 +17,8 @@
 		<radar-range>instrumentation/radar/range</radar-range>
 		<lightmap-texture-path>Aircraft/Generic/generic-lightmap.png</lightmap-texture-path>
 	</params>
-    <big-rose-min-bug-deg type="double">-52</big-rose-min-bug-deg>
-    <big-rose-max-bug-deg type="double">52</big-rose-max-bug-deg>
+    <big-rose-min-bug-deg type="double">-60</big-rose-min-bug-deg>
+    <big-rose-max-bug-deg type="double">60</big-rose-max-bug-deg>
     <ft-to-m type="float">0.3048</ft-to-m>
 	
     <colors>
@@ -63,6 +63,7 @@
 		<object-name>ADF2</object-name>
 		<object-name>HSI2</object-name>
 		<object-name>HSI2Bug</object-name>
+		<object-name>HSI2Track</object-name>
 		<object-name>NAV1From</object-name>
 		<object-name>NAV1To</object-name>
 		<object-name>NAV2From</object-name>
@@ -109,20 +110,40 @@
 	</animation>
 	
     <panel>
-		<name>Radar</name>
-		<path>Models/Instruments/MFD/radar0.xml</path>
+		<name>Radar Sector</name>
+		<path>Models/Instruments/MFD/radarSector.xml</path>
 		<top-left>
-			<x-m>0.0001</x-m>
+			<x-m>-0.0001</x-m>
 			<y-m>-0.07338</y-m>
 			<z-m>0.04567</z-m>
 		</top-left>
 		<bottom-left>
-			<x-m>0.0001</x-m>
+			<x-m>-0.0001</x-m>
 			<y-m>-0.07338</y-m>
 			<z-m>-0.09105</z-m>
 		</bottom-left>
 		<bottom-right>
-			<x-m>0.0001</x-m>
+			<x-m>-0.0001</x-m>
+			<y-m>0.07338</y-m>
+			<z-m>-0.09105</z-m>
+		</bottom-right>
+        <depth-test>true</depth-test>
+	</panel>
+    <panel>
+		<name>Radar Map</name>
+		<path>Models/Instruments/MFD/radarMap.xml</path>
+		<top-left>
+			<x-m>-0.0001</x-m>
+			<y-m>-0.07338</y-m>
+			<z-m>0.04567</z-m>
+		</top-left>
+		<bottom-left>
+			<x-m>-0.0001</x-m>
+			<y-m>-0.07338</y-m>
+			<z-m>-0.09105</z-m>
+		</bottom-left>
+		<bottom-right>
+			<x-m>-0.0001</x-m>
 			<y-m>0.07338</y-m>
 			<z-m>-0.09105</z-m>
 		</bottom-right>
@@ -131,7 +152,7 @@
 
     <animation>
 		<type>select</type>
-		<object-name>Radar</object-name>
+		<object-name>Radar Sector</object-name>
 		<object-name>Radar inner range</object-name>
 		<object-name>Radar outer range</object-name>
 		<condition>
@@ -144,15 +165,32 @@
 				<or>
 					<equals>
 						<property alias="../../../../../../params/page" />
+						<value>2</value>
+					</equals>
+					<equals>
+						<property alias="../../../../../../params/page" />
 						<value>3</value>
 					</equals>
+				</or>
+			</and>
+		</condition>
+	</animation>
+    <animation>
+		<type>select</type>
+		<object-name>Radar Map</object-name>
+		<object-name>Radar inner range map</object-name>
+		<object-name>Radar outer range map</object-name>
+		<condition>
+			<and>
+				<property>sim/current-view/internal</property>
+				<greater-than-equals>
+					<property>systems/DC/outputs/wradar</property>
+					<value>15</value>
+				</greater-than-equals>
+				<or>
 					<equals>
 						<property alias="../../../../../../params/page" />
 						<value>4</value>
-					</equals>
-					<equals>
-						<property alias="../../../../../../params/page" />
-						<value>6</value>
 					</equals>
 				</or>
 			</and>
@@ -170,10 +208,6 @@
 					<equals>
 						<property alias="../../../../../../params/page" />
 						<value>1</value>
-					</equals>
-					<equals>
-						<property alias="../../../../../../params/page" />
-						<value>2</value>
 					</equals>
 					<equals>
 						<property alias="../../../../../../params/page" />
@@ -229,6 +263,47 @@
 			<x-m>0.0003</x-m>
 			<y-m>-0.06809</y-m>
 			<z-m>-0.01267</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+    <text>
+		<name>Radar inner range map</name>
+		<type>number-value</type>
+		<property alias="../../params/radar-range" />
+		<scale>0.5</scale>
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio>1.2</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.f</format>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>-0.03858</y-m>
+			<z-m>0.00375</z-m>
+		</offsets>
+		<font-resolution>
+			<width type="int">32</width>
+			<height type="int">32</height>
+		</font-resolution>
+	</text>
+    <text>
+		<name>Radar outer range map</name>
+		<type>number-value</type>
+		<property alias="../../params/radar-range" />
+		<axis-alignment>yz-plane</axis-alignment>
+		<alignment>left-center</alignment>
+		<character-size>0.007</character-size>
+		<character-aspect-ratio>1.2</character-aspect-ratio>
+		<font>helvetica_bold.txf</font>
+		<format>%3.f</format>
+		<offsets>
+			<x-m>0.0003</x-m>
+			<y-m>-0.06809</y-m>
+			<z-m>0.0253</z-m>
 		</offsets>
 		<font-resolution>
 			<width type="int">32</width>
@@ -1403,6 +1478,8 @@
 		<type>material</type>
 		<object-name>Radar inner range</object-name>
 		<object-name>Radar outer range</object-name>
+		<object-name>Radar inner range map</object-name>
+		<object-name>Radar outer range map</object-name>
 		<object-name>UTC value</object-name>
 		<object-name>TAS value</object-name>
 		<object-name>GS value</object-name>
@@ -1505,7 +1582,6 @@
 		<type>select</type>
 		<object-name>Page1</object-name>
 		<object-name>Page 1 title</object-name>
-        <object-name>AircraftSymbol2</object-name>
 		<condition>
 			<equals>
 				<property alias="../../../../params/page" />
@@ -1580,10 +1656,26 @@
 		<type>select</type>
         <object-name>AircraftSymbol1</object-name>
 		<condition>
-            <not-equals>
+            <equals>
                 <property alias="../../../../params/page" />
-                <value>1</value>
-            </not-equals>
+                <value>2</value>
+            </equals>
+		</condition>
+	</animation>
+    <animation>
+		<type>select</type>
+        <object-name>AircraftSymbol2</object-name>
+		<condition>
+            <or>
+                <equals>
+                    <property alias="../../../../../params/page" />
+                    <value>1</value>
+                </equals>
+                <equals>
+                    <property alias="../../../../../params/page" />
+                    <value>4</value>
+                </equals>
+            </or>
 		</condition>
 	</animation>
     <animation>
@@ -1593,10 +1685,11 @@
 			<button>0</button>
 			<repeatable type="bool">false</repeatable>
 			<binding>
-				<command>property-adjust</command>
+				<command>property-cycle</command>
 				<property alias="../../../../params/page" />
-				<step>-1</step>
-				<min>1</min>
+                <value>4</value>
+                <value>2</value>
+                <value>1</value>
 			</binding>
 		</action>
 	</animation>
@@ -1607,10 +1700,11 @@
 			<button>0</button>
 			<repeatable type="bool">false</repeatable>
 			<binding>
-				<command>property-adjust</command>
+				<command>property-cycle</command>
 				<property alias="../../../../params/page" />
-				<step>1</step>
-				<max>6</max>
+                <value>1</value>
+                <value>2</value>
+                <value>4</value>
 			</binding>
 		</action>
 	</animation>
@@ -1829,6 +1923,26 @@
 			<y>0.5</y>
 		</center>
 	</animation>
+    <animation>
+		<type>rotate</type>
+		<object-name>HSI2Track</object-name>
+        <expression>
+            <difference>
+                <property>orientation/track-magnetic-deg</property>
+                <property>orientation/heading-magnetic-deg</property>
+            </difference>
+        </expression>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.05884</z-m>
+		</center>
+    </animation>
     <animation>
 		<type>rotate</type>
 		<object-name>HSI2Bug</object-name>

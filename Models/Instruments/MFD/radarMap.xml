@@ -19,8 +19,8 @@
 			<layers>
 				<layer>
 					<name>image</name>
-					<w>220</w>
-					<h>220</h>
+					<w>320</w>
+					<h>320</h>
 					<emissive type="bool">true</emissive>
 					<texture>
 						<path>Models/Instruments/MFD/od_wxradar.png</path>
@@ -32,7 +32,7 @@
 					<transformations>
 						<transformation>
 							<type>y-shift</type>
-							<offset>-64</offset>
+							<offset>0</offset>
 						</transformation>
 					</transformations>
 				</layer>
