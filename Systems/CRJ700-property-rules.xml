@@ -347,6 +347,21 @@
 		</input>
 		<output>instrumentation/adc/vref-diff</output>
 	</filter>
+	<filter>
+		<name>Vmomarker</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<input>
+			<expression>
+				<dif>
+					<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+					<property>instrumentation/adc/reference/vmo</property>
+				</dif>
+			</expression>
+		</input>
+		<output>instrumentation/adc/vmo-diff</output>
+	</filter>
     <filter>
         <name>Auto-calculated VRef</name>
         <type>gain</type>
@@ -428,6 +443,28 @@
 		</input>
 		<output>sim/alarms/overspeed-alarm</output>
 	</logic>
+    <filter>
+        <name>Effective Vmo in KIAS</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <min>
+                    <value>338.0</value>
+                    <product>
+                        <div>
+                            <property>instrumentation/airspeed-indicator[0]/indicated-speed-kt</property>
+                            <property>instrumentation/airspeed-indicator[0]/indicated-mach</property>
+                        </div>
+                        <value>0.86</value>
+                    </product>
+                </min>
+            </expression>
+        </input>
+        <output>
+            <property>instrumentation/adc/reference/vmo</property>
+        </output>
+    </filter>
 	<logic>
 		<name>Master caution alarm</name>
 		<input>
