@@ -104,7 +104,8 @@
 		<object-name>Screen</object-name>
 		<object-name>SpdPtr</object-name>
 		<object-name>SpdTape</object-name>
-		<object-name>SpdLimits</object-name>
+		<object-name>SpdLimitLo</object-name>
+		<object-name>SpdLimitHi</object-name>
 		<object-name>Symbols1</object-name>
 		<object-name>Symbols2</object-name>
 		<object-name>VNAVAdvise</object-name>
@@ -2101,10 +2102,23 @@ G</text>
 	</animation>
 	<animation>
 		<type>texmultiple</type>
-		<object-name>SpdLimits</object-name>
+		<object-name>SpdLimitHi</object-name>
 		<transform>
 			<subtype>textranslate</subtype>
-			<property alias="/params/indicated-speed-kt" />
+            <property>instrumentation/adc/vmo-diff</property>
+			<factor>0.001344299</factor>
+			<axis>
+				<x>0</x>
+				<y>1</y>
+			</axis>
+		</transform>
+	</animation>
+	<animation>
+		<type>texmultiple</type>
+		<object-name>SpdLimitLo</object-name>
+		<transform>
+			<subtype>textranslate</subtype>
+            <property>instrumentation/adc/vs-diff-plus-200</property>
 			<condition>
 				<greater-than-equals>
 					<property alias="/params/indicated-speed-kt" />
@@ -2117,19 +2131,11 @@ G</text>
 				<y>1</y>
 			</axis>
 		</transform>
-		<transform>
-			<subtype>textranslate</subtype>
-			<property>sim/flaps/current-setting</property>
-			<factor>0.0625</factor>
-			<axis>
-				<x>1</x>
-				<y>0</y>
-			</axis>
-		</transform>
 	</animation>
 	<animation>
 		<type>select</type>
-		<object-name>SpdLimits</object-name>
+		<object-name>SpdLimitLo</object-name>
+		<object-name>SpdLimitHi</object-name>
 		<condition>
 			<and>
 				<not><property>gear/gear[1]/wow</property></not>
@@ -2727,7 +2733,8 @@ G</text>
 		<object-name>NAVPtr</object-name>
 		<object-name>Overspeed</object-name>
 		<object-name>SpdTape</object-name>
-		<object-name>SpdLimits</object-name>
+		<object-name>SpdLimitLo</object-name>
+		<object-name>SpdLimitHi</object-name>
 		<object-name>Symbols1</object-name>
 		<object-name>Symbols2</object-name>
 	</effect>

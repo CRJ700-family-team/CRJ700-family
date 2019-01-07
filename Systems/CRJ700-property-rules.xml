@@ -353,14 +353,48 @@
 		<debug type="bool">false</debug>
 		<gain>1</gain>
 		<input>
+            <expression>
+                <clip>
+                    <dif>
+                        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                        <property>instrumentation/adc/reference/vmo</property>
+                    </dif>
+                    <clipMin>-40</clipMin>
+                    <clipMax>480</clipMax>
+                </clip>
+            </expression>
+		</input>
+		<output>instrumentation/adc/vmo-diff</output>
+	</filter>
+	<filter>
+		<name>Vsmarker</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<input>
 			<expression>
 				<dif>
 					<property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
-					<property>instrumentation/adc/reference/vmo</property>
+					<property>instrumentation/adc/reference/vs</property>
 				</dif>
 			</expression>
 		</input>
-		<output>instrumentation/adc/vmo-diff</output>
+		<output>instrumentation/adc/vs-diff</output>
+	</filter>
+	<filter>
+		<name>Vsmarker shifted</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<input>
+			<expression>
+				<sum>
+					<property>instrumentation/adc/vs-diff</property>
+                    <value>200</value>
+				</sum>
+			</expression>
+		</input>
+		<output>instrumentation/adc/vs-diff-plus-200</output>
 	</filter>
     <filter>
         <name>Auto-calculated VRef</name>
@@ -448,21 +482,106 @@
         <type>gain</type>
         <gain>1</gain>
         <input>
+            <condition>
+                <equals>
+                    <property>sim/flaps/current-setting</property>
+                    <value>0</value>
+                </equals>
+            </condition>
             <expression>
-                <min>
-                    <value>338.0</value>
-                    <product>
-                        <div>
-                            <property>instrumentation/airspeed-indicator[0]/indicated-speed-kt</property>
-                            <property>instrumentation/airspeed-indicator[0]/indicated-mach</property>
-                        </div>
-                        <value>0.86</value>
-                    </product>
-                </min>
+                <floor>
+                    <min>
+                        <value>338.0</value>
+                        <product>
+                            <div>
+                                <property>instrumentation/airspeed-indicator[0]/indicated-speed-kt</property>
+                                <property>instrumentation/airspeed-indicator[0]/indicated-mach</property>
+                            </div>
+                            <value>0.86</value>
+                        </product>
+                    </min>
+                </floor>
             </expression>
+        </input>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>sim/flaps/current-setting</property>
+                    <value>2</value>
+                </less-than-equals>
+            </condition>
+            <value>230</value>
+        </input>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>sim/flaps/current-setting</property>
+                    <value>3</value>
+                </less-than-equals>
+            </condition>
+            <value>220</value>
+        </input>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>sim/flaps/current-setting</property>
+                    <value>4</value>
+                </less-than-equals>
+            </condition>
+            <value>184</value>
+        </input>
+        <input>
+            <value>168</value>
         </input>
         <output>
             <property>instrumentation/adc/reference/vmo</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Effective Vs in KIAS</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>sim/flaps/current-setting</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <value>170</value>
+        </input>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>sim/flaps/current-setting</property>
+                    <value>2</value>
+                </less-than-equals>
+            </condition>
+            <value>145</value>
+        </input>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>sim/flaps/current-setting</property>
+                    <value>3</value>
+                </less-than-equals>
+            </condition>
+            <value>140</value>
+        </input>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>sim/flaps/current-setting</property>
+                    <value>4</value>
+                </less-than-equals>
+            </condition>
+            <value>128</value>
+        </input>
+        <input>
+            <value>118</value>
+        </input>
+        <output>
+            <property>instrumentation/adc/reference/vs</property>
         </output>
     </filter>
 	<logic>
