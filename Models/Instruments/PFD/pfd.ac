@@ -1,7 +1,7 @@
 AC3Db
 MATERIAL "DefaultWhite.001" rgb 1 1 1  amb 1 1 1  emis 0 0 0  spec 0.04 0.04 0.04  shi 50  trans 0
 OBJECT world
-kids 45
+kids 46
 OBJECT poly
 name "ADF1Ptr"
 texture "symbols.png"
@@ -1738,6 +1738,25 @@ refs 4
 3 0.681467 0.159178
 2 0.681467 0.05176
 1 0.740408 0.05176
+kids 0
+OBJECT poly
+name "VRefPtr"
+loc 0.00035 0.0237567 0.0493233
+texture "spd-tape.png"
+crease 45.000000
+numvert 4
+0.01 0.0372743 -0.0027145
+0.01 -0.0372742 -0.0027145
+0.01 -0.0372742 0.0027145
+0.01 0.0372743 0.0027145
+numsurf 1
+SURF 0x0
+mat 0
+refs 4
+0 0.802908 0.159178
+3 0.743967 0.159178
+2 0.743967 0.05176
+1 0.802908 0.05176
 kids 0
 OBJECT poly
 name "SpdPtr"

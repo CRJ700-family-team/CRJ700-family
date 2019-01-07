@@ -103,6 +103,7 @@
 		<object-name>RollPtr</object-name>
 		<object-name>Screen</object-name>
 		<object-name>SpdPtr</object-name>
+		<object-name>VRefPtr</object-name>
 		<object-name>SpdTape</object-name>
 		<object-name>SpdLimitLo</object-name>
 		<object-name>SpdLimitHi</object-name>
@@ -2136,6 +2137,7 @@ G</text>
 		<type>select</type>
 		<object-name>SpdLimitLo</object-name>
 		<object-name>SpdLimitHi</object-name>
+		<object-name>VRefPtr</object-name>
 		<condition>
 			<and>
 				<not><property>gear/gear[1]/wow</property></not>
@@ -2161,6 +2163,16 @@ G</text>
 		<object-name>IASBug</object-name>
 		<property>autopilot/internal/speed-bug-difference-kt</property>
 		<factor>0.00224</factor>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>VRefPtr</object-name>
+		<property>instrumentation/adc/vref-diff</property>
+        <factor>0.001344299</factor>
 		<axis>
 			<x>0</x>
 			<y>1</y>
@@ -2735,6 +2747,7 @@ G</text>
 		<object-name>SpdTape</object-name>
 		<object-name>SpdLimitLo</object-name>
 		<object-name>SpdLimitHi</object-name>
+		<object-name>VRefPtr</object-name>
 		<object-name>Symbols1</object-name>
 		<object-name>Symbols2</object-name>
 	</effect>
