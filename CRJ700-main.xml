@@ -1065,6 +1065,7 @@
 		</nav>
 		<mfd>
 			<page type="int" archive="y">1</page>
+			<mode type="int" archive="y">1</mode>
 			<tcas type="bool" archive="y">true</tcas>
 			<wx type="bool" archive="y">true</wx>
 		</mfd>
@@ -1149,7 +1150,7 @@
 		<!-- Ripped from the 777 -->
 		<efis>
 			<inputs>
-				<airport type="bool">true</airport>
+				<arpt type="bool">true</arpt>
 				<range type="int">10</range>
 				<sta type="bool">true</sta>
 				<tfc type="bool">true</tfc>

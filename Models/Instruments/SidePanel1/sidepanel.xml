@@ -12,7 +12,7 @@
 		<lightmap-texture-path>Aircraft/Generic/generic-lightmap.png</lightmap-texture-path>
 		<mfd-tcas>instrumentation/mfd/tcas</mfd-tcas>
 		<mfd-wx>instrumentation/mfd/wx</mfd-wx>
-		<mfd-page>instrumentation/mfd/page</mfd-page>
+		<mfd-page>instrumentation/mfd/mode</mfd-page>
 		<radar-range>instrumentation/radar/range</radar-range>
 		<use-QNH>instrumentation/use-QNH</use-QNH>
 		<brg-src1>instrumentation/brg-src1</brg-src1>
@@ -84,7 +84,9 @@
 				<property alias="/params/mfd-page" />
 				<value>1</value>
 				<value>2</value>
-				<value>3</value>
+				<value>3</value> <!-- just airports -->
+				<value>4</value> <!-- add navaids -->
+				<value>5</value> <!-- add waypoints -->
 			</binding>
 		</action>
 		<action>
@@ -94,7 +96,9 @@
 			<binding>
 				<command>property-cycle</command>
 				<property alias="/params/mfd-page" />
-				<value>3</value>
+				<value>5</value> <!-- add waypoints -->
+				<value>4</value> <!-- add navaids -->
+				<value>3</value> <!-- just airports -->
 				<value>2</value>
 				<value>1</value>
 			</binding>

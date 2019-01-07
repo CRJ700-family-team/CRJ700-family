@@ -517,4 +517,57 @@
         </input>
         <output>instrumentation/attitude-indicator[1]/indicated-roll-corrected-deg</output>
     </filter>
+    <filter>
+        <name>MFD mode</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/mfd/mode</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/mfd/mode</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <value>3</value>
+        </input>
+        <input>
+            <value>2</value>
+        </input>
+        <output>
+            <property>instrumentation/efis/mfd/mode-num</property>
+        </output>
+    </filter>
+    <logic>
+        <name>MFD navaids toggle</name>
+        <input>
+            <greater-than-equals>
+                <property>instrumentation/mfd/mode</property>
+                <value>4</value>
+            </greater-than-equals>
+        </input>
+        <output>
+            <property>instrumentation/efis/inputs/sta</property>
+        </output>
+    </logic>
+    <logic>
+        <name>MFD fixes toggle</name>
+        <input>
+            <greater-than-equals>
+                <property>instrumentation/mfd/mode</property>
+                <value>5</value>
+            </greater-than-equals>
+        </input>
+        <output>
+            <property>instrumentation/efis/inputs/wpt</property>
+        </output>
+    </logic>
 </PropertyList>

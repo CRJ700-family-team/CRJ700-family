@@ -136,7 +136,7 @@
 			<params>
 				<mfd-tcas>instrumentation/efis/inputs/tfc</mfd-tcas>
 				<mfd-wx>instrumentation/mfd[0]/wx</mfd-wx>
-				<mfd-page>instrumentation/efis/mfd/mode-num</mfd-page>
+				<mfd-page>instrumentation/mfd/mode</mfd-page>
 				<radar-range>instrumentation/efis/inputs/range</radar-range>
 				<lightmap-texture-path>Models/Effects/Lightmaps/sidepanel1-left-lightmap.png</lightmap-texture-path>
 				<powerN>systems/AC/outputs/pilot-panel-int-lights</powerN>
