@@ -63,6 +63,7 @@
 		<object-name>ADF2</object-name>
 		<object-name>HSI2</object-name>
 		<object-name>HSI2Bug</object-name>
+		<object-name>HSI2Ptr</object-name>
 		<object-name>HSI2Track</object-name>
 		<object-name>NAV1From</object-name>
 		<object-name>NAV1To</object-name>
@@ -1927,10 +1928,17 @@
 		<type>rotate</type>
 		<object-name>HSI2Track</object-name>
         <expression>
-            <difference>
-                <property>orientation/track-magnetic-deg</property>
-                <property>orientation/heading-magnetic-deg</property>
-            </difference>
+            <product>
+                <difference>
+                    <property>orientation/track-magnetic-deg</property>
+                    <property>orientation/heading-magnetic-deg</property>
+                </difference>
+                <clip>
+                    <property>velocities/groundspeed-kt</property>
+                    <clipMin>0</clipMin>
+                    <clipMax>1</clipMax>
+                </clip>
+            </product>
         </expression>
 		<axis>
 			<x>-1</x>
@@ -1946,6 +1954,7 @@
     <animation>
 		<type>rotate</type>
 		<object-name>HSI2Bug</object-name>
+		<object-name>HSI2Ptr</object-name>
 		<object-name>HSI3Bug</object-name>
 		<object-name>HSI4Bug</object-name>
 		<object-name>HSI6Bug</object-name>
