@@ -40,6 +40,8 @@
 				<nose-distance-m>16</nose-distance-m>
 				<cockpit-offset-x>0</cockpit-offset-x>
 			</dimensions>	
+            <!-- Fokker 70 -->
+            <fallback-model-index>218</fallback-model-index>
 		</model>
 
 		<sound>
