@@ -14,6 +14,7 @@
 	<checklist include="cruise.xml" />
 	<checklist include="descent.xml" />
 	<checklist include="approach.xml" />
+	<checklist include="steep-approach.xml" />
 	<checklist include="landing.xml" />
 	<checklist include="after-landing.xml" />
 	<checklist include="parking.xml" />

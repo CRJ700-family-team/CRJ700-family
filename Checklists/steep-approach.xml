@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="checklist.xsl"?>
 
 <PropertyList>
-	<title>Approach</title>
+	<title>Steep Approach</title>
 	<page>
 		<item>
 			<name>Landing Light</name>
@@ -130,15 +130,6 @@
 			</condition>
 		</item>
 		<item>
-			<name>Localizer</name>
-			<value>INTERCEPT</value>
-		</item>
-	</page>
-	<page>
-		<item>
-			<name>-- at intermediate fix (IF): --</name>
-		</item>
-		<item>
 			<name>Speed</name>
 			<value>200 KIAS max</value>
 			<condition>
@@ -157,13 +148,6 @@
 					<value>3</value>
 				</greater-than-equals>
 			</condition>
-		</item>
-		<item>
-			<name>-- at final approach fix (FAF): --</name>
-		</item>
-		<item>
-			<name>Glide slope</name>
-			<value>INTERCEPT</value>
 		</item>
 		<item>
 			<name>Gear</name>
@@ -198,9 +182,6 @@
 			</condition>
 		</item>
 		<item>
-			<name>-- at outer marker (5 miles out) --</name>
-		</item>
-		<item>
 			<name>Speed</name>
 			<value>160 KIAS max</value>
 			<condition>
@@ -220,13 +201,22 @@
 				</greater-than-equals>
 			</condition>
 		</item>
+	</page>
+	<page>
+		<item>
+			<name>Localizer</name>
+			<value>INTERCEPT</value>
+		</item>
+		<item>
+			<name>-- at intermediate fix (IF): --</name>
+		</item>
 		<item>
 			<name>Speed</name>
 			<value>Vref + 5kt</value>
 		</item>
 		<item>
 			<name>Autopilot</name>
-			<value>OFF latest 500ft AGL</value>
+			<value>OFF</value>
 			<condition>
 				<not><property>/controls/autoflight/autopilot/engage</property></not>
 			</condition>
@@ -236,5 +226,21 @@
 				<value>0</value>
 			</binding>
 		</item>
+		<item>
+			<name>-- at final approach fix (FAF): --</name>
+		</item>
+		<item>
+			<name>Glide slope</name>
+			<value>ALIVE</value>
+		</item>
+		<item>
+			<name>Descent rate</name>
+            <value>AS REQUIRED</value>
+		</item>
+		<item>
+			<name>Speed</name>
+			<value>Check Vref + 5kt</value>
+		</item>
 	</page>
 </PropertyList>
+
