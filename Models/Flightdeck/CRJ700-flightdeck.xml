@@ -2260,7 +2260,7 @@
 		<object-name>Eng1Reverser</object-name>
 		<property>controls/engines/engine[0]/throttle</property>
 		<offset-deg>29</offset-deg>
-		<factor>-39</factor>
+		<factor>-78</factor>
 		<condition>
 			<not>
 				<property>controls/engines/engine[0]/reverser</property>
@@ -2459,7 +2459,7 @@
 		<object-name>Eng2ThrustLever</object-name>
 		<object-name>Eng2Reverser</object-name>
 		<property>controls/engines/engine[1]/throttle</property>
-		<factor>-39</factor>
+		<factor>-78</factor>
 		<offset-deg>29</offset-deg>
 		<condition>
 			<not>

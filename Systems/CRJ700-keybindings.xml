@@ -302,6 +302,7 @@
 		</binding>
 	</key>
 	<!-- Power plant -->
+    <!--
 	<key n="78">
 		<name>N</name>
 		<desc>Decrement engine thrust modes</desc>
@@ -322,6 +323,7 @@
 			</script>
 		</binding>
 	</key>
+    -->
 	<key n="127">
 		<name>Delete</name>
 		<desc>Toggle thrust reversers or arm/disarm thrust reversers</desc>

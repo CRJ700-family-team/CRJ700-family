@@ -868,6 +868,8 @@
 			<selected-waypoint type="int">0</selected-waypoint>
 			<swap-waypoint-id type="string">-ENTER NO.-</swap-waypoint-id>
 			<to-ga-maximum-n1 type="double">95</to-ga-maximum-n1>
+			<clb-maximum-n1 type="double">91.1</clb-maximum-n1>
+			<man-maximum-n1 type="double">91.1</man-maximum-n1>
 			<waypoint-altitude-ft type="double">0</waypoint-altitude-ft>
 		</fms>
 		<eicas>
