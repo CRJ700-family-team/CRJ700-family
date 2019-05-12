@@ -249,9 +249,13 @@ var update_fms_info = func()
     var dist_to_wp = courseAndDist[1];
     var track_error_deg = geo.normdeg180(wp0.leg_bearing - course_to_wp);
     var track_error = math.sin(track_error_deg * D2R) * dist_to_wp;
-    var cdi_deflection = math.clamp(-track_error * 3, -10, 10);
-    var suggested_intercept_heading = geo.normdeg(course_to_wp + 3.0 * cdi_deflection);
+    var suggested_intercept_heading = course_to_wp;
+    if (math.abs(track_error) < 0.5) {
+        var cdi_deflection = math.clamp(-track_error * 3, -10, 10);
+        suggested_intercept_heading = geo.normdeg(course_to_wp + 3.0 * cdi_deflection);
+    }
     var turn_radius = getprop("velocities/groundspeed-kt") / (30 * math.pi);
+
     setprop("autopilot/internal/fms/course", wp0.leg_bearing);
     setprop("autopilot/internal/fms/course-error", course_error);
     setprop("autopilot/internal/fms/turn-radius", turn_radius);
@@ -264,10 +268,19 @@ var update_fms_info = func()
     setprop("instrumentation/fms/radials/actual-deg", wp0.leg_bearing);
     setprop("instrumentation/fms/radials/target-radial-deg", wp0.leg_bearing);
     setprop("instrumentation/fms/radials/target-auto-heading-deg", suggested_intercept_heading);
+
     if (wp0.fly_type == "flyBy") {
-        if (dist_to_wp != nil and turn_radius != nil and dist_to_wp < turn_radius and fp.current != nil) {
-            printf("%f < %f: Next waypoint.", dist_to_wp, turn_radius);
-            fp.current = math.clamp(fp.current + 1, 0, fp.getPlanSize() - 1);
+        if (dist_to_wp != nil and turn_radius != nil and fp.current != nil) {
+            var next_wp_ix = math.clamp(fp.current + 1, 0, fp.getPlanSize() - 1);
+            if (next_wp_ix != fp.current) {
+                var next_wp = fp.getWP(next_wp_ix);
+                var bearing_angle = math.abs(next_wp.leg_bearing - current_course);
+                var turn_dist = turn_radius * math.min(1.0, math.abs(math.tan(math.pi / 360.0 * bearing_angle)));
+                if (dist_to_wp < turn_dist) {
+                    printf("%f < %f: Next waypoint.", dist_to_wp, turn_radius);
+                    fp.current = math.clamp(fp.current + 1, 0, fp.getPlanSize() - 1);
+                }
+            }
         }
         else if (fp.current == nil) {
             print("fp.current is nil");
