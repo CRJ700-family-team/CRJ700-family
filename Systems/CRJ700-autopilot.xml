@@ -49,10 +49,12 @@
 	1   altitude (hold)
 	2   vertical speed
 	3   altitude (track)
-	#4  speed mode (this is NOT an auto throttle but a vertical (pitch) mode!)
+	4   speed mode (this is NOT an auto throttle but a vertical (pitch) mode!)
 	5   glideslope mode
 	6   TO mode
 	7   GA mode
+    8   CLB (speed climb)
+    9   DES (speed descent)
 -->
 
 <PropertyList>
@@ -737,6 +739,114 @@
 			<Td>0.0001</Td>
 			<min>-10</min>
 			<max>20</max>
+		</config>
+	</pid-controller>
+	<!-- 4 : SPEED CLB -->
+	<pid-controller>
+		<name>CLB controller</name>
+		<debug type="bool">false</debug>
+		<initialize-to>output</initialize-to>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<property>autopilot/internal/autoflight-engaged</property>
+						<property>autopilot/internal/flight-director-engaged</property>
+					</or>
+					<equals>
+						<property>controls/autoflight/vert-mode</property>
+						<value>8</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<condition>
+				<equals>
+					<property>controls/autoflight/speed-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>autopilot/internal/lookahead-10-sec-airspeed-mach</property>
+			<scale>750.0</scale>
+		</input>
+		<input>
+			<property>autopilot/internal/lookahead-10-sec-airspeed-kt</property>
+		</input>
+		<reference>
+			<condition>
+				<equals>
+					<property>controls/autoflight/speed-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>controls/autoflight/mach-select</property>
+			<scale>750.0</scale>
+		</reference>
+		<reference>
+			<property>controls/autoflight/speed-select</property>
+		</reference>
+		<output>autopilot/internal/target-pitch-deg</output>
+		<config>
+			<Kp>-0.2</Kp>
+			<Ti>2.5</Ti>
+			<Td>0.0001</Td>
+			<min>0</min>
+			<max>20</max>
+		</config>
+	</pid-controller>
+	<!-- 4 : SPEED DES -->
+	<pid-controller>
+		<name>DES controller</name>
+		<debug type="bool">false</debug>
+		<initialize-to>output</initialize-to>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<property>autopilot/internal/autoflight-engaged</property>
+						<property>autopilot/internal/flight-director-engaged</property>
+					</or>
+					<equals>
+						<property>controls/autoflight/vert-mode</property>
+						<value>9</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<condition>
+				<equals>
+					<property>controls/autoflight/speed-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>autopilot/internal/lookahead-10-sec-airspeed-mach</property>
+			<scale>750.0</scale>
+		</input>
+		<input>
+			<property>autopilot/internal/lookahead-10-sec-airspeed-kt</property>
+		</input>
+		<reference>
+			<condition>
+				<equals>
+					<property>controls/autoflight/speed-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<property>controls/autoflight/mach-select</property>
+			<scale>750.0</scale>
+		</reference>
+		<reference>
+			<property>controls/autoflight/speed-select</property>
+		</reference>
+		<output>autopilot/internal/target-pitch-deg</output>
+		<config>
+			<Kp>-0.2</Kp>
+			<Ti>2.5</Ti>
+			<Td>0.0001</Td>
+			<min>-10</min>
+			<max>0</max>
 		</config>
 	</pid-controller>
 	

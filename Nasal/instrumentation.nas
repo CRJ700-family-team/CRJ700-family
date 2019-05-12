@@ -38,7 +38,7 @@ var pitch_sync = func()
 		interpolate("controls/autoflight/vertical-speed-select", int(getprop("instrumentation/vertical-speed-indicator[0]/indicated-speed-fpm")/100)*100, 0.5);
 	} elsif (vmode == 3) { #ALTS
 		setprop("autopilot/ref/alt-hold", getprop("controls/autoflight/altitude-select"));
-	} elsif (vmode == 4) { #SPEED
+	} elsif (vmode == 4 or vmode == 8 or vmode == 9) { #SPEED
 		setprop("controls/autoflight/speed-select", int(getprop("instrumentation/airspeed-indicator/indicated-speed-kt")));	
 		setprop("controls/autoflight/mach-select", getprop("instrumentation/airspeed-indicator/indicated-mach"));	
 	} elsif (vmode == 0) { #PTCH
@@ -196,6 +196,8 @@ setlistener("controls/autoflight/vert-mode", func (n) {
 		5: "GS",
 		6: "TO",
 		7: "GA",
+		8: "CLB",
+		9: "DES",
 	};
 	#print("v:"~mode);
 	pitch_sync();
@@ -204,7 +206,7 @@ setlistener("controls/autoflight/vert-mode", func (n) {
 		setprop("autopilot/annunciators/altitude-flash-cmd", 0);
 	if (mode == 2)
 		vs_annunciator();
-	if (mode == 4)
+	if (mode == 4 or mode == 8 or mode == 9)
 		speed_annunciator();
 }, 0, 1);
 
@@ -307,6 +309,10 @@ var speed_annunciator = func ()
 	var ref = int(getprop("controls/autoflight/speed-select"));
 	if (getprop("controls/autoflight/vert-mode") == 4) 
 		setprop("autopilot/annunciators/vert-capture", "IAS "~ref);
+	if (getprop("controls/autoflight/vert-mode") == 8) 
+		setprop("autopilot/annunciators/vert-capture", "CLB "~ref);
+	if (getprop("controls/autoflight/vert-mode") == 9) 
+		setprop("autopilot/annunciators/vert-capture", "DES "~ref);
 	
 }
 setlistener("controls/autoflight/speed-select", speed_annunciator, 0, 0);

@@ -379,10 +379,8 @@
 			<button>0</button>
 			<repeatable type="bool">false</repeatable>
 			<binding>
-				<command>property-cycle</command>
-				<property>controls/autoflight/vert-mode</property>
-				<value>4</value>
-				<value>0</value>
+                <command>nasal</command>
+                <script>controls.cycleSpeedButton()</script>
 			</binding>
 			<binding>
 				<command>property-assign</command>

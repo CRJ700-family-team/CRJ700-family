@@ -168,6 +168,35 @@ var incThrustModes = func(v)
     }
 };
 
+var cycleSpeedButton = func()
+{
+    var mode = getprop("controls/autoflight/vert-mode");
+    if (mode == 4) {
+        # disable SPEED, revert to PITCH HOLD
+        setprop("controls/autoflight/vert-mode", 0);
+    }
+    elsif (mode == 8 or mode == 9) {
+        # set IAS mode
+        setprop("controls/autoflight/vert-mode", 4);
+    }
+    else {
+        var altSelected = getprop("/controls/autoflight/altitude-select");
+        var altCurrent = getprop("instrumentation/altimeter[0]/indicated-altitude-ft");
+        if (altSelected == altCurrent) {
+            # already at target alt, set ALT HOLD
+            setprop("controls/autoflight/vert-mode", 1);
+        }
+        if (altSelected > altCurrent) {
+            # speed CLB
+            setprop("controls/autoflight/vert-mode", 8);
+        }
+        else {
+            # speed DES
+            setprop("controls/autoflight/vert-mode", 9);
+        }
+    }
+}
+
 #-- slats/flaps handling --
 # wrap default handler:
 # flaps cmd > 0.022 (= 1 deg) will be postponed until slats are fully extended
