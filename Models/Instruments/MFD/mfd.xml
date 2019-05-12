@@ -1953,8 +1953,22 @@
     </animation>
     <animation>
 		<type>rotate</type>
-		<object-name>HSI2Bug</object-name>
 		<object-name>HSI2Ptr</object-name>
+		<property>autopilot/internal/heading-bug-error-deg</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<center>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>-0.05884</z-m>
+		</center>
+	</animation>
+    <animation>
+		<type>rotate</type>
+		<object-name>HSI2Bug</object-name>
 		<object-name>HSI3Bug</object-name>
 		<object-name>HSI4Bug</object-name>
 		<object-name>HSI6Bug</object-name>
