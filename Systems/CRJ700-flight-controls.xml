@@ -951,9 +951,15 @@
 		<enable>
 			<condition>
 				<and>
-					<not>
-						<property>autopilot/internal/autothrottle-engaged</property>
-					</not>
+                    <or>
+                        <not>
+                            <property>autopilot/internal/autothrottle-engaged</property>
+                        </not>
+                        <less-than-equals>
+                            <property>controls/engines/engine[1]/throttle</property>
+                            <value>0.01</value>
+                        </less-than-equals>
+                    </or>
 					<equals>
 						<property>controls/engines/engine[1]/thrust-mode</property>
 						<value>0</value>
