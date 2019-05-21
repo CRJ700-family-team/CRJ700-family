@@ -64,6 +64,7 @@
 		<object-name>HSI2</object-name>
 		<object-name>HSI2Bug</object-name>
 		<object-name>HSI2Ptr</object-name>
+		<object-name>HSI2PtrShort</object-name>
 		<object-name>HSI2Track</object-name>
 		<object-name>NAV1From</object-name>
 		<object-name>NAV1To</object-name>
@@ -1952,8 +1953,25 @@
 		</center>
     </animation>
     <animation>
+        <type>select</type>
+		<object-name>HSI2Ptr</object-name>
+        <condition>
+            <and>
+                <less-than>
+                    <property>autopilot/internal/heading-bug-error-deg</property>
+                    <value>90</value>
+                </less-than>
+                <greater-than>
+                    <property>autopilot/internal/heading-bug-error-deg</property>
+                    <value>-90</value>
+                </greater-than>
+            </and>
+        </condition>
+    </animation>
+    <animation>
 		<type>rotate</type>
 		<object-name>HSI2Ptr</object-name>
+		<object-name>HSI2PtrShort</object-name>
 		<property>autopilot/internal/heading-bug-error-deg</property>
 		<axis>
 			<x>-1</x>

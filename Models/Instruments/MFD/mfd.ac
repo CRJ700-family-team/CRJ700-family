@@ -3,7 +3,7 @@ MATERIAL "DefaultWhite" rgb 1.0000 1.0000 1.0000  amb 0.2000 0.2000 0.2000  emis
 MATERIAL "DefaultWhite.003" rgb 1.0000 1.0000 1.0000  amb 1.0000 1.0000 1.0000  emis 0.0000 0.0000 0.0000  spec 0.3200 0.3200 0.3200  shi 50 trans 0.0000
 OBJECT world
 name "Blender_export__mfd.ac"
-kids 36
+kids 37
 OBJECT poly
 name "Border"
 texture "flightdeck1.png"
@@ -369,6 +369,7 @@ refs 4
 3 0.493761 0.657286
 1 0.280057 0.657286
 kids 0
+OBJECT poly
 OBJECT poly
 name "LCD BG"
 texture "black-bg.png"
@@ -1061,6 +1062,24 @@ refs 4
 0 0.074825 0.176361
 1 0.126798 0.176361
 2 0.126798 0.735669
+kids 0
+OBJECT poly
+name "HSI2PtrShort"
+texture "symbols.png"
+texrep 1 1
+numvert 4
+0.0003500 -0.0588430 0.0053690
+0.0003500 -0.0588430 -0.0053690
+0.0003500 -0.0154200 -0.0053690
+0.0003500 -0.0154200 0.0053690
+numsurf 1
+SURF 0X10
+mat 1
+refs 4
+3 0.074825 0.456015
+0 0.074825 0.176361
+1 0.126798 0.176361
+2 0.126798 0.456015
 kids 0
 OBJECT poly
 name "HSI2Bug"
