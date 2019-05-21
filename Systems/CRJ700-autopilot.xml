@@ -474,16 +474,41 @@
 						<property>autopilot/internal/flight-director-engaged</property>
 					</or>
 					<or>
+                        <!-- NAV -->
 						<and>
 							<equals>
 								<property>controls/autoflight/lat-mode</property>
 								<value>2</value>
 							</equals>
-							<greater-than>
-								<property>instrumentation/nav[0]/nav-distance</property>
-								<value>1852</value>
-							</greater-than>
+                            <or>
+                                <and>
+                                    <greater-than>
+                                        <property>instrumentation/nav[0]/nav-distance</property>
+                                        <value>1852</value>
+                                    </greater-than>
+                                    <equals>
+                                        <property>controls/autoflight/nav-source</property>
+                                        <value>0</value>
+                                    </equals>
+                                </and>
+                                <and>
+                                    <greater-than>
+                                        <property>instrumentation/nav[1]/nav-distance</property>
+                                        <value>1852</value>
+                                    </greater-than>
+                                    <equals>
+                                        <property>controls/autoflight/nav-source</property>
+                                        <value>1</value>
+                                    </equals>
+                                </and>
+                                <equals>
+                                    <property>controls/autoflight/nav-source</property>
+                                    <value>2</value>
+                                </equals>
+                            </or>
 						</and>
+
+                        <!-- APPR -->
 						<equals>
 							<property>controls/autoflight/lat-mode</property>
 							<value>3</value>
