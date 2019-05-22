@@ -524,6 +524,14 @@
 					<value>0</value>
 				</equals>
 				<property>instrumentation/nav[0]/data-is-valid</property>
+                <less-than>
+                    <property>instrumentation/nav[0]/heading-needle-deflection-norm</property>
+                    <value>0.999</value>
+                </less-than>
+                <greater-than>
+                    <property>instrumentation/nav[0]/heading-needle-deflection-norm</property>
+                    <value>-0.999</value>
+                </greater-than>
 			</condition>
 			<property>autopilot/internal/nav1-heading-error-deg</property>
 		</input>
@@ -534,6 +542,14 @@
 					<value>1</value>
 				</equals>
 				<property>instrumentation/nav[1]/data-is-valid</property>
+                <less-than>
+                    <property>instrumentation/nav[1]/heading-needle-deflection-norm</property>
+                    <value>0.999</value>
+                </less-than>
+                <greater-than>
+                    <property>instrumentation/nav[1]/heading-needle-deflection-norm</property>
+                    <value>-0.999</value>
+                </greater-than>
 			</condition>
 			<property>autopilot/internal/nav2-heading-error-deg</property>
 		</input>
