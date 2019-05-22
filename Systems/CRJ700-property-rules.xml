@@ -585,6 +585,22 @@
         </output>
     </filter>
 	<logic>
+		<name>Stall alarm</name>
+		<input>
+            <and>
+                <!-- indicated Vs by flap setting-->
+                <less-than>
+                    <property>instrumentation/airspeed-indicator[0]/indicated-speed-kt</property>
+                    <property>instrumentation/adc/reference/vs</property>
+                </less-than>
+                <not>
+                    <property>gear/on-ground</property>
+                </not>
+            </and>
+		</input>
+		<output>sim/alarms/stall-warning</output>
+	</logic>
+	<logic>
 		<name>Master caution alarm</name>
 		<input>
 			<or>

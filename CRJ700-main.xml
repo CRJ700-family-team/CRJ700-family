@@ -209,6 +209,7 @@
 			<master-warning type="bool">false</master-warning>
 			<overspeed-warning type="bool">false</overspeed-warning>
 			<altitude-alert type="bool">false</altitude-alert>
+            <stall-warning type="bool">false</stall-warning>
 		</alarms>
 		
 		<dimensions>
