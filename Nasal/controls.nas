@@ -197,6 +197,21 @@ var cycleSpeedButton = func()
     }
 }
 
+var cycleSpeedMode = func()
+{
+    var mode = getprop("controls/autoflight/speed-mode");
+    if (mode == 0) {
+        setprop("controls/autoflight/mach-select",
+            getprop("instrumentation/airspeed-indicator/indicated-mach"));
+        setprop("controls/autoflight/speed-mode", 1);
+    }
+    else {
+        setprop("controls/autoflight/speed-select",
+            getprop("instrumentation/airspeed-indicator/indicated-speed-kt"));
+        setprop("controls/autoflight/speed-mode", 0);
+    }
+}
+
 #-- slats/flaps handling --
 # wrap default handler:
 # flaps cmd > 0.022 (= 1 deg) will be postponed until slats are fully extended

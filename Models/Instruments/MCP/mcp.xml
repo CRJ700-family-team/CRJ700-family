@@ -547,10 +547,13 @@
 			<button>0</button>
 			<repeatable type="bool">false</repeatable>
 			<binding>
-				<command>property-cycle</command>
+				<command>nasal</command>
+                <script>controls.cycleSpeedMode()</script>
+                <!--
 				<property>controls/autoflight/speed-mode</property>
 				<value>0</value>
 				<value>1</value>
+                -->
 			</binding>
 		</action>
 	</animation>
