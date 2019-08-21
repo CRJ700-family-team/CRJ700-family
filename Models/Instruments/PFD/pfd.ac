@@ -63,7 +63,7 @@ kids 0
 OBJECT poly
 name "AIPtr"
 loc 0.0003586 0.0203174 0.0001179
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 5
 0 0.0035989 4.00003e-007
@@ -126,7 +126,7 @@ kids 0
 OBJECT poly
 name "AltPtr"
 loc 0.0003 0.02434 -0.0556185
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 16
 0 0.0057375 0.0055465
@@ -192,7 +192,7 @@ kids 0
 OBJECT poly
 name "AltRadarPtr"
 loc 0.0003 0.02434 -0.0412037
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 8
 0 0.0017667 0.002984
@@ -626,7 +626,7 @@ kids 0
 OBJECT poly
 name "DHptr"
 loc 0.0002631 0.02434 -0.0394766
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 8
 0 0.0015801 0.000137102
@@ -673,7 +673,7 @@ kids 0
 OBJECT poly
 name "FD"
 loc 0.000617584 0.0214858 0.0001184
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 6
 0 0.0001351 0.0249087
@@ -720,7 +720,7 @@ kids 0
 OBJECT poly
 name "GSPtr"
 loc 0.000538 0.0243413 -0.0334748
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 8
 0 2.99886e-007 0.0029493
@@ -763,7 +763,7 @@ refs 4
 kids 0
 OBJECT poly
 name "HdgFrame"
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 4
 0.00027 -0.094469 -0.037484
@@ -781,7 +781,7 @@ refs 4
 kids 0
 OBJECT poly
 name "HdgPtr"
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 3
 0.00018 -0.024344 0.002812
@@ -797,7 +797,7 @@ refs 3
 kids 0
 OBJECT poly
 name "HSI"
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 17
 0.0001 -0.088607 -0.025866
@@ -974,7 +974,7 @@ kids 0
 OBJECT poly
 name "ILSPtr"
 loc 0.000538 -0.0062027 0.0001185
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 8
 0 -0.0025643 9e-007
@@ -1301,7 +1301,7 @@ kids 0
 OBJECT poly
 name "Off"
 loc 0.001 0 0
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 4
 0.00064 -0.089904 -0.071587
@@ -1339,7 +1339,7 @@ kids 0
 OBJECT poly
 name "Pitch"
 loc 0.0002631 0.0243407 0.0001179
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 4
 0 0.0344976 -0.037587
@@ -1535,7 +1535,7 @@ kids 0
 OBJECT poly
 name "Roll"
 loc 0.0003494 0.0503551 0.0001045
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 24
 0 -0.0081984 -0.024422
@@ -1669,7 +1669,7 @@ kids 0
 OBJECT poly
 name "RollPtr"
 loc 0.0003526 0.0498783 0.0001184
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 3
 0 -0.0016405 -0.0031972
@@ -1761,7 +1761,7 @@ kids 0
 OBJECT poly
 name "SpdPtr"
 loc 0.00045 0.0236892 0.0483389
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 3
 0 0.0025852 -0.0015807
@@ -1867,7 +1867,7 @@ kids 0
 OBJECT poly
 name "VNAVAdvise"
 loc 0.0003009 -0.0556802 -0.046266
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 4
 0 0.0025931 -0.0025936
@@ -1886,7 +1886,7 @@ kids 0
 OBJECT poly
 name "VNAVPtr"
 loc 0.000538 0.0243413 -0.0334748
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 8
 0 2.99886e-007 0.0029493
@@ -1930,7 +1930,7 @@ kids 0
 OBJECT poly
 name "VrefMask"
 loc 0.0003 -0.0296627 0.0570039
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 4
 0.0001199 -0.0184641 -0.0121643
@@ -1949,7 +1949,7 @@ kids 0
 OBJECT poly
 name "VS"
 loc 0.0002736 -0.055886 -0.0555649
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 6
 0 0.0260081 0.000754099
@@ -1982,7 +1982,7 @@ kids 0
 OBJECT poly
 name "VSPtr"
 loc 0.0003555 -0.0556606 -0.053109
-texture "pfd.png"
+texture "pfd2.png"
 crease 45.000000
 numvert 7
 0 -0.0009165 0.000505701
