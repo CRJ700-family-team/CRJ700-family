@@ -115,17 +115,17 @@
 		<name>Radar Sector</name>
 		<path>Models/Instruments/MFD/radarSector.xml</path>
 		<top-left>
-			<x-m>-0.0001</x-m>
+			<x-m>0.0001</x-m>
 			<y-m>-0.07338</y-m>
 			<z-m>0.04567</z-m>
 		</top-left>
 		<bottom-left>
-			<x-m>-0.0001</x-m>
+			<x-m>0.0001</x-m>
 			<y-m>-0.07338</y-m>
 			<z-m>-0.09105</z-m>
 		</bottom-left>
 		<bottom-right>
-			<x-m>-0.0001</x-m>
+			<x-m>0.0001</x-m>
 			<y-m>0.07338</y-m>
 			<z-m>-0.09105</z-m>
 		</bottom-right>
