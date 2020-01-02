@@ -522,4 +522,5 @@
 			</test>
 			<output>/sim/model/autopush/available</output>
 		</switch>
+	</channel>
 </system>
