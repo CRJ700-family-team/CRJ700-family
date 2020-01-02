@@ -15,6 +15,41 @@ See LICENSE .
 
 Initial version and FDM and model made Ryan "Skyop" Miller.
 
+### Various updates in 2019
+
+Tobias Dammers (a.k.a. tdammers / nl256):
+
+* PFD/MFD overhaul:
+  - Improved PFD textures
+  - fixed PFD altimeter
+  - MFD overhaul; improved graphics, textures, fixed rendering bugs
+  - correct barber poles for high-speed and low-speed limits
+  - HSI headings fixed
+* FDM:
+  - engine FDM tweaks
+  - Fixed stabilizer logic
+  - (partially) fixed cargo weights
+* Autopilot & FADEC:
+  - Autopilot Mach/Knots toggle
+  - SPD CLB/DES modes
+  - turn anticipation
+  - throttle lever logic (lower half = manual, upper half = MAX/TOGA/CLB
+    detents)
+  - better A/P LNAV
+* Model:
+  - MP fallback model
+  - fixed cargo door animations
+* Misc:
+  - stall warning light
+  - standby instrument no longer ridiculously inaccurate
+  - automatically calculate Vref (dialog only)
+
+Joshua Davidson (Octal450, formerly known as it0uchpods)
+
+* Yoke backdriving
+* Autopilot improvements and fixes
+* Yaw dampers
+
 ###Major overhaul 2015 by D-JSB and Daniel M.
 * New electrical AC and DC system
 * Added hydraulic system
