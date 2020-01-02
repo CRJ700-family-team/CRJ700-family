@@ -81,19 +81,6 @@
 		<name>Interior</name>
 		<path>Interior/CRJ700-interior.xml</path>
 	</model>
-	<!-- Pushback -->
-	<model>
-		<name>Pushback</name>
-		<path>Pushback/Goldhofert.xml</path>
-		<condition>
-			 <property>sim/hitches/aerotow/is-slave</property>
-		</condition>
-		<offsets>
-			<x-m>-14.233</x-m>
-			<y-m>0</y-m>
-			<z-m>-3.459</z-m>
-		</offsets>
-	</model>
 	<!-- Lights -->
 	<model>
 		<name>Port nav light</name>

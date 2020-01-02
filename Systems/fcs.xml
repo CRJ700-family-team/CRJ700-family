@@ -243,8 +243,20 @@
 			<test value="fcs/autopush-steer-deg">
 				/sim/model/autopush/connected eq 1
 			</test>
-			<output>fcs/steer-cmd-norm</output>
+			<output>fcs/steer-cmd-deg</output>
 		</switch>
+		<aerosurface_scale>
+			<input>fcs/steer-cmd-deg</input>
+			<domain>
+				<min>-80 </min>
+				<max> 80 </max>
+			</domain>
+			<range>
+				<min> -1 </min>
+				<max> 1 </max>
+			</range>
+			<output>fcs/steer-cmd-norm</output>
+		</aerosurface_scale>
 		<switch name="fcs/gear-no-wow">
 			<default value="1"/>
 			<test logic="AND" value="0">
@@ -501,4 +513,13 @@
 			<output>/surface-positions/slat-pos-norm</output>
 		</pure_gain>
 	</channel>
+	<channel name="Pushback">
+		<switch>
+			<default value="1"/>
+			<test value="0" logic="OR">
+				velocities/vg-fps gt 80
+				gear/unit[0]/WOW ne 1
+			</test>
+			<output>/sim/model/autopush/available</output>
+		</switch>
 </system>

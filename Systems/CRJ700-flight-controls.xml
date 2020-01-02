@@ -1170,10 +1170,7 @@
 							<value>20</value>
 						</greater-than>
 					</or>
-					<or>
-						<property>sim/model/pushback/linked</property>
-						<property>controls/gear/enable-tiller</property>
-					</or>
+					<property>controls/gear/enable-tiller</property>
 				</and>
 			</condition>
 		</enable>
@@ -1201,10 +1198,7 @@
 						</expression>
 						<value>8</value>
 					</less-than-equals>
-					<or>
-						<property>sim/model/pushback/linked</property>
-						<property>controls/gear/enable-tiller</property>
-					</or>
+					<property>controls/gear/enable-tiller</property>
 					<less-than-equals>
 						<property>/velocities/groundspeed-kt</property>
 						<value>20</value>
@@ -1233,10 +1227,7 @@
 						</expression>
 						<value>8</value>
 					</greater-than>
-					<or>
-						<property>sim/model/pushback/linked</property>
-						<property>controls/gear/enable-tiller</property>
-					</or>
+					<property>controls/gear/enable-tiller</property>
 					<property>gear/gear[0]/wow</property>
 				</and>
 			</condition>
@@ -1272,10 +1263,7 @@
 							</expression>
 						</greater-than-equals>
 					</or>
-					<or>
-						<property>systems/hydraulic/outputs/nwsteering</property>
-						<property>sim/model/pushback/linked</property>
-					</or>
+					<property>systems/hydraulic/outputs/nwsteering</property>
 				</and>
 			</condition>
 		</enable>
@@ -1308,10 +1296,7 @@
 							</expression>
 						</greater-than>
 					</and>
-					<or>
-						<property>systems/hydraulic/outputs/nwsteering</property>
-						<property>sim/model/pushback/linked</property>
-					</or>
+					<property>systems/hydraulic/outputs/nwsteering</property>
 				</and>
 			</condition>
 		</enable>
