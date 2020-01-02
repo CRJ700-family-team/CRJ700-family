@@ -1,0 +1,16 @@
+Airport Planning Manual 
+	https://customer.aero.bombardier.com/webd/BAG/CustSite/BRAD/RACSDocument.nsf/51aae8b2b3bfdf6685256c300045ff31/ec63f8639ff3ab9d85257c1500635bd8/$FILE/ATTE8Q23.pdf/CRJ700APMR15.pdf (CRJ700)
+	https://customer.aero.bombardier.com/webd/BAG/CustSite/BRAD/RACSDocument.nsf/51aae8b2b3bfdf6685256c300045ff31/ec63f8639ff3ab9d85257c1500635bd8/$FILE/ATTQF1EY.pdf/CRJ900APMR11.pdf (CRJ900)
+	https://customer.aero.bombardier.com/webd/BAG/CustSite/BRAD/RACSDocument.nsf/51aae8b2b3bfdf6685256c300045ff31/ec63f8639ff3ab9d85257c1500635bd8/$FILE/ATT82VLY.pdf/CRJ1000APMR8.pdf (CRJ1000)
+SkyWest Factsheet CRJ700
+	https://www.skywest.com/assets/Uploads/FleetImages/FactSheet-CRJ700-DL-65-69-70.pdf
+FCOM - Fuel System
+	http://www.smartcockpit.com/docs/CRJ-00_and_00-Fuel_System.pdf
+Aircraft Drag Polar Estimation Based on a Stochastic Hierarchical Model
+	https://www.sesarju.eu/sites/default/files/documents/sid/2018/papers/SIDs_2018_paper_75.pdf
+DEVELOPMENT OF HIGH-LIFT SYSTEMS FOR THE BOMBARDIER CRJ-700
+	http://icas.org/ICAS_ARCHIVE/ICAS2002/PAPERS/3101.PDF
+CRJ Series Brochure
+	https://commercialaircraft.bombardier.com/themes/bca/pdf/Bombardier_CRJ_Series_Brochure.pdf
+Wikipedia: Bombardier CRJ700 series
+	https://en.wikipedia.org/wiki/Bombardier_CRJ700_series

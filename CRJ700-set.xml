@@ -17,13 +17,13 @@
 		</mass-and-balance>		
 	</limits>
     <sim include="crj700-views.xml">
-        <description>Bombardier CRJ700 (with tutorials)</description>
+        <description>Bombardier CRJ700</description>
         <author>Ryan Miller, Henning S.</author>
         <status>production</status>
         <aircraft-version>1.5.2</aircraft-version>
 		
-        <flight-model>yasim</flight-model>
-        <aero>CRJ700</aero>
+        <flight-model>jsb</flight-model>
+        <aero>CRJ700_jsb</aero>
 
         <model>
             <path>Aircraft/CRJ700-family/Models/CRJ700.xml</path>

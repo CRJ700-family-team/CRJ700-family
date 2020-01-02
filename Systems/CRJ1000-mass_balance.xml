@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+ <!--
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    -->
+	<!-- for references, see fdm_references.txt -->
+	<mass_balance>
+		<ixx unit="SLUG*FT2">	160000.00	</ixx>
+		<iyy unit="SLUG*FT2">	557135.38	</iyy>
+		<izz unit="SLUG*FT2">	602601.44	</izz>
+		<emptywt unit="LBS">	51120		</emptywt> <!-- Operating Empty Weight -->
+		<location name="CG" unit="M">
+			<x>     1.4  </x>
+			<y>     0.00 </y>
+			<z>   -1.242 </z>
+		</location>
+		<pointmass name="Crew">
+			<weight unit="KG"> 180 </weight>
+			<location name="POINTMASS" unit="M">
+				<x>   -15.0  </x>
+				<y>     0.0 </y>
+				<z>    -1.0 </z>
+			</location>
+		</pointmass>
+		<pointmass name="PAX">
+			<weight unit="KG"> 500 </weight>
+			<location name="POINTMASS" unit="M">
+				<x>    -3.5  </x>
+				<y>     0.0 </y>
+				<z>    -1.0 </z>
+			</location>
+		</pointmass>
+		<pointmass name="Main Cargo">
+			<weight unit="KG"> 200 </weight>
+			<location name="POINTMASS" unit="M">
+				<x>    -5.0  </x>
+				<y>     0.0 </y>
+				<z>    -2.0 </z>
+			</location>
+		</pointmass>
+		<pointmass name="Aft Cargo">
+			<weight unit="KG"> 100 </weight>
+			<location name="POINTMASS" unit="M">
+				<x>     5.0  </x>
+				<y>     0.0 </y>
+				<z>    -2.0 </z>
+			</location>
+		</pointmass>
+	</mass_balance>

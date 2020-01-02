@@ -420,7 +420,7 @@
 		<type>rotate</type>
 		<object-name>AileronL</object-name>
 		<object-name>AileronLWire</object-name>
-		<property>surface-positions/left-aileron-pos-norm</property>
+		<property>fdm/jsbsim/fcs/left-aileron-pos-norm</property>
 		<factor>20</factor>
 		<axis>
 			<x1-m>3.334</x1-m>
@@ -436,8 +436,8 @@
 		<type>rotate</type>
 		<object-name>AileronR</object-name>
 		<object-name>AileronRWire</object-name>
-		<property>surface-positions/right-aileron-pos-norm</property>
-		<factor>20</factor>
+		<property>fdm/jsbsim/fcs/right-aileron-pos-norm</property>
+		<factor>-20</factor>
 		<axis>
 			<x1-m>2.643</x1-m>
 			<y1-m>8.133</y1-m>
@@ -727,7 +727,7 @@
 		<name>Left elevator</name>
 		<type>rotate</type>
 		<object-name>ElevatorL</object-name>
-		<property>fcs/elevator-cmd-norm</property>
+		<property>fdm/jsbsim/fcs/elevator-pos-norm</property>
 		<factor>15</factor>
 		<axis>
 			<x1-m>15.66</x1-m>
@@ -742,7 +742,7 @@
 		<name>Right elevator</name>
 		<type>rotate</type>
 		<object-name>ElevatorR</object-name>
-		<property>fcs/elevator-cmd-norm</property>
+		<property>fdm/jsbsim/fcs/elevator-pos-norm</property>
 		<factor>15</factor>
 		<axis>
 			<x1-m>14.291</x1-m>

@@ -1,10 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Bombardier CRJ700 series -->
 <!-- Flight controls -->
-
 <PropertyList>
-
 	<!-- Ailerons -->
 	<filter>
 		<name>Autopilot aileron controller</name>
@@ -88,20 +85,6 @@
 		</input>
 		<output>fcs/aileron-yoke-norm</output>
 	</filter>
-	
-	<filter>
-		<name>Aileron final</name>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<enable>
-			<condition>
-				<property>systems/hydraulic/outputs/aileron</property>
-			</condition>
-		</enable>
-		<input>fcs/aileron-yoke-norm</input>
-		<output>fcs/aileron-cmd-norm</output>
-	</filter>
-
 	<!-- Rudder -->
 	<filter>
 		<name>Yaw damper rudder controller (pilot input)</name>
@@ -285,20 +268,6 @@
 		</input>
 		<output>fcs/rudder-pedal-norm</output>
 	</filter>
-	
-	<filter>
-		<name>Rudder final</name>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<enable>
-			<condition>
-				<property>systems/hydraulic/outputs/rudder</property>
-			</condition>
-		</enable>
-		<input>fcs/rudder-pedal-norm</input>
-		<output>fcs/rudder-cmd-norm</output>
-	</filter>
-	
 	<!-- Elevators -->
 	<filter>
 		<name>Autopilot elevator controller</name>
@@ -383,20 +352,6 @@
 		</input>
 		<output>fcs/elevator-yoke-norm</output>
 	</filter>
-	
-	<filter>
-		<name>Elevator final</name>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<enable>
-			<condition>
-				<property>systems/hydraulic/outputs/elevator</property>
-			</condition>
-		</enable>
-		<input>fcs/elevator-yoke-norm</input>
-		<output>fcs/elevator-cmd-norm</output>
-	</filter>
-	
 	<!-- Spoilers -->
 	<!-- In real life, automatic ground spoiler deployment is based on throttle position, radio altitude, wheel speed, and weight-on-wheels; since the flight manual is extremely vague about this, the following logic is used -->
 	<logic>
@@ -446,14 +401,16 @@
 				<and>
 					<equals>
 						<property>controls/flight/ground-lift-dump</property>
-						<value>2</value><!-- manual arm -->
+						<value>2</value>
+						<!-- manual arm -->
 					</equals>
 					<property>controls/flight/speedbrake</property>
 				</and>
 				<and>
 					<equals>
 						<property>controls/flight/ground-lift-dump</property>
-						<value>1</value> <!-- auto arm -->
+						<value>1</value>
+						<!-- auto arm -->
 					</equals>
 					<property>controls/flight/spoilers-ground-auto-cmd</property>
 				</and>
@@ -461,308 +418,201 @@
 		</input>
 		<output>controls/flight/spoilers-ground-cmd</output>
 	</logic>
-	<filter>
-		<name>Ground spoilers controller</name>
-		<type>noise-spike</type>
-		<debug type="bool">false</debug>
-		<max-rate-of-change>1</max-rate-of-change>
-		<input>
-			<expression>
-				<product>
-					<property>controls/flight/spoilers-ground-cmd</property>
-					<div>
-						<sum>
-							<property>systems/hydraulic/outputs/ob-ground-spoiler</property>
-							<property>systems/hydraulic/outputs/ib-ground-spoiler</property>
-						</sum>
-						<value>2</value>
-					</div>
-				</product>
-			</expression>
-		</input>
-		<output>surface-positions/spoiler-ground-pos-norm</output>
-	</filter>
-	<!-- In real life, proportional lift dumping (spoilerons) is based on Mach speed and flap position; since the flight manual is extremely vague about this, none of those are considered -->
-	<filter>
-		<name>Left spoileron controller</name>
-		<type>gain</type>
-		<debug type="bool">false</debug>
-		<gain>1</gain>
-		<enable>
-			<condition>
-				<or>
-					<property>systems/hydraulic/outputs/ob-spoileron</property>
-					<property>systems/hydraulic/outputs/ib-spoileron</property>
-				</or>
-			</condition>
-		</enable>
-		<input>
-			<expression>
-				<table>
-					<property>fcs/aileron-cmd-norm</property>
-					<entry><ind>-1</ind><dep>0.5</dep></entry>
-					<entry><ind>0</ind><dep>0</dep></entry>
-					<entry><ind>1</ind><dep>0</dep></entry>
-				</table>
-			</expression>
-		</input>
-		<output>controls/flight/left-speedbrake-aileron-cmd-norm</output>
-	</filter>
-	<filter>
-		<name>Right spoileron controller</name>
-		<type>gain</type>
-		<debug type="bool">false</debug>
-		<gain>1</gain>
-		<enable>
-			<condition>
-				<or>
-					<property>systems/hydraulic/outputs/ob-spoileron</property>
-					<property>systems/hydraulic/outputs/ib-spoileron</property>
-				</or>
-			</condition>
-		</enable>
-		<input>
-			<expression>
-				<table>
-					<property>fcs/aileron-cmd-norm</property>
-					<entry><ind>-1</ind><dep>0</dep></entry>
-					<entry><ind>0</ind><dep>0</dep></entry>
-					<entry><ind>1</ind><dep>0.5</dep></entry>
-				</table>
-			</expression>
-		</input>
-		<output>controls/flight/right-speedbrake-aileron-cmd-norm</output>
-	</filter>
-	<filter>
-		<name>Left speedbrake controller</name>
-		<type>noise-spike</type>
-		<debug type="bool">false</debug>
-		<max-rate-of-change>1</max-rate-of-change>
-		<input>
-			<expression>
-				<max>
-					<property>controls/flight/speedbrake</property>
-					<property>controls/flight/spoilers-ground-cmd</property>
-					<property>controls/flight/left-speedbrake-aileron-cmd-norm</property>
-				</max>
-			</expression>
-		</input>
-		<output>surface-positions/left-speedbrake-pos-norm</output>
-	</filter>
-	<filter>
-		<name>Right speedbrake controller</name>
-		<type>noise-spike</type>
-		<debug type="bool">false</debug>
-		<max-rate-of-change>1</max-rate-of-change>
-		<input>
-			<expression>
-				<max>
-					<property>controls/flight/speedbrake</property>
-					<property>controls/flight/spoilers-ground-cmd</property>
-					<property>controls/flight/right-speedbrake-aileron-cmd-norm</property>
-				</max>
-			</expression>
-		</input>
-		<output>surface-positions/right-speedbrake-pos-norm</output>
-	</filter>
-
 	<!-- Throttles/FADEC thrust modes -->
-    <filter>
-        <name>Engine 1: variable thrust mode</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <enable>
-            <condition>
-                <and>
-                    <less-than-equals>
-                        <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.5</value>
-                    </less-than-equals>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>0</value>
-        </input>
-        <output>
-            <property>controls/engines/engine[0]/thrust-mode</property>
-        </output>
-    </filter>
-    <filter>
-        <name>Engine 2: variable thrust mode</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <enable>
-            <condition>
-                <and>
-                    <less-than-equals>
-                        <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.5</value>
-                    </less-than-equals>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>0</value>
-        </input>
-        <output>
-            <property>controls/engines/engine[1]/thrust-mode</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>Engine 1: CLB thrust mode</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <enable>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.5</value>
-                    </greater-than>
-                    <less-than-equals>
-                        <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.7</value>
-                    </less-than-equals>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>1</value>
-        </input>
-        <output>
-            <property>controls/engines/engine[0]/thrust-mode</property>
-        </output>
-    </filter>
-    <filter>
-        <name>Engine 1: TO/GA thrust mode</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <enable>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.7</value>
-                    </greater-than>
-                    <less-than-equals>
-                        <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.9</value>
-                    </less-than-equals>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>2</value>
-        </input>
-        <output>
-            <property>controls/engines/engine[0]/thrust-mode</property>
-        </output>
-    </filter>
-    <filter>
-        <name>Engine 1: MAX thrust mode</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <enable>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.9</value>
-                    </greater-than>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>3</value>
-        </input>
-        <output>
-            <property>controls/engines/engine[0]/thrust-mode</property>
-        </output>
-    </filter>
-    <filter>
-        <name>Engine 2: CLB thrust mode</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <enable>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.5</value>
-                    </greater-than>
-                    <less-than-equals>
-                        <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.7</value>
-                    </less-than-equals>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>1</value>
-        </input>
-        <output>
-            <property>controls/engines/engine[1]/thrust-mode</property>
-        </output>
-    </filter>
-    <filter>
-        <name>Engine 2: TO/GA thrust mode</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <enable>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.7</value>
-                    </greater-than>
-                    <less-than-equals>
-                        <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.9</value>
-                    </less-than-equals>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>2</value>
-        </input>
-        <output>
-            <property>controls/engines/engine[1]/thrust-mode</property>
-        </output>
-    </filter>
-    <filter>
-        <name>Engine 2: MAX thrust mode</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <enable>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.9</value>
-                    </greater-than>
-                </and>
-            </condition>
-        </enable>
-        <input>
-            <value>3</value>
-        </input>
-        <output>
-            <property>controls/engines/engine[1]/thrust-mode</property>
-        </output>
-    </filter>
-
+	<filter>
+		<name>Engine 1: variable thrust mode</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<and>
+					<less-than-equals>
+						<property>controls/engines/engine[0]/throttle</property>
+						<value>0.5</value>
+					</less-than-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<value>0</value>
+		</input>
+		<output>
+			<property>controls/engines/engine[0]/thrust-mode</property>
+		</output>
+	</filter>
+	<filter>
+		<name>Engine 2: variable thrust mode</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<and>
+					<less-than-equals>
+						<property>controls/engines/engine[1]/throttle</property>
+						<value>0.5</value>
+					</less-than-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<value>0</value>
+		</input>
+		<output>
+			<property>controls/engines/engine[1]/thrust-mode</property>
+		</output>
+	</filter>
+	<filter>
+		<name>Engine 1: CLB thrust mode</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<and>
+					<greater-than>
+						<property>controls/engines/engine[0]/throttle</property>
+						<value>0.5</value>
+					</greater-than>
+					<less-than-equals>
+						<property>controls/engines/engine[0]/throttle</property>
+						<value>0.7</value>
+					</less-than-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<value>1</value>
+		</input>
+		<output>
+			<property>controls/engines/engine[0]/thrust-mode</property>
+		</output>
+	</filter>
+	<filter>
+		<name>Engine 1: TO/GA thrust mode</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<and>
+					<greater-than>
+						<property>controls/engines/engine[0]/throttle</property>
+						<value>0.7</value>
+					</greater-than>
+					<less-than-equals>
+						<property>controls/engines/engine[0]/throttle</property>
+						<value>0.9</value>
+					</less-than-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<value>2</value>
+		</input>
+		<output>
+			<property>controls/engines/engine[0]/thrust-mode</property>
+		</output>
+	</filter>
+	<filter>
+		<name>Engine 1: MAX thrust mode</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<and>
+					<greater-than>
+						<property>controls/engines/engine[0]/throttle</property>
+						<value>0.9</value>
+					</greater-than>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<value>3</value>
+		</input>
+		<output>
+			<property>controls/engines/engine[0]/thrust-mode</property>
+		</output>
+	</filter>
+	<filter>
+		<name>Engine 2: CLB thrust mode</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<and>
+					<greater-than>
+						<property>controls/engines/engine[1]/throttle</property>
+						<value>0.5</value>
+					</greater-than>
+					<less-than-equals>
+						<property>controls/engines/engine[1]/throttle</property>
+						<value>0.7</value>
+					</less-than-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<value>1</value>
+		</input>
+		<output>
+			<property>controls/engines/engine[1]/thrust-mode</property>
+		</output>
+	</filter>
+	<filter>
+		<name>Engine 2: TO/GA thrust mode</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<and>
+					<greater-than>
+						<property>controls/engines/engine[1]/throttle</property>
+						<value>0.7</value>
+					</greater-than>
+					<less-than-equals>
+						<property>controls/engines/engine[1]/throttle</property>
+						<value>0.9</value>
+					</less-than-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<value>2</value>
+		</input>
+		<output>
+			<property>controls/engines/engine[1]/thrust-mode</property>
+		</output>
+	</filter>
+	<filter>
+		<name>Engine 2: MAX thrust mode</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<and>
+					<greater-than>
+						<property>controls/engines/engine[1]/throttle</property>
+						<value>0.9</value>
+					</greater-than>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<value>3</value>
+		</input>
+		<output>
+			<property>controls/engines/engine[1]/thrust-mode</property>
+		</output>
+	</filter>
 	<!-- Autothrottle -->
-    <!-- The real CRJ700 doesn't have an autothrottle, but for convenience,
+	<!-- The real CRJ700 doesn't have an autothrottle, but for convenience,
          we add one, using the following logic:
 
          - If the throttle lever is in the "variable" range, match selected
@@ -791,10 +641,10 @@
 						<property>controls/engines/engine[0]/thrust-mode</property>
 						<value>0</value>
 					</equals>
-                    <greater-than>
-                        <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.01</value>
-                    </greater-than>
+					<greater-than>
+						<property>controls/engines/engine[0]/throttle</property>
+						<value>0.01</value>
+					</greater-than>
 				</and>
 			</condition>
 		</enable>
@@ -802,8 +652,14 @@
 			<expression>
 				<table>
 					<property>fcs/autopilot/throttle-cmd-norm</property>
-					<entry><ind>0</ind><dep>0</dep></entry>
-					<entry><ind>1</ind><dep>0.92</dep></entry>
+					<entry>
+						<ind>0</ind>
+						<dep>0</dep>
+					</entry>
+					<entry>
+						<ind>1</ind>
+						<dep>0.92</dep>
+					</entry>
 				</table>
 			</expression>
 		</input>
@@ -822,10 +678,10 @@
 						<property>controls/engines/engine[1]/thrust-mode</property>
 						<value>0</value>
 					</equals>
-                    <greater-than>
-                        <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.01</value>
-                    </greater-than>
+					<greater-than>
+						<property>controls/engines/engine[1]/throttle</property>
+						<value>0.01</value>
+					</greater-than>
 				</and>
 			</condition>
 		</enable>
@@ -833,14 +689,19 @@
 			<expression>
 				<table>
 					<property>fcs/autopilot/throttle-cmd-norm</property>
-					<entry><ind>0</ind><dep>0</dep></entry>
-					<entry><ind>1</ind><dep>0.92</dep></entry>
+					<entry>
+						<ind>0</ind>
+						<dep>0</dep>
+					</entry>
+					<entry>
+						<ind>1</ind>
+						<dep>0.92</dep>
+					</entry>
 				</table>
 			</expression>
 		</input>
 		<output>fcs/throttle-cmd-norm[1]</output>
 	</filter>
-
 	<!-- 0 : Manual control -->
 	<!-- Interpolates the user's throttles between 0% and 92% -->
 	<filter>
@@ -851,19 +712,19 @@
 		<enable>
 			<condition>
 				<and>
-                    <or>
-                        <not>
-                            <property>autopilot/internal/autothrottle-engaged</property>
-                        </not>
-                        <less-than-equals>
-                            <property>controls/engines/engine[0]/throttle</property>
-                            <value>0.01</value>
-                        </less-than-equals>
-                    </or>
-                    <equals>
-                        <property>controls/engines/engine[0]/thrust-mode</property>
-                        <value>0</value>
-                    </equals>
+					<or>
+						<not>
+							<property>autopilot/internal/autothrottle-engaged</property>
+						</not>
+						<less-than-equals>
+							<property>controls/engines/engine[0]/throttle</property>
+							<value>0.01</value>
+						</less-than-equals>
+					</or>
+					<equals>
+						<property>controls/engines/engine[0]/thrust-mode</property>
+						<value>0</value>
+					</equals>
 					<or>
 						<not>
 							<property>fcs/copilot/active</property>
@@ -886,11 +747,11 @@
 		</enable>
 		<input>
 			<expression>
-                <product>
-                    <property>instrumentation/fms/clb-maximum-n1</property>
+				<product>
+					<property>instrumentation/fms/clb-maximum-n1</property>
 					<property>controls/engines/engine[0]/throttle</property>
-                    <value>0.02</value>
-                </product>
+					<value>0.02</value>
+				</product>
 			</expression>
 		</input>
 		<output>fcs/throttle-cmd-norm[0]</output>
@@ -904,15 +765,15 @@
 			<condition>
 				<and>
 					<property>fcs/copilot/active</property>
-                    <or>
-                        <not>
-                            <property>autopilot/internal/autothrottle-engaged</property>
-                        </not>
-                        <less-than-equals>
-                            <property>controls/engines/engine[1]/throttle</property>
-                            <value>0.01</value>
-                        </less-than-equals>
-                    </or>
+					<or>
+						<not>
+							<property>autopilot/internal/autothrottle-engaged</property>
+						</not>
+						<less-than-equals>
+							<property>controls/engines/engine[1]/throttle</property>
+							<value>0.01</value>
+						</less-than-equals>
+					</or>
 					<equals>
 						<property>controls/engines/engine[0]/thrust-mode</property>
 						<value>0</value>
@@ -934,11 +795,11 @@
 		</enable>
 		<input>
 			<expression>
-                <product>
-                    <property>instrumentation/fms/clb-maximum-n1</property>
+				<product>
+					<property>instrumentation/fms/clb-maximum-n1</property>
 					<property>fcs/copilot/throttle-cmd-norm[0]</property>
-                    <value>0.02</value>
-                </product>
+					<value>0.02</value>
+				</product>
 			</expression>
 		</input>
 		<output>fcs/throttle-cmd-norm[0]</output>
@@ -951,15 +812,15 @@
 		<enable>
 			<condition>
 				<and>
-                    <or>
-                        <not>
-                            <property>autopilot/internal/autothrottle-engaged</property>
-                        </not>
-                        <less-than-equals>
-                            <property>controls/engines/engine[1]/throttle</property>
-                            <value>0.01</value>
-                        </less-than-equals>
-                    </or>
+					<or>
+						<not>
+							<property>autopilot/internal/autothrottle-engaged</property>
+						</not>
+						<less-than-equals>
+							<property>controls/engines/engine[1]/throttle</property>
+							<value>0.01</value>
+						</less-than-equals>
+					</or>
 					<equals>
 						<property>controls/engines/engine[1]/thrust-mode</property>
 						<value>0</value>
@@ -986,11 +847,11 @@
 		</enable>
 		<input>
 			<expression>
-                <product>
-                    <property>instrumentation/fms/clb-maximum-n1</property>
+				<product>
+					<property>instrumentation/fms/clb-maximum-n1</property>
 					<property>controls/engines/engine[1]/throttle</property>
-                    <value>0.02</value>
-                </product>
+					<value>0.02</value>
+				</product>
 			</expression>
 		</input>
 		<output>fcs/throttle-cmd-norm[1]</output>
@@ -1028,17 +889,53 @@
 		</enable>
 		<input>
 			<expression>
-                <product>
-                    <property>instrumentation/fms/clb-maximum-n1</property>
+				<product>
+					<property>instrumentation/fms/clb-maximum-n1</property>
 					<property>fcs/copilot/throttle-cmd-norm[1]</property>
-                    <value>0.02</value>
-                </product>
+					<value>0.02</value>
+				</product>
 			</expression>
 		</input>
 		<output>fcs/throttle-cmd-norm[1]</output>
 	</filter>
 	<!-- 1 : Climb -->
 	<!-- Maintains a 300-kt climb with a maximum power level of 91.1% -->
+	<filter>
+		<name>Engine 1 TOGA controller</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<equals>
+					<property>controls/engines/engine[0]/thrust-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>
+			<property>instrumentation/fms/clb-maximum-n1</property>
+		</input>
+		<output>fcs/throttle-cmd-norm[0]</output>
+	</filter>
+	<filter>
+		<name>Engine 2 TOGA controller</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<equals>
+					<property>controls/engines/engine[1]/thrust-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>
+			<property>instrumentation/fms/clb-maximum-n1</property>
+		</input>
+		<output>fcs/throttle-cmd-norm[1]</output>
+	</filter><!--
 	<pid-controller>
 		<name>Engine 1 climb mode controller</name>
 		<debug type="bool">false</debug>
@@ -1102,9 +999,47 @@
 				<scale>0.01</scale>
 			</u_max>
 		</config>
-	</pid-controller>
+	</pid-controller>-->
 	<!-- 2 : TO/GA -->
 	<!-- Holds 250 kts with a maximum power level specified by the FMS -->
+	<filter>
+		<name>Engine 1 TOGA controller</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<equals>
+					<property>controls/engines/engine[0]/thrust-mode</property>
+					<value>2</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>
+			<property>instrumentation/fms/to-ga-maximum-n1</property>
+		</input>
+		<output>fcs/throttle-cmd-norm[0]</output>
+	</filter>
+	<filter>
+		<name>Engine 2 TOGA controller</name>
+		<type>gain</type>
+		<debug type="bool">false</debug>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<equals>
+					<property>controls/engines/engine[1]/thrust-mode</property>
+					<value>2</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>
+			<property>instrumentation/fms/to-ga-maximum-n1</property>
+		</input>
+		<output>fcs/throttle-cmd-norm[1]</output>
+	</filter>
+	
+	<!--
 	<pid-controller>
 		<name>Engine 1 TO/GA mode controller</name>
 		<debug type="bool">false</debug>
@@ -1168,8 +1103,7 @@
 				<scale>0.01</scale>
 			</u_max>
 		</config>
-	</pid-controller>
-  
+	</pid-controller>-->
 	<!-- 3 : Max -->
 	<!-- Keeps throttles at 100% power -->
 	<filter>
@@ -1190,7 +1124,6 @@
 		</input>
 		<output>fcs/throttle-cmd-norm[0]</output>
 	</filter>
-  
 	<filter>
 		<name>Engine 2 maximum controller</name>
 		<type>gain</type>
@@ -1209,9 +1142,7 @@
 		</input>
 		<output>fcs/throttle-cmd-norm[1]</output>
 	</filter>
-
 	<!-- Nose wheel steering -->
-	
 	<!-- Rudder can steer up to 8°, tiller steers up to 80° -->
 	<filter>
 		<name>Pilot nose gear rudder steer</name>
@@ -1286,7 +1217,6 @@
 		</input>
 		<output>fcs/tiller-steer-deg</output>
 	</filter>
-	
 	<filter>
 		<name>Pilot nose gear tiller steer</name>
 		<type>gain</type>
@@ -1409,7 +1339,6 @@
 		<output>controls/gear/tiller-steer-deg</output>
 		<output>fcs/nose-gear-steer-deg</output>
 	</filter>
-
 	<!-- gear hydraulic -->
 	<filter>
 		<name>Gear hydraulic</name>
@@ -1426,7 +1355,6 @@
 		</input>
 		<output>fcs/gear-down</output>
 	</filter>
-	
 	<!-- Brakes -->
 	<filter>
 		<name>Left brake controller</name>
@@ -1434,8 +1362,9 @@
 		<debug type="bool">false</debug>
 		<gain>
 			<expression>
-				<min>					
-					<sum><!-- 50% per hydraulic system -->
+				<min>
+					<sum>
+						<!-- 50% per hydraulic system -->
 						<product>
 							<property>systems/hydraulic/outputs/ob-brakes</property>
 							<value>0.5</value>
@@ -1449,7 +1378,7 @@
 					if all hydraulics fail, accumulators allow a few brake activations
 					as no details were found on this, I simplified this: 50% brake power always.
 					-->
-					<value>0.5</value> 
+					<value>0.5</value>
 				</min>
 			</expression>
 		</gain>

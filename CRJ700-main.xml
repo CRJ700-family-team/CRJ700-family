@@ -58,6 +58,7 @@
 			</aerotow>
 		</hitches>
 		<model>
+			<autopush include="autopush-config.xml"/>
 			<livery>
 				<file>Blank</file>
 				<registration type="string" />
@@ -178,28 +179,6 @@
 			<setting>1.000</setting>    <!-- 45 -->
 		</flaps>
 		
-		<weight n="0">
-			<name>Crew</name>
-			<weight-lb>250</weight-lb>
-			<min-lb>120</min-lb>
-			<max-lb>600</max-lb>
-		</weight>
-		<weight n="1">
-			<name>PAX</name>
-			<weight-lb>2000</weight-lb>
-            <min-lb>0</min-lb>
-		</weight>
-		<weight n="2">
-			<name>Main Cargo</name>
-			<weight-lb>500</weight-lb>
-            <min-lb>0</min-lb>
-		</weight>
-		<weight n="3">
-			<name>Aft Cargo</name>
-			<weight-lb>500</weight-lb>
-            <min-lb>0</min-lb>
-		</weight>
-		
 		<help include="CRJ700-help.xml" />
 		
 		<flight-recorder include="Systems/CRJ700-flight-recorder.xml" />
@@ -262,6 +241,8 @@
 			<path>/instrumentation/use-metric-altitude</path>
 			<path>/instrumentation/use-QNH</path>
 			<path>/instrumentation/altimeter/setting-hpa</path>
+			<path>/sim/model/autopush/route/show</path>
+			<path>/sim/model/autopush/route/show-wingtip</path>
 		</aircraft-data>
 		
 		<allow-toggle-cockpit type="bool">true</allow-toggle-cockpit>
@@ -437,7 +418,7 @@
 						<label>Pushback</label>
 						<binding>
 							<command>dialog-show</command>
-							<dialog-name>pushback</dialog-name>
+							<dialog-name>autopush</dialog-name>
 						</binding>
 					</item>
 					<item>
@@ -498,6 +479,33 @@
 			</generic>
 		</multiplay>
 	</sim>
+	
+	<payload>
+		<weight n="0">
+			<name>Crew</name>
+			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
+			<min-lb type="double">0</min-lb>
+			<max-lb type="double">440</max-lb>
+		</weight>
+		<weight n="1">
+			<name>PAX</name>
+			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+			<min-lb type="double">0</min-lb>
+			<max-lb type="double">15400</max-lb>
+		</weight>
+		<weight n="2">
+			<name>Main Cargo</name>
+			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
+			<min-lb type="double">0</min-lb>
+			<max-lb type="double">4000</max-lb>
+		</weight>
+		<weight n="3">
+			<name>Aft Cargo</name>
+			<weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[3]"/>
+			<min-lb type="double">0</min-lb>
+			<max-lb type="double">4000</max-lb>
+		</weight>
+	</payload>
 	
 	<autopilot>
 		<flight-director-serviceable type="bool">true</flight-director-serviceable>
@@ -672,6 +680,7 @@
 			<brake-parking type="bool">true</brake-parking>
 			<enable-tiller type="bool">true</enable-tiller>
 			<tiller-steer-deg type="float">0</tiller-steer-deg>
+			<gear-down type="bool">true</gear-down>
 		</gear>
 		<hydraulic>
 			<system>
@@ -1333,6 +1342,28 @@
 		</pneumatic>
 	</systems>
 	
+	<fdm>
+		<jsbsim>
+			<gear>
+				<presets>
+					<gear n="0">
+						<spring_coeff type="double">22503.57</spring_coeff>
+						<damping_coeff type="double">11251.78</damping_coeff>
+					</gear>
+				</presets>
+			</gear>
+			<external_reactions>
+				<tractor>
+					<magnitude alias="/sim/model/autopush/force-lbf"/>
+					<x alias="/sim/model/autopush/force-x"/>
+					<y alias="/sim/model/autopush/force-y"/>
+					<z alias="/sim/model/autopush/force-z"/>
+				</tractor>
+			</external_reactions>
+
+		</jsbsim>
+	</fdm>
+	
 	<nasal>
 		<fuel>
            <file>Nasal/CRJ700-fuel.nas</file>
@@ -1378,6 +1409,18 @@
 		<dual_control>
 			<file>Aircraft/Generic/DualControl/pilot-dual-control.nas</file>
 		</dual_control>
+		<autopush>
+			<file>Nasal/Autopush/autopush.nas</file>
+		</autopush>
+		<autopush_driver>
+			<file>Nasal/Autopush/driver.nas</file>
+		</autopush_driver>
+		<dynarr>
+			<file>Nasal/Autopush/dynarr.nas</file>
+		</dynarr>
+		<autopush_route>
+			<file>Nasal/Autopush/route.nas</file>
+		</autopush_route>
 	</nasal>
 	
 </PropertyList>

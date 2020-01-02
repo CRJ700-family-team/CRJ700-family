@@ -1,0 +1,504 @@
+<?xml version="1.0"?>
+ <!--
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    -->
+<!-- References:
+	CRJ Flight Controls
+		http://www.smartcockpit.com/docs/CRJ-00_and_00-Flight_Controls.pdf
+	-->
+<system name="CRJ700: FCS">
+	<channel name="Pitch">
+		<switch>
+			<default value="0"/>
+			<test value="/fcs/elevator-yoke-norm">
+				/systems/hydraulic/outputs/elevator eq 1
+			</test>
+			<output>fcs/elevator-cmd-norm</output>
+		</switch>
+		<aerosurface_scale name="Elevator Control">
+			<input>fcs/elevator-cmd-norm</input>
+			<range>
+				<min> -0.35 </min>
+				<max>  0.35 </max>
+			</range>
+			<output>fcs/elevator-pos-rad</output>
+		</aerosurface_scale>
+		<aerosurface_scale name="Elevator Normalization">
+			<input>fcs/elevator-pos-rad</input>
+			<domain>
+				<min> -0.35 </min>
+				<max>  0.35 </max>
+			</domain>
+			<range>
+				<min> -1 </min>
+				<max>  1 </max>
+			</range>
+			<output>fcs/elevator-pos-norm</output>
+		</aerosurface_scale>
+	</channel>
+	<channel name="Roll">
+		<switch>
+			<default value="0"/>
+			<test value="/fcs/aileron-yoke-norm">
+				/systems/hydraulic/outputs/aileron eq 1
+			</test>
+			<output>fcs/aileron-cmd-norm</output>
+		</switch>
+		<summer name="Roll Trim Sum">
+			<input>fcs/aileron-cmd-norm</input>
+			<input>fcs/roll-trim-cmd-norm</input>
+			<clipto>
+				<min> -1 </min>
+				<max>  1 </max>
+			</clipto>
+		</summer>
+		<aerosurface_scale name="Left Aileron Control">
+			<input>fcs/roll-trim-sum</input>
+			<range>
+				<min> -0.35 </min>
+				<max>  0.35 </max>
+			</range>
+			<output>fcs/left-aileron-pos-rad</output>
+		</aerosurface_scale>
+		<aerosurface_scale name="Right Aileron Control">
+			<input>fcs/roll-trim-sum</input>
+			<range>
+				<min> -0.35 </min>
+				<max>  0.35 </max>
+			</range>
+			<output>fcs/right-aileron-pos-rad</output>
+		</aerosurface_scale>
+		<aerosurface_scale name="Left Aileron Normalization">
+			<input>fcs/left-aileron-pos-rad</input>
+			<domain>
+				<min> -0.35 </min>
+				<max>  0.35 </max>
+			</domain>
+			<range>
+				<min> -1 </min>
+				<max>  1 </max>
+			</range>
+			<output>fcs/left-aileron-pos-norm</output>
+		</aerosurface_scale>
+		<aerosurface_scale name="Right Aileron Normalization">
+			<input>fcs/right-aileron-pos-rad</input>
+			<domain>
+				<min> -0.35 </min>
+				<max>  0.35 </max>
+			</domain>
+			<range>
+				<min> -1 </min>
+				<max>  1 </max>
+			</range>
+			<output>fcs/right-aileron-pos-norm</output>
+		</aerosurface_scale>
+	</channel>
+	<channel name="Yaw">
+		<switch>
+			<default value="0"/>
+			<test value="/fcs/rudder-pedal-norm">
+				/systems/hydraulic/outputs/rudder eq 1
+			</test>
+			<output>fcs/rudder-cmd-norm</output>
+		</switch>
+		<summer name="Rudder Command Sum">
+			<input>fcs/rudder-cmd-norm</input>
+			<input>fcs/yaw-trim-cmd-norm</input>
+			<clipto>
+				<min> -1 </min>
+				<max>  1 </max>
+			</clipto>
+		</summer>
+		<summer name="Rudder Sum">
+			<input>fcs/rudder-command-sum</input>
+			<clipto>
+				<min> -1.1 </min>
+				<max>  1.1 </max>
+			</clipto>
+		</summer>
+		<aerosurface_scale name="Rudder Control">
+			<input>fcs/rudder-sum</input>
+			<domain>
+				<min> -1.1 </min>
+				<max>  1.1 </max>
+			</domain>
+			<range>
+				<min> -0.35 </min>
+				<max>  0.35 </max>
+			</range>
+			<output>fcs/rudder-pos-rad</output>
+		</aerosurface_scale>
+		<aerosurface_scale name="Rudder Normalization">
+			<input>fcs/rudder-pos-rad</input>
+			<domain>
+				<min> -0.35 </min>
+				<max>  0.35 </max>
+			</domain>
+			<range>
+				<min> -1 </min>
+				<max>  1 </max>
+			</range>
+			<output>fcs/rudder-pos-norm</output>
+		</aerosurface_scale>
+	</channel>
+	<channel name="Flaps">
+		<!-- TODO transition durations? -->
+		<kinematic name="Flaps Control">
+			<input>/controls/flight/flaps</input>
+			<traverse>
+				<setting>
+					<position>  0 </position>
+					<time>      0 </time>
+				</setting>
+				<setting>
+					<position> 1 </position>
+					<time>      1 </time>
+				</setting>
+				<setting>
+					<position> 8 </position>
+					<time>      2 </time>
+				</setting>
+				<setting>
+					<position> 20 </position>
+					<time>      3 </time>
+				</setting>
+				<setting>
+					<position> 30 </position>
+					<time>      3 </time>
+				</setting>
+				<setting>
+					<position> 45 </position>
+					<time>      3 </time>
+				</setting>
+			</traverse>
+			<output>fcs/flap-pos-deg</output>
+		</kinematic>
+		<aerosurface_scale name="Flap Normalization">
+			<input>fcs/flap-pos-deg</input>
+			<domain>
+				<min>  0 </min>
+				<max> 45 </max>
+			</domain>
+			<range>
+				<min> 0 </min>
+				<max> 1 </max>
+			</range>
+			<output>fcs/flap-pos-norm</output>
+		</aerosurface_scale>
+	</channel>
+	<channel name="Slats">
+		<switch>
+			<default value="0"/>
+			<test value="/controls/flight/slats-cmd">
+				/sim/model/has-slats eq 1
+			</test>
+			<output>fcs/slat-cmd-norm</output>
+		</switch>
+		<!-- TODO transition durations? -->
+		<kinematic>
+			<input>fcs/slat-cmd-norm</input>
+			<traverse>
+				<setting>
+					<position>  0 </position>
+					<time>      0 </time>
+				</setting>
+				<setting>
+					<position> 20 </position>
+					<time>      5 </time>
+				</setting>
+				<setting>
+					<position> 25 </position>
+					<time>      4 </time>
+				</setting>
+			</traverse>
+			<output>fcs/slat-pos-deg</output>
+		</kinematic>
+		<aerosurface_scale>
+			<input>fcs/slat-pos-deg</input>
+			<domain>
+				<min>  0 </min>
+				<max> 45 </max>
+			</domain>
+			<range>
+				<min> 0 </min>
+				<max> 1 </max>
+			</range>
+			<output>fcs/slat-pos-norm</output>
+		</aerosurface_scale>
+	</channel>
+	<channel name="Landing Gear">
+		<switch>
+			<default value="/fcs/tiller-steer-deg"/>
+			<test value="fcs/autopush-steer-deg">
+				/sim/model/autopush/connected eq 1
+			</test>
+			<output>fcs/steer-cmd-norm</output>
+		</switch>
+		<switch name="fcs/gear-no-wow">
+			<default value="1"/>
+			<test logic="AND" value="0">
+				gear/unit[1]/WOW eq 1
+				gear/unit[2]/WOW eq 1
+			</test>
+		</switch>
+		<kinematic name="Landing Gear Control">
+			<input>gear/gear-cmd-norm</input>
+			<traverse>
+				<setting>
+					<position> 0 </position>
+					<time>     0 </time>
+				</setting>
+				<setting>
+					<position> 1 </position>
+					<time>     5 </time>
+				</setting>
+			</traverse>
+			<output>gear/gear-pos-norm</output>
+		</kinematic>
+		<pure_gain>
+			<input>gear/unit[0]/compression-ft</input>
+			<gain>0.3048</gain>
+			<output>/gear/gear[0]/compression-m</output>
+		</pure_gain>
+		<pure_gain>
+			<input>gear/unit[1]/compression-ft</input>
+			<gain>0.3048</gain>
+			<output>/gear/gear[1]/compression-m</output>
+		</pure_gain>
+		<pure_gain>
+			<input>gear/unit[2]/compression-ft</input>
+			<gain>0.3048</gain>
+			<output>/gear/gear[2]/compression-m</output>
+		</pure_gain>
+	</channel>
+	<channel name="Thruster">
+		<summer name="Thrust Coefficient Left">
+			<output>systems/propulsion/thrust-coefficient-left</output>
+		</summer>
+		<summer name="Thrust Coefficient Right">
+			<output>systems/propulsion/thrust-coefficient-right</output>
+		</summer>
+		<summer name="Thrust Coefficient Left-Right">
+			<input>systems/propulsion/thrust-coefficient-left</input>
+			<input>-systems/propulsion/thrust-coefficient-right</input>
+			<output>systems/propulsion/thrust-coefficient-left-right</output>
+		</summer>
+		<summer name="Thrust Coefficient">
+			<input>systems/propulsion/thrust-coefficient-left</input>
+			<input>systems/propulsion/thrust-coefficient-right</input>
+			<output>systems/propulsion/thrust-coefficient</output>
+		</summer>
+	</channel>
+	<channel name="Spoilers">
+		<!-- Three actuators:
+			*roll spoilers
+			*speedbrake
+			*ground spoilers
+		-->
+		<fcs_function>
+			<function>
+				<product>
+					<property>/controls/flight/spoilers-ground-cmd</property>
+					<sum>
+						<property>/systems/hydraulic/outputs/ob-ground-spoiler</property>
+						<property>/systems/hydraulic/outputs/ib-ground-spoiler</property>
+					</sum>
+					<value>0.5</value>
+				</product>
+			</function>
+			<output>fcs/spoiler-ground-cmd-norm</output>
+		</fcs_function>
+		<kinematic>
+			<input>fcs/spoiler-ground-cmd-norm</input>
+			<traverse>
+				<setting>
+					<position> 0 </position>
+					<time>     0 </time>
+				</setting>
+				<setting>
+					<position> 1 </position>
+					<time>     1 </time>
+				</setting>
+			</traverse>
+			<output>fcs/spoiler-ground-pos-norm</output>
+		</kinematic>
+		<!-- In real life, proportional lift dumping (spoilerons) is based on Mach speed and flap position; since the flight manual is extremely vague about this, none of those are considered -->
+		<fcs_function>
+			<function>
+				<product>
+					<max>
+						<property>/systems/hydraulic/outputs/ob-spoileron</property>
+						<property>/systems/hydraulic/outputs/ib-spoileron</property>
+					</max>
+					<table>
+						<independentVar>fcs/aileron-cmd-norm</independentVar>
+						<tableData>
+							-1	0.5
+							0	0
+							1	0
+						</tableData>
+					</table>
+				</product>
+			</function>
+			<output>fcs/left-speedbrake-aileron-cmd-norm</output>
+		</fcs_function>
+		<fcs_function>
+			<function>
+				<product>
+					<max>
+						<property>/systems/hydraulic/outputs/ob-spoileron</property>
+						<property>/systems/hydraulic/outputs/ib-spoileron</property>
+					</max>
+					<table>
+						<independentVar>fcs/aileron-cmd-norm</independentVar>
+						<tableData>
+							-1	0
+							0	0
+							1	0.5
+						</tableData>
+					</table>
+				</product>
+			</function>
+			<output>fcs/right-speedbrake-aileron-cmd-norm</output>
+		</fcs_function>
+		<fcs_function>
+			<function>
+				<max>
+					<property>/controls/flight/speedbrake</property>
+					<property>/controls/flight/spoilers-ground-cmd</property>
+					<property>fcs/left-speedbrake-aileron-cmd-norm</property>
+				</max>
+			</function>
+			<output>fcs/left-spoilers-cmd-norm</output>
+		</fcs_function>
+		<fcs_function>
+			<function>
+				<max>
+					<property>/controls/flight/speedbrake</property>
+					<property>/controls/flight/spoilers-ground-cmd</property>
+					<property>fcs/right-speedbrake-aileron-cmd-norm</property>
+				</max>
+			</function>
+			<output>fcs/right-spoilers-cmd-norm</output>
+		</fcs_function>
+		<kinematic>
+			<input>fcs/left-spoilers-cmd-norm</input>
+			<traverse>
+				<setting>
+					<position> 0 </position>
+					<time>     0 </time>
+				</setting>
+				<setting>
+					<position> 1 </position>
+					<time>     1 </time>
+				</setting>
+			</traverse>
+			<output>fcs/left-spoiler-pos-norm</output>
+		</kinematic>
+		<kinematic>
+			<input>fcs/right-spoilers-cmd-norm</input>
+			<traverse>
+				<setting>
+					<position> 0 </position>
+					<time>     0 </time>
+				</setting>
+				<setting>
+					<position> 1 </position>
+					<time>     1 </time>
+				</setting>
+			</traverse>
+			<output>fcs/right-spoiler-pos-norm</output>
+		</kinematic>
+	</channel>
+	<channel name="Engines">
+		<pure_gain name="Thrust Reverse Position Engine 0">
+			<input>/controls/engines/engine[0]/reverser</input>
+			<gain>2.0</gain>
+			<output>systems/reverser/reverser-pos-norm[0]</output>
+		</pure_gain>
+		<pure_gain name="Thrust Reverse Position Engine 1">
+			<input>/controls/engines/engine[1]/reverser</input>
+			<gain>2.0</gain>
+			<output>systems/reverser/reverser-pos-norm[1]</output>
+		</pure_gain>
+		<kinematic name="Thrust Reverse Control Engine 0">
+			<input>systems/reverser/reverser-pos-norm[0]</input>
+			<traverse>
+				<setting>
+					<position>0</position>
+					<time>0</time>
+				</setting>
+				<setting>
+					<position>2.0</position>
+					<time>1.0</time>
+				</setting>
+			</traverse>
+			<output>propulsion/engine[0]/reverser-angle-rad</output>
+		</kinematic>
+		<kinematic name="Thrust Reverse Control Engine 1">
+			<input>systems/reverser/reverser-pos-norm[1]</input>
+			<traverse>
+				<setting>
+					<position>0</position>
+					<time>0</time>
+				</setting>
+				<setting>
+					<position>2.0</position>
+					<time>1.0</time>
+				</setting>
+			</traverse>
+			<output>propulsion/engine[1]/reverser-angle-rad</output>
+		</kinematic>
+		<pure_gain>
+			<input>/fcs/throttle-cmd-norm[0]</input>
+			<gain>1.0</gain>
+			<output>fcs/throttle-cmd-norm[0]</output>
+			<output>fcs/throttle-pos-norm[0]</output>
+		</pure_gain>
+		<pure_gain>
+			<input>/fcs/throttle-cmd-norm[1]</input>
+			<gain>1.0</gain>
+			<output>fcs/throttle-cmd-norm[1]</output>
+			<output>fcs/throttle-pos-norm[1]</output>
+		</pure_gain>
+	</channel>
+	<channel name="Output">
+		<!-- Copy some properties over to /surface-positions -->
+		<pure_gain>
+			<input>fcs/spoiler-ground-pos-norm</input>
+			<gain>1.0</gain>
+			<output>/surface-positions/spoiler-ground-pos-norm</output>
+		</pure_gain>
+		<pure_gain>
+			<input>fcs/left-spoiler-pos-norm</input>
+			<gain>1.0</gain>
+			<output>/surface-positions/left-speedbrake-pos-norm</output>
+		</pure_gain>
+		<pure_gain>
+			<input>fcs/right-spoiler-pos-norm</input>
+			<gain>1.0</gain>
+			<output>/surface-positions/right-speedbrake-pos-norm</output>
+		</pure_gain>
+		<pure_gain>
+			<input>fcs/flap-pos-norm</input>
+			<gain>1.0</gain>
+			<output>/surface-positions/flap-pos-norm</output>
+		</pure_gain>
+		<pure_gain>
+			<input>fcs/slat-pos-norm</input>
+			<gain>1.0</gain>
+			<output>/surface-positions/slat-pos-norm</output>
+		</pure_gain>
+	</channel>
+</system>

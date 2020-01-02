@@ -48,34 +48,6 @@
         </input>
         <output>/systems/hstab/powered</output>
     </logic>
-	<filter>
-        <name>legacy trim</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <input>
-            <!-- FG < v2018.1 do not support hstab trim, so we fake it -->
-            <condition>
-                <greater-than-equals>
-                    <property>controls/flight/hstab-trim</property>
-                    <value>0.99</value>
-                </greater-than-equals>
-            </condition>        
-            <expression>
-                <prod>
-                    <sum>
-                        <property>controls/flight/elevator-trim</property>
-                        <value>0.8</value>
-                    </sum>
-                    <value>-0.1309</value>
-                </prod>
-            </expression>
-        </input>
-        <input>
-            <property>surface-positions/hstab-yasim-rad</property>
-        </input>
-        <output>surface-positions/hstab-rad</output>
-    </filter>
     <filter>
         <name>eicas-hstab-trim-units</name>
         <type>gain</type>
@@ -175,29 +147,6 @@
             <value>0</value>
         </input>
         <output>fcs/elevator-trim</output>
-    </filter>
-    <!-- In order to keep yasim's solver happy, we keep sending
-         controls/flight/elevator-trim to the FLAP0 of the hstab, because that
-         is what yasim manipulates while solving; then for the real thing,
-         we calculate a correction based on the elevator-trim input and what
-         we calculated above, which will effectively produce the correct
-         final elevator position. -->
-    <filter>
-        <name>Pitch trim to elevator trim</name>
-        <type>gain</type>
-        <debug type="bool">false</debug>
-        <gain>1</gain>
-        <input>
-            <expression>
-                <sum>
-                    <difference>
-                        <property>fcs/elevator-trim</property>
-                        <property>controls/flight/elevator-trim</property>
-                    </difference>
-                </sum>
-            </expression>
-        </input>
-        <output>fcs/elevator-trim-correction</output>
     </filter>
 
     <filter>

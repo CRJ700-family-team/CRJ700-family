@@ -17,14 +17,14 @@
 		</mass-and-balance>		
 	</limits>
     <sim include="crj1000-views.xml">
-		<description>Bombardier CRJ1000 EuroLite</description>
+		<description>Bombardier CRJ1000EL EuroLite</description>
         <author>Ryan Miller, Henning S.</author>
         <status>production</status>
         <aircraft-version>1.5.2</aircraft-version>
 
 		<variant-of>CRJ700</variant-of>
-		<flight-model>yasim</flight-model>
-		<aero>CRJ1000-EuroLite</aero>
+		<flight-model>jsb</flight-model>
+		<aero>CRJ1000EL_jsb</aero>
 
 		<model>
 			<path>Aircraft/CRJ700-family/Models/CRJ1000.xml</path>

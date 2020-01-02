@@ -34,6 +34,16 @@
 			<z-m>-0.258</z-m>
 		</offsets>
 	</model>
+	<model>
+		<name>Pushback</name>
+		<path>Autopush/Goldhofert.xml</path>
+		<offsets>
+			<x-m>0.0</x-m>
+			<y-m>0.0</y-m>
+			<z-m>0.0</z-m>
+		</offsets>
+	</model>
+
 
 	<animation>
 		<name>Nose gear wheels</name>
