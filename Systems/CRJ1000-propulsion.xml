@@ -15,7 +15,7 @@
     -->
 	<!-- for references, see fdm_references.txt -->
 	<propulsion>
-		<engine file="GE CF34-8C5A1">
+		<engine file="CF34-8C5A1">
 			<location unit="M">
 				<x>   9.075  </x>
 				<y>  -2.27  </y>
@@ -41,7 +41,7 @@
 				</orient>
 			</thruster>
 		</engine>
-		<engine file="GE CF34-8C5A1">
+		<engine file="CF34-8C5A1">
 			<location unit="M">
 				<x>   9.075  </x>
 				<y>   2.27  </y>
