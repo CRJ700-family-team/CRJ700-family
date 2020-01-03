@@ -7,15 +7,7 @@
 	<animation>
 		<type>select</type>
 		<condition>
-			<and>
-				<not>
-					<property>sim/current-view/internal</property>
-				</not>
-				<greater-than>
-					<property>systems/DC/outputs/taxi-lights</property>
-					<value>22</value>
-				</greater-than>
-			</and>
+			<property>sim/model/lights/output/taxi</property>
 		</condition>
 	</animation>
 	<animation>

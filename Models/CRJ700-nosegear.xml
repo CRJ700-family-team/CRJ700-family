@@ -8,7 +8,7 @@
 	<path>CRJ700-nosegear.ac</path>
 
 	<model>
-		<name>Landing light</name>
+		<name>Landing light nose</name>
 		<path>Models/Lights/landing-nose.xml</path>
 		<offsets>
 			<x-m>-0.11</x-m>
@@ -16,6 +16,31 @@
 			<z-m>0.874</z-m>
 		</offsets>
 	</model>
+	<model>
+		<name>Landing light nose ALS</name>
+		<path>Models/Lights/ALS/landing-nose.xml</path>
+		<offsets>
+			<x-m>-0.11</x-m>
+			<y-m>0.047</y-m>
+			<z-m>0.874</z-m>
+		</offsets>
+	</model>
+	<animation>
+		<type>select</type>
+		<object-name>Landing light nose</object-name>
+		<condition>
+			<not>
+				<property>/sim/rendering/shaders/skydome</property>
+			</not>
+		</condition>
+	</animation>
+	<animation>
+		<type>select</type>
+		<object-name>Landing light nose ALS</object-name>
+		<condition>
+			<property>/sim/rendering/shaders/skydome</property>
+		</condition>
+	</animation>
 	<model>
 		<name>Tire smoke</name>
 		<path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>

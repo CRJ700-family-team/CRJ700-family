@@ -7,16 +7,7 @@
 	<animation>
 		<type>select</type>
 		<condition>
-			<and>
-				<equals>
-					<property>gear/gear[0]/position-norm</property>
-					<value>1</value>
-				</equals>
-				<greater-than>
-					<property>systems/DC/outputs/landing-lights[1]</property>
-					<value>22</value>
-				</greater-than>
-			</and>
+			<property>sim/model/lights/output/landing-nose</property>
 		</condition>
 	</animation>
 	<animation>

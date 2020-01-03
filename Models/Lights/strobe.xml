@@ -5,16 +5,13 @@
   <nopreview />
   
   <params>
-    <power-source>systems/DC/outputs/wing-ac-lights</power-source>
+    <power-source>sim/model/lights/output/wing-ac</power-source>
   </params>
   
   <animation>
     <type>select</type>
     <condition>
-      <greater-than>
         <property alias="/params/power-source" />
-        <value>22</value>
-      </greater-than>
     </condition>
   </animation>
   

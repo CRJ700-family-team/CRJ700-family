@@ -473,13 +473,13 @@
 			<output>propulsion/engine[1]/reverser-angle-rad</output>
 		</kinematic>
 		<pure_gain>
-			<input>/fcs/throttle-cmd-norm[0]</input>
+			<input>/controls/engines/engine[0]/throttle-lever</input>
 			<gain>1.0</gain>
 			<output>fcs/throttle-cmd-norm[0]</output>
 			<output>fcs/throttle-pos-norm[0]</output>
 		</pure_gain>
 		<pure_gain>
-			<input>/fcs/throttle-cmd-norm[1]</input>
+			<input>/controls/engines/engine[1]/throttle-lever</input>
 			<gain>1.0</gain>
 			<output>fcs/throttle-cmd-norm[1]</output>
 			<output>fcs/throttle-pos-norm[1]</output>

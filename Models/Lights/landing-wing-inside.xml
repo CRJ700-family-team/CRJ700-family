@@ -5,25 +5,13 @@
 	<path>landing-bare.ac</path>
 
 	<params>
-		<power-source>systems/DC/outputs/landing-lights</power-source>
+		<power-source>sim/model/lights/output/landing-wing-inside[0]</power-source>
 	</params>
 
 	<animation>
 		<type>select</type>
 		<condition>
-			<and>
-				<property>sim/current-view/internal</property>
-				<or>
-					<greater-than>
-						<property alias="params/power-source" />
-						<value>22</value>
-					</greater-than>
-					<greater-than>
-						<property>systems/DC/outputs/taxi-lights</property>
-						<value>22</value>
-					</greater-than>				
-				</or>
-			</and>
+			<property alias="params/power-source" />
 		</condition>
 	</animation>
 	<animation>

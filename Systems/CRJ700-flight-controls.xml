@@ -900,42 +900,6 @@
 	</filter>
 	<!-- 1 : Climb -->
 	<!-- Maintains a 300-kt climb with a maximum power level of 91.1% -->
-	<filter>
-		<name>Engine 1 TOGA controller</name>
-		<type>gain</type>
-		<debug type="bool">false</debug>
-		<gain>1</gain>
-		<enable>
-			<condition>
-				<equals>
-					<property>controls/engines/engine[0]/thrust-mode</property>
-					<value>1</value>
-				</equals>
-			</condition>
-		</enable>
-		<input>
-			<property>instrumentation/fms/clb-maximum-n1</property>
-		</input>
-		<output>fcs/throttle-cmd-norm[0]</output>
-	</filter>
-	<filter>
-		<name>Engine 2 TOGA controller</name>
-		<type>gain</type>
-		<debug type="bool">false</debug>
-		<gain>1</gain>
-		<enable>
-			<condition>
-				<equals>
-					<property>controls/engines/engine[1]/thrust-mode</property>
-					<value>1</value>
-				</equals>
-			</condition>
-		</enable>
-		<input>
-			<property>instrumentation/fms/clb-maximum-n1</property>
-		</input>
-		<output>fcs/throttle-cmd-norm[1]</output>
-	</filter><!--
 	<pid-controller>
 		<name>Engine 1 climb mode controller</name>
 		<debug type="bool">false</debug>
@@ -999,47 +963,10 @@
 				<scale>0.01</scale>
 			</u_max>
 		</config>
-	</pid-controller>-->
+	</pid-controller>
 	<!-- 2 : TO/GA -->
-	<!-- Holds 250 kts with a maximum power level specified by the FMS -->
-	<filter>
-		<name>Engine 1 TOGA controller</name>
-		<type>gain</type>
-		<debug type="bool">false</debug>
-		<gain>1</gain>
-		<enable>
-			<condition>
-				<equals>
-					<property>controls/engines/engine[0]/thrust-mode</property>
-					<value>2</value>
-				</equals>
-			</condition>
-		</enable>
-		<input>
-			<property>instrumentation/fms/to-ga-maximum-n1</property>
-		</input>
-		<output>fcs/throttle-cmd-norm[0]</output>
-	</filter>
-	<filter>
-		<name>Engine 2 TOGA controller</name>
-		<type>gain</type>
-		<debug type="bool">false</debug>
-		<gain>1</gain>
-		<enable>
-			<condition>
-				<equals>
-					<property>controls/engines/engine[1]/thrust-mode</property>
-					<value>2</value>
-				</equals>
-			</condition>
-		</enable>
-		<input>
-			<property>instrumentation/fms/to-ga-maximum-n1</property>
-		</input>
-		<output>fcs/throttle-cmd-norm[1]</output>
-	</filter>
+	<!-- Holds 250 kts with a maximum power level specified by the FMS -->	
 	
-	<!--
 	<pid-controller>
 		<name>Engine 1 TO/GA mode controller</name>
 		<debug type="bool">false</debug>
@@ -1103,7 +1030,7 @@
 				<scale>0.01</scale>
 			</u_max>
 		</config>
-	</pid-controller>-->
+	</pid-controller>
 	<!-- 3 : Max -->
 	<!-- Keeps throttles at 100% power -->
 	<filter>
