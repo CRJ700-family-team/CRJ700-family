@@ -566,6 +566,51 @@
 		<output>surface-positions/right-speedbrake-pos-norm</output>
 	</filter>
 
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- 80% between max man and max -->
+            <!--
+                toga = man + (1 - man) * 0.8
+                     = man + 0.8 - man * 0.8
+                     = man * 0.2 + 0.8
+            -->
+            <expression>
+                <sum>
+                    <product>
+                        <property>sim/config/throttle-manual-range</property>
+                        <value>0.2</value>
+                    </product>
+                    <value>0.8</value>
+                </sum>
+            </expression>
+        </input>
+        <output>sim/config/throttle-toga-detent</output>
+    </filter>
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <!-- 40% between max man and max -->
+            <!--
+                toga = man + (1 - man) * 0.4
+                     = man + 0.4 - man * 0.4
+                     = man * 0.6 + 0.4
+            -->
+            <expression>
+                <sum>
+                    <product>
+                        <property>sim/config/throttle-manual-range</property>
+                        <value>0.6</value>
+                    </product>
+                    <value>0.4</value>
+                </sum>
+            </expression>
+        </input>
+        <output>sim/config/throttle-clb-detent</output>
+    </filter>
+
 	<!-- Throttles/FADEC thrust modes -->
     <filter>
         <name>Engine 1: variable thrust mode</name>
@@ -577,7 +622,7 @@
                 <and>
                     <less-than-equals>
                         <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.5</value>
+                        <property>sim/config/throttle-manual-range</property>
                     </less-than-equals>
                 </and>
             </condition>
@@ -599,7 +644,7 @@
                 <and>
                     <less-than-equals>
                         <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.5</value>
+                        <property>sim/config/throttle-manual-range</property>
                     </less-than-equals>
                 </and>
             </condition>
@@ -622,11 +667,11 @@
                 <and>
                     <greater-than>
                         <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.5</value>
+                        <property>sim/config/throttle-manual-range</property>
                     </greater-than>
                     <less-than-equals>
                         <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.7</value>
+                        <property>sim/config/throttle-clb-detent</property>
                     </less-than-equals>
                 </and>
             </condition>
@@ -648,11 +693,11 @@
                 <and>
                     <greater-than>
                         <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.7</value>
+                        <property>sim/config/throttle-clb-detent</property>
                     </greater-than>
                     <less-than-equals>
                         <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.9</value>
+                        <property>sim/config/throttle-toga-detent</property>
                     </less-than-equals>
                 </and>
             </condition>
@@ -674,7 +719,7 @@
                 <and>
                     <greater-than>
                         <property>controls/engines/engine[0]/throttle</property>
-                        <value>0.9</value>
+                        <property>sim/config/throttle-toga-detent</property>
                     </greater-than>
                 </and>
             </condition>
@@ -696,11 +741,11 @@
                 <and>
                     <greater-than>
                         <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.5</value>
+                        <property>sim/config/throttle-manual-range</property>
                     </greater-than>
                     <less-than-equals>
                         <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.7</value>
+                        <property>sim/config/throttle-clb-detent</property>
                     </less-than-equals>
                 </and>
             </condition>
@@ -722,11 +767,11 @@
                 <and>
                     <greater-than>
                         <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.7</value>
+                        <property>sim/config/throttle-clb-detent</property>
                     </greater-than>
                     <less-than-equals>
                         <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.9</value>
+                        <property>sim/config/throttle-toga-detent</property>
                     </less-than-equals>
                 </and>
             </condition>
@@ -748,7 +793,7 @@
                 <and>
                     <greater-than>
                         <property>controls/engines/engine[1]/throttle</property>
-                        <value>0.9</value>
+                        <property>sim/config/throttle-toga-detent</property>
                     </greater-than>
                 </and>
             </condition>
@@ -889,7 +934,10 @@
                 <product>
                     <property>instrumentation/fms/clb-maximum-n1</property>
 					<property>controls/engines/engine[0]/throttle</property>
-                    <value>0.02</value>
+                    <div>
+                        <value>0.01</value>
+                        <property>sim/config/throttle-manual-range</property>
+                    </div>
                 </product>
 			</expression>
 		</input>
@@ -937,7 +985,10 @@
                 <product>
                     <property>instrumentation/fms/clb-maximum-n1</property>
 					<property>fcs/copilot/throttle-cmd-norm[0]</property>
-                    <value>0.02</value>
+                    <div>
+                        <value>0.01</value>
+                        <property>sim/config/throttle-manual-range</property>
+                    </div>
                 </product>
 			</expression>
 		</input>
@@ -989,7 +1040,10 @@
                 <product>
                     <property>instrumentation/fms/clb-maximum-n1</property>
 					<property>controls/engines/engine[1]/throttle</property>
-                    <value>0.02</value>
+                    <div>
+                        <value>0.01</value>
+                        <property>sim/config/throttle-manual-range</property>
+                    </div>
                 </product>
 			</expression>
 		</input>
@@ -1031,7 +1085,10 @@
                 <product>
                     <property>instrumentation/fms/clb-maximum-n1</property>
 					<property>fcs/copilot/throttle-cmd-norm[1]</property>
-                    <value>0.02</value>
+                    <div>
+                        <value>0.01</value>
+                        <property>sim/config/throttle-manual-range</property>
+                    </div>
                 </product>
 			</expression>
 		</input>

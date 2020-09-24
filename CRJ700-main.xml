@@ -43,6 +43,7 @@
 			<rudder-to-tiller type="bool">false</rudder-to-tiller>
 			<developer type="bool">false</developer>
 			<view-follows-tiller type="bool">false</view-follows-tiller>
+            <throttle-manual-range>0.8</throttle-manual-range>
 		</config>
 		<rendering>
 			<als-secondary-lights>

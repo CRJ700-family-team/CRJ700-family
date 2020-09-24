@@ -28,11 +28,97 @@
 	</group>
 	
 	<hrule/>
+    <!--
+    <group>
+		<layout>vbox</layout>
+		<halign>left</halign>
+        <text>
+            <label>
+                This setting determines how the physical throttle levers are
+                mapped to the simulated throttle levers. A higher setting here
+                provides a larger manual range (between the IDLE and CLIMB
+                detents), a lower setting makes it easier to accurately move
+                the physical throttle lever into the CLIMB or TOGA detents.
+            </label>
+        </text>
+    </group>
+    -->
+	<group>
+        <layout>vbox</layout>
+
+        <text>
+            <label>Throttle lever manual range</label>
+        </text>
+        <text>
+            <label>Higher setting gives more manual range</label>
+        </text>
+        <text>
+            <label>Lower setting makes CLIMB and TOGA easier to select</label>
+        </text>
+        <group>
+            <layout>hbox</layout>
+            <halign>left</halign>
+            <slider>
+                <pref-width>150</pref-width>
+                <property>sim/config/throttle-manual-range</property>
+                <step>0.01</step>
+                <min>0.5</min>
+                <max>0.9</max>
+                <live type="bool">true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </slider>
+            <button>
+                <legend>50%</legend>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/config/throttle-manual-range</property>
+                    <value>0.5</value>
+                </binding>
+            </button>
+            <button>
+                <legend>60%</legend>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/config/throttle-manual-range</property>
+                    <value>0.6</value>
+                </binding>
+            </button>
+            <button>
+                <legend>70%</legend>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/config/throttle-manual-range</property>
+                    <value>0.7</value>
+                </binding>
+            </button>
+            <button>
+                <legend>80%</legend>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/config/throttle-manual-range</property>
+                    <value>0.8</value>
+                </binding>
+            </button>
+            <button>
+                <legend>90%</legend>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/config/throttle-manual-range</property>
+                    <value>0.9</value>
+                </binding>
+            </button>
+        </group>
+    </group>
+
+	<hrule/>
+
 	<group>
 		<layout>vbox</layout>
 		<halign>left</halign>
 		<text>
-			<label>The following "features" are not found in real live, but are added for convenience.</label>
+			<label>The following "features" are not found in real life, but are added for convenience.</label>
 		</text>
 		<checkbox>
 			<halign>left</halign>

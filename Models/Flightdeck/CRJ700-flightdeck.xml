@@ -2258,9 +2258,9 @@
 		<type>rotate</type>
 		<object-name>Eng1ThrustLever</object-name>
 		<object-name>Eng1Reverser</object-name>
-		<property>controls/engines/engine[0]/throttle</property>
+		<property>fcs/throttle-cmd-norm[0]</property>
 		<offset-deg>29</offset-deg>
-		<factor>-78</factor>
+		<factor>-39</factor>
 		<condition>
 			<not>
 				<property>controls/engines/engine[0]/reverser</property>
@@ -2458,9 +2458,9 @@
 		<type>rotate</type>
 		<object-name>Eng2ThrustLever</object-name>
 		<object-name>Eng2Reverser</object-name>
-		<property>controls/engines/engine[1]/throttle</property>
-		<factor>-78</factor>
+		<property>fcs/throttle-cmd-norm[0]</property>
 		<offset-deg>29</offset-deg>
+		<factor>-39</factor>
 		<condition>
 			<not>
 				<property>controls/engines/engine[1]/reverser</property>
