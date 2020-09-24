@@ -232,6 +232,7 @@
 			<path>/sim/config/rudder-to-tiller</path>
 			<path>/sim/config/mixt-to-speedbrake</path>
 			<path>/sim/config/developer</path>
+			<path>/sim/config/throttle-manual-range</path>
 			<path>/sim/model/known-version</path>
 			<path>/sim/model/light-cones</path>
 			<path>/sim/model/yokes</path>
